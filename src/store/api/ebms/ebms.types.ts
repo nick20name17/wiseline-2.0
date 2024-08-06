@@ -215,7 +215,7 @@ export interface OrdersQueryParams extends BaseQueryParams {
     order_by: string
 }
 
-export interface CuttingItemQueryParams {
+export interface CuttingItemQueryParams extends BaseQueryParams {
     color: string | null
 }
 export interface OrderQueryParams extends BaseQueryParams {
@@ -250,3 +250,16 @@ export interface EBMSItemsQueryParams extends BaseQueryParams {
     flow_ids: string
     stage_id: string | null
 }
+
+export interface CuttingItem {
+    color: string
+    size: number
+    length: number
+    flow_name: string
+    cutting_complete: boolean
+    autoid: string
+    gauge: string
+    quantity: number
+}
+
+export type CuttingItemResponse = Response<CuttingItem>

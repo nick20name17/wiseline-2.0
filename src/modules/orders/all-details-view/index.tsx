@@ -1,7 +1,9 @@
+import { useMemo } from 'react'
 import { BooleanParam, NumberParam, StringParam, useQueryParam } from 'use-query-params'
 
 import { columns } from './table/columns'
 import { AllDetailsViewTable } from './table/table'
+import { TableControls } from './table/table-controls'
 import { useCurrentValue, useWebSocket } from '@/hooks'
 import { useGetItemsQuery } from '@/store/api/ebms/ebms'
 import type { EBMSItemsQueryParams } from '@/store/api/ebms/ebms.types'
@@ -44,7 +46,12 @@ export const AllDetailsView = () => {
 
     const { currentData, isLoading, isFetching, refetch } = useGetItemsQuery(queryParams)
 
-    const pageCount = useCurrentValue(currentData?.count)
+    const currentCount = useCurrentValue(currentData?.count)
+
+    const pageCount = useMemo(
+        () => (currentCount ? Math.ceil(currentCount! / limitParam!) : 1),
+        [isLoading, limitParam, currentCount]
+    )
 
     const { dataToRender } = useWebSocket({
         currentData: currentData?.results || [],
@@ -53,12 +60,15 @@ export const AllDetailsView = () => {
     })
 
     return (
-        <AllDetailsViewTable
-            columns={columns}
-            data={dataToRender || []}
-            isDataLoading={isLoading}
-            isDataFetching={isFetching}
-            pageCount={pageCount || 0}
-        />
+        <>
+            <TableControls />
+            <AllDetailsViewTable
+                columns={columns}
+                data={dataToRender || []}
+                isDataLoading={isLoading}
+                isDataFetching={isFetching}
+                pageCount={pageCount}
+            />
+        </>
     )
 }

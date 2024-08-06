@@ -31,7 +31,7 @@ export const useTableScroll = ({
                           headerHeight -
                           paginationHeight -
                           cuttingViewControlsHeight -
-                          35
+                          15
                     : window.innerHeight -
                           headerHeight -
                           statusesHeight -

@@ -9,6 +9,7 @@ import type {
     ColorsData,
     CuttingItem,
     CuttingItemQueryParams,
+    CuttingItemResponse,
     EBMSItemPatchData,
     EBMSItemsQueryParams,
     EBMSItemsResponse,
@@ -19,7 +20,7 @@ import type {
     OrdersQueryParams,
     OrdersResponse
 } from './ebms.types'
-import { getQueryParamString } from '@/utils'
+import { getQueryParamString } from '@/utils/get-query-param-string'
 
 export const embs = api.injectEndpoints({
     endpoints: (build) => ({
@@ -28,10 +29,10 @@ export const embs = api.injectEndpoints({
             providesTags: ['Calendar']
         }),
         getCategories: build.query<CategoriesResponse, Partial<CategoriesQueryParams>>({
-            query: (params) => ({
-                url: 'ebms/categories/',
-                params
-            }),
+            query: (params) => {
+                const queryString = getQueryParamString(params)
+                return `ebms/categories/?${queryString}`
+            },
             providesTags: ['Categories']
         }),
         getAllCategories: build.query<AllCategoriesData[], void>({
@@ -40,8 +41,8 @@ export const embs = api.injectEndpoints({
         }),
         getOrders: build.query<OrdersResponse, Partial<OrdersQueryParams>>({
             query: (params) => {
-                const queryParamString = getQueryParamString(params)
-                return `ebms/orders/?${queryParamString}`
+                const queryString = getQueryParamString(params)
+                return `ebms/orders/?${queryString}`
             },
             providesTags: ['Orders']
         }),
@@ -50,28 +51,16 @@ export const embs = api.injectEndpoints({
         }),
         getItems: build.query<EBMSItemsResponse, Partial<EBMSItemsQueryParams>>({
             query: (params) => {
-                const queryParamString = getQueryParamString(params)
-                return `ebms/items/?${queryParamString}`
+                const queryString = getQueryParamString(params)
+
+                return `ebms/items/?${queryString}`
             },
             providesTags: ['EBMSItems']
         }),
         getOrdersItems: build.query<OrdersItemsResponse, Partial<OrderItemsQueryParams>>({
-            query: (params) => ({
-                url: 'ebms/orders-items',
-                params
-            })
-        }),
-        patchEBMSItem: build.mutation<void, EBMSItemPatchData>({
-            query: ({ data, id }) => ({
-                url: `ebms/orders/${id}/`,
-                method: 'PATCH',
-                body: data
-            }),
-            invalidatesTags: ['Comments']
-        }),
-        getColors: build.query<ColorsData, void>({
-            query: () => {
-                return `ebms/items/values/?get_values=colors`
+            query: (params) => {
+                const queryString = getQueryParamString(params)
+                return `ebms/orders-items?${queryString}`
             }
         }),
         getCuttingItems: build.query<CuttingItem[], Partial<CuttingItemQueryParams>>({
@@ -80,6 +69,29 @@ export const embs = api.injectEndpoints({
                 return `ebms/items/cutting?${queryString}`
             },
             providesTags: ['CuttingItems']
+        }),
+        getCuttingViewItems: build.query<
+            CuttingItemResponse,
+            Partial<CuttingItemQueryParams>
+        >({
+            query: (params) => {
+                const queryString = getQueryParamString(params)
+                return `ebms/items/cutting-view/?${queryString}`
+            },
+            providesTags: ['CuttingItems']
+        }),
+        getColors: build.query<ColorsData, void>({
+            query: () => {
+                return `ebms/items/values/?get_values=colors`
+            }
+        }),
+        patchEBMSItem: build.mutation<void, EBMSItemPatchData>({
+            query: ({ data, id }) => ({
+                url: `ebms/orders/${id}/`,
+                method: 'PATCH',
+                body: data
+            }),
+            invalidatesTags: ['Comments']
         })
     })
 })
@@ -91,9 +103,10 @@ export const {
     useGetCategoriesQuery,
     useGetAllCategoriesQuery,
     useGetOrdersQuery,
+    useGetColorsQuery,
     useGetItemsQuery,
     useGetOrdersItemsQuery,
+    useGetCuttingItemsQuery,
     usePatchEBMSItemMutation,
-    useGetColorsQuery,
-    useGetCuttingItemsQuery
+    useGetCuttingViewItemsQuery
 } = embs

@@ -7,7 +7,7 @@ interface SortingProps {
 }
 
 export const useSorting = ({ defaultValues }: SortingProps) => {
-    const [view] = useQueryParam('view', StringParam)
+    // const [view] = useQueryParam('view', StringParam)
     const [ordering, setOrdering] = useQueryParam('ordering', StringParam)
 
     const getInitialSorting = () => {
@@ -17,16 +17,11 @@ export const useSorting = ({ defaultValues }: SortingProps) => {
                 desc: sort.startsWith('-')
             }))
         }
+
         return defaultValues
     }
 
     const [sorting, setSorting] = useState(() => getInitialSorting())
-
-    useEffect(() => {
-        if (view) {
-            setSorting(getInitialSorting())
-        }
-    }, [view])
 
     useEffect(() => {
         const currentSortingTerms = sorting

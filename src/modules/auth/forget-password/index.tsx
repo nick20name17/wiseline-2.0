@@ -23,6 +23,8 @@ import { Input } from '@/components/ui//input'
 import { Button } from '@/components/ui/button'
 import { emailSchema } from '@/config/validation-schemas'
 import { useCustomForm } from '@/hooks'
+import { usePasswordResetMutation } from '@/store/api/passwords/passwords'
+import { isErrorWithMessage } from '@/utils'
 
 // import { usePasswordResetMutation } from '@/store/api/passwords/passwords'
 
@@ -34,9 +36,7 @@ export const ForgetPassword = () => {
 
     const form = useCustomForm(emailSchema, { email: '' })
 
-    const isLoading = false
-
-    // const [passwordReset, { isLoading }] = usePasswordResetMutation()
+    const [passwordReset, { isLoading }] = usePasswordResetMutation()
 
     const successToast = (message: string) =>
         toast.success('Password reset', {
@@ -49,16 +49,16 @@ export const ForgetPassword = () => {
         })
 
     const handlePasswordReset = async (data: FormData) => {
-        // try {
-        //     await passwordReset(data)
-        //         .unwrap()
-        //         .then(() => successToast('Password reset link sent to your email'))
-        //     form.reset()
-        //     handleClose()
-        // } catch (error) {
-        //     const isErrorMessage = isErrorWithMessage(error)
-        //     errorToast(isErrorMessage ? error.data.detail : 'Something went wrong')
-        // }
+        try {
+            await passwordReset(data)
+                .unwrap()
+                .then(() => successToast('Password reset link sent to your email'))
+            form.reset()
+            handleClose()
+        } catch (error) {
+            const isErrorMessage = isErrorWithMessage(error)
+            errorToast(isErrorMessage ? error.data.detail : 'Something went wrong')
+        }
     }
 
     const onSubmit: SubmitHandler<FormData> = (formData) => handlePasswordReset(formData)

@@ -10,7 +10,6 @@ import { BooleanParam, StringParam, useQueryParam } from 'use-query-params'
 
 import { shouldRenderCell } from '../..'
 
-import { TableControls } from './table-controls'
 import { TableFooter } from './table-footer'
 import { TableSkeleton } from '@/components/shared'
 import { Badge } from '@/components/ui/badge'
@@ -44,13 +43,9 @@ import {
 import type { DataTableProps } from '@/types/table'
 import { groupBy } from '@/utils'
 
-export const AllDetailsViewTable: React.FC<DataTableProps<EBMSItemsData>> = ({
-    columns,
-    data,
-    isDataLoading,
-    isDataFetching,
-    pageCount
-}) => {
+export const AllDetailsViewTable: React.FC<
+    DataTableProps<EBMSItemsData, EBMSItemsData>
+> = ({ columns, data, isDataLoading, isDataFetching, pageCount }) => {
     const [groupedView] = useQueryParam('grouped', BooleanParam)
     const [category] = useQueryParam('category', StringParam)
     const [scheduled] = useQueryParam('scheduled', BooleanParam)
@@ -142,8 +137,7 @@ export const AllDetailsViewTable: React.FC<DataTableProps<EBMSItemsData>> = ({
     }
 
     return (
-        <div className='rounded-md'>
-            <TableControls />
+        <div className='mt-4 rounded-md'>
             <Table
                 ref={tableRef}
                 containerClassname='h-fit overflow-y-auto'>

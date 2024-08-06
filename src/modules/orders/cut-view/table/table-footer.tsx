@@ -1,6 +1,5 @@
 import { type Table } from '@tanstack/react-table'
 
-import { ColumnVisibility } from '../../controls/column-visibility'
 import { Pagination } from '../../controls/pagination'
 
 import type { OrdersData } from '@/store/api/ebms/ebms.types'
@@ -23,11 +22,6 @@ export const TableFooter: React.FC<TableFooterProps> = ({
             <Pagination
                 table={table}
                 isDataLoading={isDataLoading || isDataFetching}
-            />
-            <ColumnVisibility
-                isDataLoading={isDataLoading || isDataFetching}
-                table={table}
-                page='orders'
             />
         </div>
     )

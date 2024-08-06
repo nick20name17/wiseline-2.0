@@ -40,7 +40,7 @@ import {
 } from '@/store/api/profiles/profiles'
 import type { DataTableProps } from '@/types/table'
 
-export const AllOrdersViewTable: React.FC<DataTableProps<OrdersData>> = ({
+export const AllOrdersViewTable: React.FC<DataTableProps<OrdersData, OrdersData>> = ({
     columns,
     data,
     isDataLoading,
@@ -50,6 +50,7 @@ export const AllOrdersViewTable: React.FC<DataTableProps<OrdersData>> = ({
     const { limit, offset, setPagination } = usePagination()
 
     const [category] = useQueryParam('category', StringParam)
+    const [view] = useQueryParam('view', StringParam)
 
     const { data: usersProfilesData } = useGetUsersProfilesQuery()
     const [addUsersProfiles] = useAddUsersProfilesMutation()
@@ -102,7 +103,11 @@ export const AllOrdersViewTable: React.FC<DataTableProps<OrdersData>> = ({
 
     const { isTablet } = useMatchMedia()
 
-    useTableScroll({ tableRef, enableScroll: !isTablet })
+    useTableScroll({
+        tableRef,
+        enableScroll: !isTablet,
+        isCuttingView: view === 'cut-view'
+    })
 
     const isClientOrWorker = useCurrentUserRole(['client', 'worker'])
 

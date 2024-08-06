@@ -18,7 +18,7 @@ export const TableControls = () => {
     const isSticky = useIsSticky(ref)
     const [grouped, setGrouped] = useQueryParam('grouped', BooleanParam)
 
-    const handleSetGrouped = (value: boolean) => setGrouped(value)
+    const handleSetGrouped = (value: boolean) => setGrouped(value ? true : null)
 
     return isTablet ? (
         <>

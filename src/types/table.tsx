@@ -1,7 +1,7 @@
 import type { ColumnDef } from '@tanstack/react-table'
 
-export interface DataTableProps<T> {
-    columns: ColumnDef<T, T>[]
+export interface DataTableProps<T, C> {
+    columns: ColumnDef<C>[]
     data: T[]
     isDataLoading: boolean
     isDataFetching: boolean

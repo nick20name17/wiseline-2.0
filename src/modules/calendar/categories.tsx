@@ -18,7 +18,7 @@ export const Categories = () => {
 
     useEffect(() => {
         setCategory(category)
-    }, [category, setCategory])
+    }, [category])
 
     return (
         <Tabs
