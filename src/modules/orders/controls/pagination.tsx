@@ -21,10 +21,7 @@ interface PaginationProps<TData> {
 export const Pagination = <TData,>({ table, isDataLoading }: PaginationProps<TData>) => {
     const [view] = useQueryParam('view', StringParam)
     const [_, setOffset] = useQueryParam('offset', NumberParam)
-    const [limit = tableConfig.pagination.pageSize, setLimit] = useQueryParam(
-        'limit',
-        NumberParam
-    )
+    const [limit, setLimit] = useQueryParam('limit', NumberParam)
 
     useEffect(() => {
         const { pageIndex, pageSize } = table.getState().pagination

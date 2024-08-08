@@ -10,7 +10,17 @@ import { useGetCompanyProfilesQuery } from '@/store/api/profiles/profiles'
 import { getWorkDays } from '@/utils'
 import type { FormattedDate } from '@/utils/get-work-days'
 
-// TODO: fix week filters
+const getColorClass = (percentage: number) => {
+    const colors = {
+        green: 'bg-green-500',
+        red: 'bg-red-500',
+        yellow: 'bg-yellow-500'
+    } as const
+
+    if (percentage < 50) return colors.green
+    if (percentage < 80) return colors.yellow
+    return colors.red
+}
 
 export const WeekFilters = () => {
     const [view] = useQueryParam('view', StringParam)
@@ -31,15 +41,17 @@ export const WeekFilters = () => {
         setOverdue(null)
     }
 
-    useEffect(() => {
-        if (!scheduled || view === 'all-orders') {
-            setDate(null)
-        } else {
-            // setDate(date || workingDays[0].date || null)
-        }
-    }, [scheduled, date])
+    const showWeekFilters = view == 'all-details' && scheduled !== undefined
 
-    return view !== 'all-orders' && scheduled !== undefined ? (
+    useEffect(() => {
+        if (view == 'all-details' && scheduled) {
+            setDate(date || workingDays[0].date || null)
+        } else {
+            setDate(null)
+        }
+    }, [scheduled, view, date])
+
+    return showWeekFilters ? (
         <ScrollArea className='whitespace-nowrap max-xl:w-[500px] max-lg:w-96 max-md:w-80'>
             <div className='flex items-center gap-x-1 gap-y-10 overflow-x-scroll p-0.5 max-[1118px]:w-full'>
                 <ToggleGroup
@@ -78,23 +90,7 @@ const WeekFilter: React.FC<FormattedDate> = ({ date, dateToDisplay }) => {
 
     const currentPercentage = ((total_capacity ?? 0) / capacity!) * 100 || 0
 
-    const colors = {
-        green: 'bg-green-500',
-        red: 'bg-red-500',
-        yellow: 'bg-yellow-500'
-    } as const
-
-    const getCurrentColor = (currentPercentage: number) => {
-        if (currentPercentage >= 0 && currentPercentage < 50) {
-            return colors.green
-        } else if (currentPercentage >= 50 && currentPercentage < 80) {
-            return colors.yellow
-        } else if (currentPercentage > 80) {
-            return colors.red
-        }
-    }
-
-    const currentColorClass = getCurrentColor(currentPercentage)
+    const currentColorClass = getColorClass(currentPercentage)
 
     return (
         <ToggleGroupItem

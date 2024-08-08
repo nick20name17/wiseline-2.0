@@ -1,8 +1,7 @@
 import { OrdersViewTabs } from './orders-view-tabs'
 import { SideBar } from './sidebar'
 import { UserMenu } from './user-menu'
-
-// import { WeekFilters } from '@/modules/orders/controls/week-filters'
+import { WeekFilters } from './week-filters'
 
 export const OrdersHeader = () => {
     return (
@@ -16,7 +15,7 @@ export const OrdersHeader = () => {
                 </div>
 
                 <div className='flex items-center gap-x-6'>
-                    {/* <WeekFilters /> */}
+                    <WeekFilters />
                     <UserMenu />
                 </div>
             </div>
