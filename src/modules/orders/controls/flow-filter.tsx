@@ -31,9 +31,11 @@ export const FlowFilter = () => {
         category__prod_type: category === 'All' ? '' : category!
     })
 
-    useEffect(() => {
-        setFlow(flow)
-    }, [flow])
+    // useEffect(() => {
+    //     setFlow(flow)
+    // }, [flow])
+
+    console.log(flow)
 
     useEffect(() => {
         if (category === 'All') {

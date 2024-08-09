@@ -38,7 +38,8 @@ export const columns: ColumnDef<EBMSItemsData>[] = [
                     orderId={row.original.origin_order}
                 />
             )
-        }
+        },
+        enableHiding: false
     },
     {
         accessorKey: 'status',
@@ -56,7 +57,8 @@ export const columns: ColumnDef<EBMSItemsData>[] = [
                 invoice={row.original?.order}
                 originOrderId={row.original?.origin_order}
             />
-        )
+        ),
+        enableHiding: false
     },
     {
         accessorKey: 'production_date',
@@ -72,7 +74,8 @@ export const columns: ColumnDef<EBMSItemsData>[] = [
                 key={row.original?.id}
                 originItem={row.original}
             />
-        )
+        ),
+        enableHiding: false
     },
     {
         accessorKey: 'quantity',

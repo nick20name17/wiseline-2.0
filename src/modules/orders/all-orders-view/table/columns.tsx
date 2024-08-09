@@ -72,7 +72,8 @@ export const columns: ColumnDef<OrdersData>[] = [
                 className='!w-28'
             />
         ),
-        cell: ({ row }) => <PriorityCell order={row.original} />
+        cell: ({ row }) => <PriorityCell order={row.original} />,
+        enableHiding: false
     },
     {
         accessorKey: 'packages',
@@ -123,7 +124,8 @@ export const columns: ColumnDef<OrdersData>[] = [
                 className='!w-40'
             />
         ),
-        cell: ({ row }) => <DatePickerCell order={row.original} />
+        cell: ({ row }) => <DatePickerCell order={row.original} />,
+        enableHiding: false
     },
     {
         accessorKey: 'ship_date',

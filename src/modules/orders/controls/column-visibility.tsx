@@ -44,6 +44,25 @@ export const ColumnVisibility: React.FC<ColumnVisibilityProps> = ({
         })
     }
 
+    const toggleAllColumns = (value: boolean) => {
+        const tableColumns = table
+            .getAllColumns()
+            .map((column) => column.id)
+            .filter((col) => col !== 'select' && col !== 'arrow')
+
+        const newVisibleColumns = value ? tableColumns : []
+
+        tableColumns.forEach((col) => {
+            table?.getColumn(col!)?.toggleVisibility(value!)
+        })
+
+        addUsersProfiles({
+            page,
+            show_columns: newVisibleColumns.join(',')
+        })
+        setVisibleColumns(newVisibleColumns)
+    }
+
     const profiles = usersProfilesData?.find((profile) => profile.page === page)
     const showColumns = profiles?.show_columns?.split(',')
 
@@ -60,6 +79,8 @@ export const ColumnVisibility: React.FC<ColumnVisibilityProps> = ({
         }
     }, [usersProfilesData])
 
+    const hiddenColumnsLength = page === 'items' ? 1 : 2
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -71,6 +92,15 @@ export const ColumnVisibility: React.FC<ColumnVisibilityProps> = ({
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end'>
+                <DropdownMenuCheckboxItem
+                    key='toggle-all'
+                    checked={
+                        visibleColumns.length ===
+                        table.getAllColumns().length - hiddenColumnsLength
+                    }
+                    onCheckedChange={(value) => toggleAllColumns(!!value)}>
+                    Check All
+                </DropdownMenuCheckboxItem>
                 {table
                     .getAllColumns()
                     .filter((column) => column.getCanHide())

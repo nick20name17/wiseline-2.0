@@ -13,4 +13,11 @@ export const trimOnlyColumns = [
     'cutting_complete'
 ]
 
-export const alwaysVisibleColumns = ['flow', 'status', 'production_date']
+export const alwaysVisibleColumns = [
+    'flow',
+    'status',
+    'production_date',
+    'priority',
+    'select',
+    'arrow'
+]
