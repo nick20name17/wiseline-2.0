@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { StringParam, useQueryParam } from 'use-query-params'
 
 import {
@@ -19,10 +18,6 @@ export const CategoryFilter = () => {
     const tabs = categoriesData?.map((category) => category.name)
 
     const onValueChange = (value: string) => setCategory(value)
-
-    useEffect(() => {
-        setCategory(category)
-    }, [category])
 
     return (
         <Select

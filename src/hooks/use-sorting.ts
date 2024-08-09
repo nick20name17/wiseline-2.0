@@ -7,7 +7,6 @@ interface SortingProps {
 }
 
 export const useSorting = ({ defaultValues }: SortingProps) => {
-    // const [view] = useQueryParam('view', StringParam)
     const [ordering, setOrdering] = useQueryParam('ordering', StringParam)
 
     const getInitialSorting = () => {

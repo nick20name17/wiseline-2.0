@@ -1,5 +1,6 @@
 import type { Table } from '@tanstack/react-table'
 import { useEffect, useState } from 'react'
+import { StringParam, useQueryParam } from 'use-query-params'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -8,6 +9,7 @@ import {
     DropdownMenuContent,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import { alwaysVisibleColumns, trimOnlyColumns } from '@/config/table'
 import {
     useAddUsersProfilesMutation,
     useGetUsersProfilesQuery
@@ -24,6 +26,8 @@ export const ColumnVisibility: React.FC<ColumnVisibilityProps> = ({
     table,
     isDataLoading
 }) => {
+    const [category] = useQueryParam('category', StringParam)
+
     const [visibleColumns, setVisibleColumns] = useState<string[]>([])
 
     const [addUsersProfiles] = useAddUsersProfilesMutation()
@@ -70,24 +74,22 @@ export const ColumnVisibility: React.FC<ColumnVisibilityProps> = ({
                 {table
                     .getAllColumns()
                     .filter((column) => column.getCanHide())
-                    .filter(
-                        (column) =>
-                            column.id !== 'production_date' &&
-                            column.id !== 'flow' &&
-                            column.id !== 'status'
-                    )
-                    .map((column) => (
-                        <DropdownMenuCheckboxItem
-                            key={column.id}
-                            className='capitalize'
-                            checked={column.getIsVisible()}
-                            onCheckedChange={(value) => {
-                                column.toggleVisibility(!!value)
-                                onCheckedChange(column.id, !!value)
-                            }}>
-                            {column.id.replace(/c_/g, '').replace(/_/g, ' ')}
-                        </DropdownMenuCheckboxItem>
-                    ))}
+                    .filter((column) => !alwaysVisibleColumns.includes(column.id))
+                    .map((column) =>
+                        trimOnlyColumns.includes(column.id) &&
+                        category !== 'Trim' ? null : (
+                            <DropdownMenuCheckboxItem
+                                key={column.id}
+                                className='capitalize'
+                                checked={column.getIsVisible()}
+                                onCheckedChange={(value) => {
+                                    column.toggleVisibility(!!value)
+                                    onCheckedChange(column.id, !!value)
+                                }}>
+                                {column.id.replace(/c_/g, '').replace(/_/g, ' ')}
+                            </DropdownMenuCheckboxItem>
+                        )
+                    )}
             </DropdownMenuContent>
         </DropdownMenu>
     )

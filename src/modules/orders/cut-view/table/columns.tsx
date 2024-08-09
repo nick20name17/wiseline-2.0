@@ -13,7 +13,7 @@ export const columns: ColumnDef<MergedCuttingItem>[] = [
             <DataTableColumnHeader
                 column={column}
                 title='Size'
-                classname='w-32'
+                className='w-32'
             />
         ),
         cell: ({ row }) => (
@@ -26,7 +26,7 @@ export const columns: ColumnDef<MergedCuttingItem>[] = [
             <DataTableColumnHeader
                 column={column}
                 title='Length'
-                classname='w-32'
+                className='w-32'
             />
         ),
         cell: ({ row }) => (
@@ -39,7 +39,7 @@ export const columns: ColumnDef<MergedCuttingItem>[] = [
             <DataTableColumnHeader
                 column={column}
                 title='Total'
-                classname='w-28'
+                className='w-28'
             />
         )
     },

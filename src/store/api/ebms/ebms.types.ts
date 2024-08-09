@@ -124,6 +124,30 @@ export interface Item {
     comments: ItemComment[]
     stage: Stage | null
 }
+export interface OriginItem {
+    id: string
+    category: string
+    description: string
+    quantity: string
+    shipped: string
+    ship_date: string
+    width: string
+    weight: string
+    length: string
+    bends: string
+    customer: string
+    order: string
+    id_inven: string
+    origin_order: string
+    completed: boolean
+    profile: string
+    color: string
+    gauge: string
+    item: Item
+    production_date: string
+    priority: number
+    comments: CommentsData[]
+}
 export interface OriginItems {
     id: string
     category: string
@@ -147,6 +171,7 @@ export interface OriginItems {
     production_date: string
     priority: number
     comments: CommentsData[]
+    cutting_items: OriginItem[]
 }
 
 export interface OrdersItemsResponse extends Response<OrdersItemsData> {}

@@ -1,16 +1,21 @@
+import type { Column } from '@tanstack/react-table'
 import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react'
 import { BooleanParam, StringParam, useQueryParam } from 'use-query-params'
 
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
-type DataTableColumnHeaderProps = any
+interface DataTableColumnHeaderProps<TData, TValue>
+    extends React.HTMLAttributes<HTMLDivElement> {
+    column: Column<TData, TValue>
+    title: string
+}
 
-export const DataTableColumnHeader = ({
-    title,
+export function DataTableColumnHeader<TData, TValue>({
     column,
+    title,
     className
-}: DataTableColumnHeaderProps) => {
+}: DataTableColumnHeaderProps<TData, TValue>) {
     const [grouped] = useQueryParam('grouped', BooleanParam)
     const [view] = useQueryParam('view', StringParam)
 

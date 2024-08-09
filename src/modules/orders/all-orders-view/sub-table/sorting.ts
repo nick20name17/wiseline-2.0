@@ -1,8 +1,11 @@
 import type { Row } from '@tanstack/react-table'
 
-import type { EBMSItemsData } from '@/store/api/ebms/ebms.types'
+import type { OriginItem, OriginItems } from '@/store/api/ebms/ebms.types'
 
-export const statusFn = (rowA: Row<EBMSItemsData>, rowB: Row<EBMSItemsData>) => {
+export const statusFn = (
+    rowA: Row<OriginItem | OriginItems>,
+    rowB: Row<OriginItem | OriginItems>
+) => {
     const statusA = rowA.original.item?.stage?.name?.toLowerCase() ?? ''
     const statusB = rowB.original.item?.stage?.name?.toLowerCase() ?? ''
     const order = {
@@ -20,14 +23,20 @@ export const statusFn = (rowA: Row<EBMSItemsData>, rowB: Row<EBMSItemsData>) => 
     return orderA - orderB
 }
 
-export const dateFn = (rowA: Row<EBMSItemsData>, rowB: Row<EBMSItemsData>) => {
-    const dateA = rowA.original?.item?.production_date ?? '0'
-    const dateB = rowB.original?.item?.production_date ?? '0'
+export const dateFn = (
+    rowA: Row<OriginItem | OriginItems>,
+    rowB: Row<OriginItem | OriginItems>
+) => {
+    const dateA = rowA.original?.item?.production_date || '0'
+    const dateB = rowB.original?.item?.production_date || '0'
 
-    return new Date(dateA)?.setHours(0, 0, 0, 0) - new Date(dateB)?.setHours(0, 0, 0, 0)
+    return new Date(dateA).getTime() - new Date(dateB).getTime()
 }
 
-export const widthLengthFn = (rowA: Row<EBMSItemsData>, rowB: Row<EBMSItemsData>) => {
+export const widthLengthFn = (
+    rowA: Row<OriginItem | OriginItems>,
+    rowB: Row<OriginItem | OriginItems>
+) => {
     const widthA = +rowA.original?.width || 0
     const widthB = +rowB.original?.width || 0
     const lengthA = +rowA.original?.length || 0
@@ -36,14 +45,20 @@ export const widthLengthFn = (rowA: Row<EBMSItemsData>, rowB: Row<EBMSItemsData>
     return widthA + lengthA - widthB + lengthB
 }
 
-export const notesFn = (rowA: Row<EBMSItemsData>, rowB: Row<EBMSItemsData>) => {
-    const notesA = rowA.original?.item?.comments || []
-    const notesB = rowB.original?.item?.comments || []
+export const notesFn = (
+    rowA: Row<OriginItem | OriginItems>,
+    rowB: Row<OriginItem | OriginItems>
+) => {
+    const notesA = rowA.original?.item?.comments
+    const notesB = rowB.original?.item?.comments
 
     return notesA?.length || 0 - notesB?.length || 0
 }
 
-export const flowFn = (rowA: Row<EBMSItemsData>, rowB: Row<EBMSItemsData>) => {
+export const flowFn = (
+    rowA: Row<OriginItem | OriginItems>,
+    rowB: Row<OriginItem | OriginItems>
+) => {
     const flowA = rowA.original?.item?.flow?.name
     const flowB = rowB.original?.item?.flow?.name
 
@@ -58,39 +73,22 @@ export const flowFn = (rowA: Row<EBMSItemsData>, rowB: Row<EBMSItemsData>) => {
     }
 }
 
-export const priorityFn = (rowA: Row<EBMSItemsData>, rowB: Row<EBMSItemsData>) => {
-    const priorityA = rowA.original?.item?.priority.position || 0
-    const priorityB = rowB.original?.item?.priority.position || 0
-
-    return priorityB - priorityA
-}
-
-export const locationFn = (rowA: Row<EBMSItemsData>, rowB: Row<EBMSItemsData>) => {
+export const locationFn = (
+    rowA: Row<OriginItem | OriginItems>,
+    rowB: Row<OriginItem | OriginItems>
+) => {
     const locationA = rowA.original?.item?.location || 0
     const locationB = rowB.original?.item?.location || 0
 
     return locationB - locationA
 }
 
-export const packagesFn = (rowA: Row<EBMSItemsData>, rowB: Row<EBMSItemsData>) => {
+export const packagesFn = (
+    rowA: Row<OriginItem | OriginItems>,
+    rowB: Row<OriginItem | OriginItems>
+) => {
     const packagesA = rowA.original?.item?.packages || 0
     const packagesB = rowB.original?.item?.packages || 0
 
     return packagesB - packagesA
-}
-
-export const timeFn = (rowA: Row<EBMSItemsData>, rowB: Row<EBMSItemsData>) => {
-    const [hour, minute, second] = rowA.original?.item?.time?.split(':')?.map(Number) ?? [
-        0, 0, 0
-    ]
-
-    const timeA = new Date()?.setHours(hour, minute, second)
-
-    const [hourB, minuteB, secondB] = rowB.original?.item?.time
-        ?.split(':')
-        ?.map(Number) ?? [0, 0, 0]
-
-    const timeB = new Date()?.setHours(hourB, minuteB, secondB)
-
-    return timeA - timeB
 }

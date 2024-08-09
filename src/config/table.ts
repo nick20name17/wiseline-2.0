@@ -12,3 +12,5 @@ export const trimOnlyColumns = [
     'release_to_production',
     'cutting_complete'
 ]
+
+export const alwaysVisibleColumns = ['flow', 'status', 'production_date']

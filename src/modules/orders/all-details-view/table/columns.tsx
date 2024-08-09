@@ -114,6 +114,19 @@ export const columns: ColumnDef<EBMSItemsData>[] = [
         )
     },
     {
+        accessorKey: 'gauge',
+        header: ({ column }) => (
+            <DataTableColumnHeader
+                column={column}
+                title='Gauge'
+                className='!w-28'
+            />
+        ),
+        cell: ({ row }) => (
+            <div className='w-28 text-center'>{row.original.gauge || '-'}</div>
+        )
+    },
+    {
         accessorKey: 'profile',
         header: ({ column }) => (
             <DataTableColumnHeader
@@ -151,18 +164,27 @@ export const columns: ColumnDef<EBMSItemsData>[] = [
         )
     },
     {
-        accessorKey: 'w/l',
+        accessorKey: 'width',
         header: ({ column }) => (
             <DataTableColumnHeader
                 column={column}
-                title='W/L'
+                title='Width'
+                className='!w-28'
+            />
+        ),
+        cell: ({ row }) => <div className='text-center'>{row.original?.width || '-'}</div>
+    },
+    {
+        accessorKey: 'length',
+        header: ({ column }) => (
+            <DataTableColumnHeader
+                column={column}
+                title='Length'
                 className='!w-28'
             />
         ),
         cell: ({ row }) => (
-            <div className='text-center'>
-                {row.original?.width + ' / ' + row.original?.length}
-            </div>
+            <div className='text-center'>{row.original?.length || '-'}</div>
         )
     },
     {

@@ -1,42 +1,10 @@
 import type { ColumnDef } from '@tanstack/react-table'
-import { StringParam, useQueryParam } from 'use-query-params'
 
-import { DatePickerCell } from '../../all-details-view/cells/date-picker-cell'
-import { CommentsCell } from '../../cells/comments-cell'
-import { FlowCell } from '../../cells/flow-cell'
-import { StatusCell } from '../../cells/status-cell'
-import { CollapsibleCell } from '../cells/collapsible-cell'
-
-import { dateFn, flowFn, notesFn, statusFn } from './sorting'
 import { DataTableColumnHeader } from '@/components/shared'
 import { Button } from '@/components/ui/button'
-import type { OriginItems } from '@/store/api/ebms/ebms.types'
+import type { OriginItem } from '@/store/api/ebms/ebms.types'
 
-export const subColumns: ColumnDef<OriginItems>[] = [
-    {
-        id: 'arrow',
-        header: () => {
-            const [category] = useQueryParam('category', StringParam)
-
-            return category === 'Trim' ? (
-                <Button
-                    tabIndex={-1}
-                    variant='ghost'
-                    className='pointer-events-none w-full'>
-                    <div className='h-4 w-4 flex-shrink-0' />
-                </Button>
-            ) : null
-        },
-        cell: ({ row }) => {
-            const [category] = useQueryParam('category', StringParam)
-
-            return category === 'Trim' ? (
-                <CollapsibleCell disabled={!row.original?.cutting_items.length} />
-            ) : null
-        },
-        enableHiding: false,
-        enableSorting: false
-    },
+export const subSubColumns: ColumnDef<OriginItem>[] = [
     {
         accessorKey: 'category',
         header: ({ column }) => (
@@ -50,62 +18,6 @@ export const subColumns: ColumnDef<OriginItems>[] = [
         enableHiding: false
     },
     {
-        accessorKey: 'flow',
-        header: ({ column }) => (
-            <DataTableColumnHeader
-                column={column}
-                title='Flow/Machine'
-                className='!w-40'
-            />
-        ),
-        sortingFn: flowFn,
-        cell: ({ row }) => (
-            <FlowCell
-                key={row?.original?.id}
-                id={row?.original?.id}
-                item={row.original.item!}
-                orderId={row.original?.origin_order}
-            />
-        )
-    },
-    {
-        accessorKey: 'status',
-        sortingFn: statusFn,
-        header: ({ column }) => (
-            <DataTableColumnHeader
-                column={column}
-                title='Status'
-                className='!w-48'
-            />
-        ),
-        cell: ({ row }) => (
-            <StatusCell
-                key={row?.original?.id}
-                item={row.original?.item}
-                invoice={row.original?.order}
-                originOrderId={row.original?.origin_order}
-            />
-        )
-    },
-    {
-        accessorKey: 'production_date',
-        sortingFn: dateFn,
-        header: ({ column }) => (
-            <DataTableColumnHeader
-                column={column}
-                title='Prod. date'
-                className='!w-40'
-            />
-        ),
-        cell: ({ row }) => (
-            <DatePickerCell
-                key={row.original?.id}
-                originItem={row.original}
-            />
-        )
-    },
-
-    {
         accessorKey: 'quantity',
         header: ({ column }) => (
             <DataTableColumnHeader
@@ -115,18 +27,6 @@ export const subColumns: ColumnDef<OriginItems>[] = [
             />
         ),
         cell: ({ row }) => <div className='text-center'>{row.original.quantity}</div>,
-        sortingFn: 'alphanumeric'
-    },
-    {
-        accessorKey: 'shipped',
-        header: ({ column }) => (
-            <DataTableColumnHeader
-                column={column}
-                title='Shipped'
-                className='!w-28'
-            />
-        ),
-        cell: ({ row }) => <div className='text-center'>{row.original.shipped}</div>,
         sortingFn: 'alphanumeric'
     },
     {
@@ -246,17 +146,5 @@ export const subColumns: ColumnDef<OriginItems>[] = [
             </Button>
         ),
         cell: ({ row }) => <div className='w-64 pl-4'>{row.original?.description}</div>
-    },
-    {
-        accessorKey: 'comments',
-        sortingFn: notesFn,
-        header: ({ column }) => (
-            <DataTableColumnHeader
-                column={column}
-                title='Notes'
-                className='!w-32'
-            />
-        ),
-        cell: ({ row }) => <CommentsCell originItem={row.original} />
     }
 ]

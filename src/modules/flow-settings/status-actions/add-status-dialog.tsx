@@ -23,7 +23,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Textarea } from '@/components/ui/textarea'
-import { stagesColorPresets } from '@/config/flows'
+import { stagesColorPresets } from '@/config/stages'
 import { stageSchema } from '@/config/validation-schemas'
 import { useCustomForm } from '@/hooks'
 import { useAddStageMutation } from '@/store/api/stages/stages'

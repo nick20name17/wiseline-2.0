@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { StringParam, useQueryParam } from 'use-query-params'
 
 import { Controls } from './controls'
@@ -25,9 +25,10 @@ export interface CuttingItemsToDisplay {
 export const CutView = () => {
     const { limit, offset } = usePagination()
 
-    // const [category] = useQueryParam('category', StringParam)
+    const [_, setCategory] = useQueryParam('category', StringParam)
     const [cutView] = useQueryParam('cut-view', StringParam)
     const [color] = useQueryParam('color', StringParam)
+    const [view] = useQueryParam('view', StringParam)
 
     const {
         currentData: cuttingItems,
@@ -51,6 +52,14 @@ export const CutView = () => {
         () => (currentCount ? Math.ceil(currentCount! / limit) : 1),
         [isLoading, limit, currentCount]
     )
+
+    useEffect(() => {
+        setCategory('Trim')
+
+        return () => {
+            setCategory('All')
+        }
+    }, [view])
 
     return (
         <>

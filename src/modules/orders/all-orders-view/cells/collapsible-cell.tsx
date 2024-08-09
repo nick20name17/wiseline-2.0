@@ -1,28 +1,26 @@
-import type { Row } from '@tanstack/react-table'
 import { ChevronDown } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { CollapsibleTrigger } from '@/components/ui/collapsible'
 import { cn } from '@/lib/utils'
 
-interface CollapsibleCellProps<TData> {
-    row: Row<TData>
+interface CollapsibleCellProps {
+    disabled?: boolean
 }
 
-export const CollapsibleCell: React.FC<CollapsibleCellProps<any>> = ({ row }) => {
+export const CollapsibleCell: React.FC<CollapsibleCellProps> = ({ disabled = false }) => {
     return (
         <CollapsibleTrigger
             asChild
             className='duration-15 transition-transform data-[state=open]:-rotate-90'
-            disabled={!row.original?.origin_items?.length}>
+            disabled={disabled}>
             <Button
                 variant='ghost'
                 size='icon'>
                 <ChevronDown
                     className={cn(
                         'duration-15 h-4 w-4 transition-transform',
-                        !row.original.origin_items?.length &&
-                            'cursor-not-allowed opacity-50'
+                        disabled ? 'cursor-not-allowed opacity-50' : ''
                     )}
                 />
             </Button>

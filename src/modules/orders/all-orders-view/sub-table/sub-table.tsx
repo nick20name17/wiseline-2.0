@@ -4,7 +4,9 @@ import {
     getSortedRowModel,
     useReactTable
 } from '@tanstack/react-table'
+import { StringParam, useQueryParam } from 'use-query-params'
 
+import { CollapsibleRow } from './collapsbile-row'
 import { subColumns } from './sub-columns'
 import {
     Table,
@@ -14,10 +16,11 @@ import {
     TableHeader,
     TableRow
 } from '@/components/ui/table'
-import type { EBMSItemsData } from '@/store/api/ebms/ebms.types'
+import { trimOnlyColumns } from '@/config/table'
+import type { OriginItems } from '@/store/api/ebms/ebms.types'
 
 interface SubTableProps {
-    data: EBMSItemsData[]
+    data: OriginItems[]
 }
 
 export const SubTable: React.FC<SubTableProps> = ({ data }) => {
@@ -28,6 +31,10 @@ export const SubTable: React.FC<SubTableProps> = ({ data }) => {
         columns: subColumns,
         autoResetPageIndex: false
     })
+
+    const [category] = useQueryParam('category', StringParam)
+
+    const originItemsRows = subTable.getRowModel().rows
 
     return (
         <Table>
@@ -51,20 +58,30 @@ export const SubTable: React.FC<SubTableProps> = ({ data }) => {
             </TableHeader>
 
             <TableBody>
-                {subTable.getRowModel().rows.map((row) => (
-                    <TableRow key={row?.original?.id}>
-                        {row.getVisibleCells().map((cell) => (
-                            <TableCell
-                                className='px-0.5 py-1.5'
-                                key={cell.id}>
-                                {flexRender(
-                                    cell.column.columnDef.cell,
-                                    cell.getContext()
-                                )}
-                            </TableCell>
-                        ))}
-                    </TableRow>
-                ))}
+                {originItemsRows.map((row) =>
+                    category === 'Trim' ? (
+                        <CollapsibleRow
+                            key={row?.original?.id}
+                            row={row}
+                        />
+                    ) : (
+                        <TableRow key={row?.original?.id}>
+                            {row.getVisibleCells().map((cell) =>
+                                trimOnlyColumns.includes(cell.column.id) &&
+                                category !== 'Trim' ? null : (
+                                    <TableCell
+                                        className='px-0.5 py-1.5'
+                                        key={cell.id}>
+                                        {flexRender(
+                                            cell.column.columnDef.cell,
+                                            cell.getContext()
+                                        )}
+                                    </TableCell>
+                                )
+                            )}
+                        </TableRow>
+                    )
+                )}
             </TableBody>
         </Table>
     )

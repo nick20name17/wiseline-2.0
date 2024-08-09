@@ -31,7 +31,9 @@ export const columns: ColumnDef<OrdersData>[] = [
                 <div className='h-4 w-4 flex-shrink-0' />
             </Button>
         ),
-        cell: ({ row }) => <CollapsibleCell row={row} />,
+        cell: ({ row }) => (
+            <CollapsibleCell disabled={!row.original?.origin_items.length} />
+        ),
         enableHiding: false,
         enableSorting: false
     },
