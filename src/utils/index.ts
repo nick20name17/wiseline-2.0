@@ -5,6 +5,7 @@ import { getWorkDays } from './get-work-days'
 import { groupBy } from './group-by'
 import { hexToRGBA } from './hex-to-rgba'
 import { isErrorWithMessage } from './is-error-with-message'
+import { parseQueryString } from './parse-query-string'
 import { trunc } from './trunc'
 
 export {
@@ -15,5 +16,6 @@ export {
     groupBy,
     hexToRGBA,
     isErrorWithMessage,
+    parseQueryString,
     trunc
 }

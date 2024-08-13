@@ -5,6 +5,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 export const Statuses = () => {
     const [category] = useQueryParam('category', StringParam)
     const [scheduled, setScheduled] = useQueryParam('scheduled', BooleanParam)
+    const [_, setOverdue] = useQueryParam('overdue', BooleanParam)
 
     const onValueChange = (tab: string) =>
         setScheduled(tab === 'all' ? undefined : tab === 'scheduled')
@@ -12,6 +13,7 @@ export const Statuses = () => {
     const getDefaultValue = () => {
         switch (scheduled) {
             case false:
+                setOverdue(null)
                 return 'unscheduled'
             case true:
                 return 'scheduled'

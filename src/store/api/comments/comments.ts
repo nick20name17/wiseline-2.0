@@ -15,7 +15,7 @@ import type {
     CommentsPatchData,
     CommentsResponse
 } from './comments.types'
-import { type RootState } from '@/store/index'
+import { type RootState, store } from '@/store/index'
 import type { BaseQueryParams } from '@/types/api'
 
 export const comments = api.injectEndpoints({
@@ -41,10 +41,12 @@ export const comments = api.injectEndpoints({
                 const { role, category, ...userDataToPatch } = (getState() as RootState)
                     ?.auth?.user as UserData
 
+                const queryParams = store.getState().orders.currentQueryParams
+
                 const patchResult = dispatch(
                     embs.util.updateQueryData(
                         'getOrders',
-                        {} as OrdersQueryParams,
+                        queryParams as OrdersQueryParams,
                         (draft) => {
                             const order = draft.results.find(
                                 (order) => order.id === data.order
@@ -117,6 +119,8 @@ export const comments = api.injectEndpoints({
                 const { role, category, ...userDataToPatch } = (getState() as RootState)
                     ?.auth?.user as UserData
 
+                const queryParams = store.getState().orders.currentQueryParams
+
                 const dataToPatch: ItemComment = {
                     item: data.item,
                     text: data.text,
@@ -128,7 +132,7 @@ export const comments = api.injectEndpoints({
                 const patchResult = dispatch(
                     embs.util.updateQueryData(
                         'getItems',
-                        {} as EBMSItemsQueryParams,
+                        queryParams as EBMSItemsQueryParams,
                         (draft) => {
                             const item = draft.results.find(
                                 (item) => item.id === data.item

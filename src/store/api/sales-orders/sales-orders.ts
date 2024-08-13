@@ -8,6 +8,7 @@ import type {
     SalesOrdersPatchData,
     SalesOrdersResponse
 } from './sales-orders.types'
+import { store } from '@/store'
 import type { BaseQueryParams } from '@/types/api'
 
 export const salesOrders = api.injectEndpoints({
@@ -35,10 +36,12 @@ export const salesOrders = api.injectEndpoints({
                 body: data
             }),
             async onQueryStarted({ data: { ...data } }, { dispatch, queryFulfilled }) {
+                const queryParams = store.getState().orders.currentQueryParams
+
                 const patchResult = dispatch(
                     embs.util.updateQueryData(
                         'getOrders',
-                        {} as OrdersQueryParams,
+                        queryParams as OrdersQueryParams,
                         (draft) => {
                             const order = draft.results.find(
                                 (order) => order.id === data.order

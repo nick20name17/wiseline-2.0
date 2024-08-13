@@ -1,5 +1,7 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { BooleanParam, NumberParam, StringParam, useQueryParam } from 'use-query-params'
+
+import { setCurrentQueryParams } from '../store/orders'
 
 import { columns } from './table/columns'
 import { AllOrdersViewTable } from './table/table'
@@ -7,6 +9,7 @@ import { TableControls } from './table/table-controls'
 import { useCurrentValue, useWebSocket } from '@/hooks'
 import { useGetOrdersQuery } from '@/store/api/ebms/ebms'
 import type { OrdersQueryParams } from '@/store/api/ebms/ebms.types'
+import { useAppDispatch } from '@/store/hooks/hooks'
 
 export const AllOrdersView = () => {
     const [overdue] = useQueryParam('overdue', BooleanParam)
@@ -16,7 +19,6 @@ export const AllOrdersView = () => {
     const [offsetParam] = useQueryParam('offset', NumberParam)
     const [limitParam] = useQueryParam('limit', NumberParam)
     const [category] = useQueryParam('category', StringParam)
-    const [stage] = useQueryParam('stage', StringParam)
     const [flow] = useQueryParam('flow', StringParam)
     const [ordering] = useQueryParam('orders-ordering', StringParam)
 
@@ -28,8 +30,7 @@ export const AllOrdersView = () => {
         search: searchTerm,
         completed: completed,
         over_due: overdue!,
-        category: category === 'All' ? '' : category!,
-        stage_id: stage ? +stage! : null,
+        category: category === 'All' ? undefined : category!,
         flow_id: flow ? +flow! : null
     }
 
@@ -47,6 +48,12 @@ export const AllOrdersView = () => {
         endpoint: 'orders',
         refetch
     })
+
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(setCurrentQueryParams(queryParams as OrdersQueryParams))
+    }, [overdue, completed, scheduled, searchTerm, flow, flow, ordering, category])
 
     return (
         <>

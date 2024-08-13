@@ -3,9 +3,11 @@ import { configureStore } from '@reduxjs/toolkit'
 import { api } from './api'
 import { listenerMiddleware } from './middleware/auth'
 import { authReducer } from './slices/auth'
+import { ordersSlice } from '@/modules/orders/store/orders'
 
 export const store = configureStore({
     reducer: {
+        orders: ordersSlice.reducer,
         [api.reducerPath]: api.reducer,
         auth: authReducer
     },

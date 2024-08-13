@@ -35,8 +35,6 @@ export const FlowFilter = () => {
     //     setFlow(flow)
     // }, [flow])
 
-    console.log(flow)
-
     useEffect(() => {
         if (category === 'All') {
             setFlow(null)

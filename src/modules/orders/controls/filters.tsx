@@ -12,7 +12,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 
 export const Filters = () => {
-    const [date, setDate] = useQueryParam('date', StringParam)
+    const [_, setDate] = useQueryParam('date', StringParam)
     const [overdue, setOverdue] = useQueryParam('overdue', BooleanParam)
     const [completed, setCompleted] = useQueryParam('completed', BooleanParam)
     const [scheduled] = useQueryParam('scheduled', BooleanParam)
@@ -25,10 +25,10 @@ export const Filters = () => {
     }, [overdue, completed])
 
     useEffect(() => {
-        if (overdue && date) {
+        if (overdue) {
             setDate(null)
         }
-    }, [overdue, date])
+    }, [overdue])
 
     useEffect(() => {
         setOverdue(overdue === false ? null : overdue)

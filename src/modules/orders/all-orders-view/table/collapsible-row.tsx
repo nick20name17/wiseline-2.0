@@ -34,7 +34,7 @@ export const CollapsibleRow: React.FC<CollapsibleRowProps> = ({ row }) => {
                 <TableRow
                     className={cn(
                         'relative odd:bg-secondary/60',
-                        open ? '!bg-foreground/5' : ''
+                        open ? 'shadow-top-side-only rounded-t-sm !bg-foreground/5' : ''
                     )}
                     data-state={row.getIsSelected() ? 'selected' : undefined}>
                     {row.getVisibleCells().map((cell, i) =>
@@ -45,12 +45,7 @@ export const CollapsibleRow: React.FC<CollapsibleRowProps> = ({ row }) => {
                             i
                         ) ? (
                             <TableCell
-                                className={cn(
-                                    'px-0.5 py-1.5 first:w-10 [&div]:h-[53px]',
-                                    open
-                                        ? 'border-t-2 border-[#9D9D9D] first:border-l-2 last:border-r-2'
-                                        : ''
-                                )}
+                                className='px-0.5 py-1.5 first:w-10 [&div]:h-[53px]'
                                 key={cell.id}>
                                 {flexRender(
                                     cell.column.columnDef.cell,
@@ -64,7 +59,7 @@ export const CollapsibleRow: React.FC<CollapsibleRowProps> = ({ row }) => {
                 <CollapsibleContent asChild>
                     <tr>
                         <td
-                            className='max-w-[100vw] border-2 border-t-0 border-[#9D9D9D]'
+                            className='shadow-bottom-side-only max-w-[100vw] rounded-b-sm'
                             colSpan={columnsCount + 1}>
                             <SubTable data={originItems} />
                         </td>

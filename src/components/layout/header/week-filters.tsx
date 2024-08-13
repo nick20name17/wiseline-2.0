@@ -24,7 +24,7 @@ const getColorClass = (percentage: number) => {
 
 export const WeekFilters = () => {
     const [view] = useQueryParam('view', StringParam)
-    const [_, setOverdue] = useQueryParam('overdue', BooleanParam)
+    const [overdue, setOverdue] = useQueryParam('overdue', BooleanParam)
     const [scheduled, setScheduled] = useQueryParam('scheduled', BooleanParam)
     const [date, setDate] = useQueryParam('date', StringParam)
 
@@ -44,12 +44,12 @@ export const WeekFilters = () => {
     const showWeekFilters = view == 'all-details' && scheduled !== undefined
 
     useEffect(() => {
-        if (view == 'all-details' && scheduled) {
+        if (view == 'all-details' && scheduled && !overdue) {
             setDate(date || workingDays[0].date || null)
         } else {
             setDate(null)
         }
-    }, [scheduled, view, date])
+    }, [scheduled, view, date, overdue])
 
     return showWeekFilters ? (
         <ScrollArea className='whitespace-nowrap max-xl:w-[500px] max-lg:w-96 max-md:w-80'>

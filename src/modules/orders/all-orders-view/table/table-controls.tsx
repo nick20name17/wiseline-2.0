@@ -47,8 +47,6 @@ export const TableControls = () => {
 
             <div className='flex items-center gap-x-4'>
                 <CategoryFilter />
-                <FlowFilter />
-                <StageFilter />
                 <Filters />
             </div>
         </div>

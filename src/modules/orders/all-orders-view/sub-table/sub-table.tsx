@@ -41,18 +41,21 @@ export const SubTable: React.FC<SubTableProps> = ({ data }) => {
             <TableHeader>
                 {subTable.getHeaderGroups().map((headerGroup) => (
                     <TableRow key={headerGroup.id}>
-                        {headerGroup.headers.map((header) => (
-                            <TableHead
-                                key={header.id}
-                                className='px-0.5 py-1.5'>
-                                {header.isPlaceholder
-                                    ? null
-                                    : flexRender(
-                                          header.column.columnDef.header,
-                                          header.getContext()
-                                      )}
-                            </TableHead>
-                        ))}
+                        {headerGroup.headers.map((header) =>
+                            trimOnlyColumns.includes(header.column.id) &&
+                            category !== 'Trim' ? null : (
+                                <TableHead
+                                    key={header.id}
+                                    className='px-0.5 py-1.5'>
+                                    {header.isPlaceholder
+                                        ? null
+                                        : flexRender(
+                                              header.column.columnDef.header,
+                                              header.getContext()
+                                          )}
+                                </TableHead>
+                            )
+                        )}
                     </TableRow>
                 ))}
             </TableHeader>
@@ -66,9 +69,9 @@ export const SubTable: React.FC<SubTableProps> = ({ data }) => {
                         />
                     ) : (
                         <TableRow key={row?.original?.id}>
-                            {row.getVisibleCells().map((cell) =>
-                                trimOnlyColumns.includes(cell.column.id) &&
-                                category !== 'Trim' ? null : (
+                            {row.getVisibleCells().map((cell) => {
+                                return trimOnlyColumns.includes(cell.column.id) &&
+                                    category !== 'Trim' ? null : (
                                     <TableCell
                                         className='px-0.5 py-1.5'
                                         key={cell.id}>
@@ -78,7 +81,7 @@ export const SubTable: React.FC<SubTableProps> = ({ data }) => {
                                         )}
                                     </TableCell>
                                 )
-                            )}
+                            })}
                         </TableRow>
                     )
                 )}

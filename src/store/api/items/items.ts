@@ -15,6 +15,7 @@ import type {
     ItemsPatchCuttingCompleteData,
     ItemsPatchData
 } from './items.types'
+import { store } from '@/store'
 
 export const items = api.injectEndpoints({
     endpoints: (build) => ({
@@ -29,10 +30,12 @@ export const items = api.injectEndpoints({
                 body: data
             }),
             async onQueryStarted(data, { dispatch, queryFulfilled }) {
+                const queryParams = store.getState().orders.currentQueryParams
+
                 const patchResult = dispatch(
                     embs.util.updateQueryData(
                         'getOrders',
-                        {} as OrderItemsQueryParams,
+                        queryParams as OrderItemsQueryParams,
                         (draft) => {
                             const itemToAdd: Item = {
                                 id: Math.random() * 1000,
@@ -96,10 +99,12 @@ export const items = api.injectEndpoints({
                 body: data
             }),
             async onQueryStarted(data, { dispatch, queryFulfilled }) {
+                const queryParams = store.getState().orders.currentQueryParams
+
                 const patchResult = dispatch(
                     embs.util.updateQueryData(
                         'getItems',
-                        {} as OrderItemsQueryParams,
+                        queryParams as OrderItemsQueryParams,
                         (draft) => {
                             const itemToAdd: Item = {
                                 id: Math.random() * 1000,
@@ -155,10 +160,12 @@ export const items = api.injectEndpoints({
                 { data: { ...data }, stageColor, stageName, id },
                 { dispatch, queryFulfilled }
             ) {
+                const queryParams = store.getState().orders.currentQueryParams
+
                 const patchResult = dispatch(
                     embs.util.updateQueryData(
                         'getOrders',
-                        {} as OrdersQueryParams,
+                        queryParams as OrdersQueryParams,
                         (draft) => {
                             const order = draft.results.find(
                                 (order) => order.id === data.order
@@ -219,10 +226,12 @@ export const items = api.injectEndpoints({
                 { data, stageColor, stageName, id },
                 { dispatch, queryFulfilled }
             ) {
+                const queryParams = store.getState().orders.currentQueryParams
+
                 const patchResult = dispatch(
                     embs.util.updateQueryData(
                         'getItems',
-                        {} as EBMSItemsQueryParams,
+                        queryParams as EBMSItemsQueryParams,
                         (draft) => {
                             const item = draft.results.find(
                                 (item) => item.item?.id === id
