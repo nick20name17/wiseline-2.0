@@ -9,25 +9,27 @@ interface DataTableColumnHeaderProps<TData, TValue>
     extends React.HTMLAttributes<HTMLDivElement> {
     column: Column<TData, TValue>
     title: string
+    sortable?: boolean
 }
 
 export function DataTableColumnHeader<TData, TValue>({
     column,
     title,
-    className
+    className,
+    sortable = true
 }: DataTableColumnHeaderProps<TData, TValue>) {
     const [grouped] = useQueryParam('grouped', BooleanParam)
     const [view] = useQueryParam('view', StringParam)
 
     return (
         <Button
-            disabled={grouped!}
+            disabled={grouped! || !sortable}
             variant='ghost'
             className={cn(
                 '!flex w-full items-center !justify-between gap-x-2 px-2',
                 className
             )}
-            onClick={column.getToggleSortingHandler()}>
+            onClick={sortable ? column.getToggleSortingHandler() : undefined}>
             {title}
 
             {column.getIsSorted() ? (

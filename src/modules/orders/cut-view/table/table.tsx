@@ -63,9 +63,11 @@ export const CutViewTable: React.FC<DataTableProps<CuttingItem, MergedCuttingIte
                 <DataTableColumnHeader
                     column={column}
                     title={flow.name}
+                    sortable={false}
+                    className='w-40'
                 />
             ),
-            cell: () => <div className='w-40 text-center'>{false || '-'}</div>
+            cell: () => <div className='w-40 text-center'></div>
         })) || []
 
     const allColumns = [...columns]

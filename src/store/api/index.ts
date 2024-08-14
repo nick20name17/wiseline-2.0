@@ -53,13 +53,11 @@ const baseQueryWithReauth: BaseQueryFn<
         const token = localStorage.getItem('token') ?? sessionStorage.getItem('token')
         const refresh = token !== null ? (JSON.parse(token) as RefreshToken)?.refresh : ''
 
-        const content = JSON.stringify({ refresh })
-
         const refreshResult = (await baseQuery(
             {
                 url: 'token/refresh/',
                 method: 'POST',
-                body: content,
+                body: JSON.stringify({ refresh }),
                 headers: {
                     'Content-Type': 'application/json'
                 }

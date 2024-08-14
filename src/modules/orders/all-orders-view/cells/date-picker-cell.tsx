@@ -97,11 +97,7 @@ export const DatePickerCell: React.FC<DatePickerCellProps> = ({ order }) => {
         try {
             await addSalesOrder(data)
                 .unwrap()
-                .then((data2) => {
-                    console.log(data2)
-
-                    successToast(data.production_date!, orderId)
-                })
+                .then(() => successToast(data.production_date!, orderId))
         } catch (error) {
             const isErrorMessage = isErrorWithMessage(error)
 

@@ -25,9 +25,7 @@ import { isErrorWithMessage } from '@/utils'
 type FormData = zodInfer<typeof loginSchema>
 
 export const Login = () => {
-    const [rememberMe, setRememberMe] = useState(false)
-
-    const onRememberMe = () => setRememberMe(!rememberMe)
+    const [rememberMe, setRememberMe] = useState(true)
 
     const navigate = useNavigate()
     const [error, setError] = useState('')
@@ -37,15 +35,24 @@ export const Login = () => {
     const [login, { isLoading }] = useLoginMutation()
 
     const handleLogin = async (data: FormData) => {
-        console.log(data)
-
         try {
             await login(data).unwrap()
+            if (!rememberMe) {
+                sessionStorage.setItem('rememberMe', JSON.stringify({ rememberMe: true }))
+            }
             navigate('/')
         } catch (error) {
             const isErrorMessage = isErrorWithMessage(error)
             setError(isErrorMessage ? error.data.detail : 'An error occurred')
         }
+    }
+
+    const onRememberMe = () => setRememberMe(!rememberMe)
+
+    if (rememberMe) {
+        localStorage.setItem('rememberMe', JSON.stringify({ rememberMe: true }))
+    } else {
+        localStorage.removeItem('rememberMe')
     }
 
     const onSubmit: SubmitHandler<FormData> = (formData) => handleLogin(formData)
