@@ -18,7 +18,7 @@ import {
 
 const router = createBrowserRouter([
     {
-        path: routes.orders,
+        path: routes.main,
         element: <Layout />,
         errorElement: <ErrorPage />,
         children: [

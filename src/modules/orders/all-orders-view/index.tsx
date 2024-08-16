@@ -15,19 +15,19 @@ export const AllOrdersView = () => {
     const [overdue] = useQueryParam('overdue', BooleanParam)
     const [completed] = useQueryParam('completed', BooleanParam)
     const [scheduled] = useQueryParam('scheduled', BooleanParam)
-    const [searchTerm] = useQueryParam('search', StringParam)
-    const [offsetParam] = useQueryParam('offset', NumberParam)
-    const [limitParam] = useQueryParam('limit', NumberParam)
+    const [search] = useQueryParam('search', StringParam)
+    const [offset] = useQueryParam('offset', NumberParam)
+    const [limit] = useQueryParam('limit', NumberParam)
     const [category] = useQueryParam('category', StringParam)
     const [flow] = useQueryParam('flow', StringParam)
-    const [ordering] = useQueryParam('orders-ordering', StringParam)
+    const [ordering] = useQueryParam('ordering', StringParam)
 
     const queryParams: Partial<OrdersQueryParams> = {
-        limit: limitParam!,
-        offset: offsetParam!,
+        limit: limit!,
+        offset: offset!,
         is_scheduled: scheduled,
         ordering: ordering!,
-        search: searchTerm,
+        search,
         completed: completed,
         over_due: overdue!,
         category: category === 'All' ? undefined : category!,
@@ -39,8 +39,8 @@ export const AllOrdersView = () => {
     const currentCount = useCurrentValue(currentData?.count)
 
     const pageCount = useMemo(
-        () => (currentCount ? Math.ceil(currentCount! / limitParam!) : 1),
-        [isLoading, limitParam, currentCount]
+        () => (currentCount ? Math.ceil(currentCount! / limit!) : 1),
+        [isLoading, limit, currentCount]
     )
 
     const { dataToRender } = useWebSocket({
@@ -53,7 +53,7 @@ export const AllOrdersView = () => {
 
     useEffect(() => {
         dispatch(setCurrentQueryParams(queryParams as OrdersQueryParams))
-    }, [overdue, completed, scheduled, searchTerm, flow, flow, ordering, category])
+    }, [overdue, completed, scheduled, search, flow, flow, ordering, category])
 
     return (
         <>

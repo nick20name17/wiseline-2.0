@@ -15,36 +15,27 @@ export const AllDetailsView = () => {
     const [overdue] = useQueryParam('overdue', BooleanParam)
     const [completed] = useQueryParam('completed', BooleanParam)
     const [scheduled] = useQueryParam('scheduled', BooleanParam)
-    const [searchTerm] = useQueryParam('search', StringParam)
-    const [offsetParam] = useQueryParam('offset', NumberParam)
-    const [limitParam] = useQueryParam('limit', NumberParam)
+    const [search] = useQueryParam('search', StringParam)
+    const [offset] = useQueryParam('offset', NumberParam)
+    const [limit] = useQueryParam('limit', NumberParam)
     const [date] = useQueryParam('date', StringParam)
     const [flow] = useQueryParam('flow', StringParam)
     const [stage] = useQueryParam('stage', StringParam)
     const [category] = useQueryParam('category', StringParam)
-    const [ordering] = useQueryParam('details-ordering', StringParam)
-
-    // useEffect(() => {
-    //     if (grouped) {
-    //         setSorting([{ id: 'order', desc: false }])
-    //     }
-    // }, [grouped])
+    const [ordering] = useQueryParam('ordering', StringParam)
 
     const queryParams: Partial<EBMSItemsQueryParams> = {
-        offset: offsetParam!,
-        limit: limitParam!,
-        ordering: ordering!,
-        search: searchTerm!,
+        offset: offset!,
+        limit: limit!,
+        // ordering: ordering!,
+        search: search!,
         flow_id: flow!,
         is_scheduled: scheduled!,
         category: category === 'All' ? undefined : category!,
         completed: completed!,
         over_due: overdue!,
-        stage_id: stage ? stage! : undefined
-    }
-
-    if (date) {
-        queryParams.production_date = date
+        stage_id: stage ? stage! : undefined,
+        production_date: date ? date : undefined
     }
 
     const { currentData, isLoading, isFetching, refetch } = useGetItemsQuery(queryParams)
@@ -52,8 +43,8 @@ export const AllDetailsView = () => {
     const currentCount = useCurrentValue(currentData?.count)
 
     const pageCount = useMemo(
-        () => (currentCount ? Math.ceil(currentCount! / limitParam!) : 1),
-        [isLoading, limitParam, currentCount]
+        () => (currentCount ? Math.ceil(currentCount! / limit!) : 1),
+        [isLoading, limit, currentCount]
     )
 
     const { dataToRender } = useWebSocket({
@@ -70,7 +61,7 @@ export const AllDetailsView = () => {
         overdue,
         completed,
         scheduled,
-        searchTerm,
+        search,
         flow,
         stage,
         date,

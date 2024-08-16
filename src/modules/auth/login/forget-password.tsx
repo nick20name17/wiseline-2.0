@@ -26,8 +26,6 @@ import { useCustomForm } from '@/hooks'
 import { usePasswordResetMutation } from '@/store/api/passwords/passwords'
 import { isErrorWithMessage } from '@/utils'
 
-// import { usePasswordResetMutation } from '@/store/api/passwords/passwords'
-
 type FormData = zodInfer<typeof emailSchema>
 
 export const ForgetPassword = () => {

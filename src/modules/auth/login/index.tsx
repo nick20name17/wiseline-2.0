@@ -4,8 +4,7 @@ import { type SubmitHandler } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import type { infer as zodInfer } from 'zod'
 
-import { ForgetPassword } from '../forget-password'
-
+import { ForgetPassword } from './forget-password'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {

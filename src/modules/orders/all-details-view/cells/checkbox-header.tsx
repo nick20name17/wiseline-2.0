@@ -10,9 +10,9 @@ interface CheckboxHeaderProps<TData> {
 
 export const CheckboxHeader: React.FC<CheckboxHeaderProps<any>> = ({ table }) => {
     return (
-        <div className='!w-10'>
+        <div className='w-10 pt-1'>
             <Checkbox
-                className='!ml-2'
+                className='ml-2'
                 checked={
                     table.getIsAllPageRowsSelected() ||
                     (table.getIsSomePageRowsSelected() && 'indeterminate')

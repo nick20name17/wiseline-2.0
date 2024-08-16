@@ -33,7 +33,7 @@ export const Colorfilter = () => {
     ]
 
     useEffect(() => {
-        if (view === 'cut-list-pipeline') {
+        if (view === 'pipeline') {
             setColorParam('all')
         }
     }, [view])

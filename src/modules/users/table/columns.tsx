@@ -65,7 +65,8 @@ export const columns: ColumnDef<UserData>[] = [
         header: () => (
             <Button
                 variant='ghost'
-                className='w-full'>
+                tabIndex={-1}
+                className='pointer-events-none w-full'>
                 <div className='h-4 w-4 flex-shrink-0' />
             </Button>
         ),

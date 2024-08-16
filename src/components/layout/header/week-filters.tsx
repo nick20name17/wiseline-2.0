@@ -41,10 +41,10 @@ export const WeekFilters = () => {
         setOverdue(null)
     }
 
-    const showWeekFilters = view == 'all-details' && scheduled !== undefined
+    const showWeekFilters = view == 'lines' && scheduled !== undefined
 
     useEffect(() => {
-        if (view == 'all-details' && scheduled && !overdue) {
+        if (view == 'lines' && scheduled && !overdue) {
             setDate(date || workingDays[0].date || null)
         } else {
             setDate(null)

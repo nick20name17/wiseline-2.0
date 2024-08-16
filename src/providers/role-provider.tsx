@@ -12,7 +12,7 @@ export const RoleProvider: React.FC<PropsWithChildren> = ({ children }) => {
     if (isWorkerOrClient && adminOnlyRoutes.includes(location.pathname as any)) {
         return (
             <Navigate
-                to={routes.orders}
+                to={routes.main}
                 state={{ from: location }}
                 replace
             />

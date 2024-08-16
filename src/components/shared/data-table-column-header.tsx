@@ -37,14 +37,14 @@ export function DataTableColumnHeader<TData, TValue>({
                     <ArrowUp
                         className={cn(
                             'ml-2 h-4 w-4 flex-shrink-0 text-foreground',
-                            grouped && view === 'all-details' ? 'hidden' : ''
+                            grouped && view === 'lines' ? 'hidden' : ''
                         )}
                     />
                 ) : (
                     <ArrowDown
                         className={cn(
                             'ml-2 h-4 w-4 flex-shrink-0 text-foreground',
-                            grouped && view === 'all-details' ? 'hidden' : ''
+                            grouped && view === 'lines' ? 'hidden' : ''
                         )}
                     />
                 )
@@ -52,7 +52,7 @@ export function DataTableColumnHeader<TData, TValue>({
                 <ArrowUpDown
                     className={cn(
                         'ml-2 h-4 w-4 flex-shrink-0',
-                        grouped && view === 'all-details' ? 'hidden' : ''
+                        grouped && view === 'lines' ? 'hidden' : ''
                     )}
                 />
             )}

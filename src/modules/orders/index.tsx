@@ -26,9 +26,9 @@ export const Orders = () => {
 
     const ordersView = useMemo(() => {
         switch (view) {
-            case 'cut-view':
+            case 'cut':
                 return <CutView />
-            case 'all-details':
+            case 'lines':
                 return <AllDetailsView />
             default:
                 return <AllOrdersView />

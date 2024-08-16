@@ -1,4 +1,4 @@
-import { Login } from './auth/login'
+import { Login } from './auth/login/index'
 import { PasswordResetConfirmation } from './auth/password-reset-confirmation'
 import { Calendar } from './calendar'
 import { CompanySettings } from './company-settings'

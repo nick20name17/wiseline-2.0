@@ -5,7 +5,7 @@ import {
     getSortedRowModel,
     useReactTable
 } from '@tanstack/react-table'
-import React, { Fragment, useEffect, useRef } from 'react'
+import React, { Fragment, useEffect, useLayoutEffect, useRef } from 'react'
 import { BooleanParam, StringParam, useQueryParam } from 'use-query-params'
 
 import { shouldRenderCell } from '../..'
@@ -46,7 +46,7 @@ import { groupBy } from '@/utils'
 export const AllDetailsViewTable: React.FC<
     DataTableProps<EBMSItemsData, EBMSItemsData>
 > = ({ columns, data, isDataLoading, isDataFetching, pageCount }) => {
-    const [groupedView] = useQueryParam('grouped', BooleanParam)
+    const [grouped] = useQueryParam('grouped', BooleanParam)
     const [category] = useQueryParam('category', StringParam)
     const [scheduled] = useQueryParam('scheduled', BooleanParam)
 
@@ -59,14 +59,12 @@ export const AllDetailsViewTable: React.FC<
 
     const [addUsersProfiles] = useAddUsersProfilesMutation()
 
-    const { sorting, setSorting } = useSorting({
-        defaultValues: [
-            {
-                id: 'order',
-                desc: false
-            }
-        ]
-    })
+    const { sorting, setSorting } = useSorting([
+        {
+            id: 'quantity',
+            desc: false
+        }
+    ])
 
     const table = useReactTable({
         getCoreRowModel: getCoreRowModel(),
@@ -94,10 +92,6 @@ export const AllDetailsViewTable: React.FC<
 
     const { onDragStart, onDrop } = useColumnDragDrop(table, 'items', addUsersProfiles)
 
-    useEffect(() => {
-        table.setRowSelection({})
-    }, [category, scheduled])
-
     const tableRef = useRef<HTMLTableElement>(null)
 
     const { isTablet } = useMatchMedia()
@@ -105,6 +99,16 @@ export const AllDetailsViewTable: React.FC<
     useTableScroll({ tableRef, enableScroll: !isTablet })
 
     const isClientOrWorker = useCurrentUserRole(['client', 'worker'])
+
+    useLayoutEffect(() => {
+        if (grouped) {
+            setSorting([{ id: 'order', desc: false }])
+        }
+    }, [grouped])
+
+    useEffect(() => {
+        table.setRowSelection({})
+    }, [category, scheduled])
 
     const columnsCount = columns?.length || 0
 
@@ -141,7 +145,7 @@ export const AllDetailsViewTable: React.FC<
             <Table
                 ref={tableRef}
                 containerClassname='h-fit overflow-y-auto'>
-                <TableHeader>
+                <TableHeader className='sticky top-0 z-10 bg-background'>
                     {isDataLoading ? (
                         <TableRow className='p-0'>
                             <TableCell
@@ -196,7 +200,7 @@ export const AllDetailsViewTable: React.FC<
                     {isDataLoading ? (
                         <TableSkeleton columnsCount={columns.length} />
                     ) : table.getRowModel().rows?.length ? (
-                        groupedView ? (
+                        grouped ? (
                             groupByOrder.map((group) =>
                                 group[1].map((row, index) => {
                                     const isIndeterminate = group[1].some((row) =>

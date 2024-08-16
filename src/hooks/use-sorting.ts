@@ -2,11 +2,7 @@ import type { SortingState } from '@tanstack/react-table'
 import { useEffect, useState } from 'react'
 import { StringParam, useQueryParam } from 'use-query-params'
 
-interface SortingProps {
-    defaultValues: SortingState
-}
-
-export const useSorting = ({ defaultValues }: SortingProps) => {
+export const useSorting = (defaultValues: SortingState) => {
     const [ordering, setOrdering] = useQueryParam('ordering', StringParam)
 
     const getInitialSorting = () => {

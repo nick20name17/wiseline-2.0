@@ -14,11 +14,10 @@ export const Capacity = ({
                 <Badge
                     className='pointer-events-none'
                     variant={dailyData?.count_orders ? 'default' : 'outline'}>
-                    {dailyData?.count_orders ?? '0'}
+                    {dailyData?.count_orders || '0'}
                 </Badge>
-                {dailyData?.count_orders ?? '0'} / {totalCapacity}
+                {dailyData?.count_orders || '0'} / {totalCapacity || '0'}
             </div>
         </div>
     )
 }
-

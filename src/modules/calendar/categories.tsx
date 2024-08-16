@@ -8,7 +8,7 @@ import { useGetCategoriesQuery } from '@/store/api/ebms/ebms'
 export const Categories = () => {
     const { data: categoriesData, isLoading } = useGetCategoriesQuery({})
 
-    const [category = 'Rollforming', setCategory] = useQueryParam('category', StringParam)
+    const [category, setCategory] = useQueryParam('category', StringParam)
 
     const filteredCategories = categoriesData?.results?.filter(
         (category) => category.name == 'Rollforming' || category.name === 'Trim'
@@ -17,8 +17,8 @@ export const Categories = () => {
     const onValueChange = (value: string) => setCategory(value)
 
     useEffect(() => {
-        setCategory(category)
-    }, [category])
+        setCategory(category || 'Rollforming')
+    }, [])
 
     return (
         <Tabs

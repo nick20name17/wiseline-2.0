@@ -64,7 +64,7 @@ export const CutView = () => {
     return (
         <>
             <Controls />
-            {cutView === 'cut-list-pipeline' ? (
+            {cutView === 'pipeline' ? (
                 <CutViewTable
                     key={color}
                     data={dataToRender || []}

@@ -63,14 +63,12 @@ export const AllOrdersViewTable: React.FC<DataTableProps<OrdersData, OrdersData>
         columns
     )
 
-    const { sorting, setSorting } = useSorting({
-        defaultValues: [
-            {
-                id: 'priority',
-                desc: true
-            }
-        ]
-    })
+    const { sorting, setSorting } = useSorting([
+        {
+            id: 'priority',
+            desc: true
+        }
+    ])
 
     const table = useReactTable({
         getCoreRowModel: getCoreRowModel(),
@@ -106,7 +104,7 @@ export const AllOrdersViewTable: React.FC<DataTableProps<OrdersData, OrdersData>
     useTableScroll({
         tableRef,
         enableScroll: !isTablet,
-        isCuttingView: view === 'cut-view'
+        isCuttingView: view === 'cut'
     })
 
     const isClientOrWorker = useCurrentUserRole(['client', 'worker'])

@@ -1,6 +1,6 @@
 import type { Table } from '@tanstack/react-table'
 import { ArrowLeft, ArrowRight, SkipBack, SkipForward } from 'lucide-react'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { BooleanParam, NumberParam, StringParam, useQueryParam } from 'use-query-params'
 
 import { Button } from '@/components/ui/button'
@@ -21,17 +21,18 @@ interface PaginationProps<TData> {
 export const Pagination = <TData,>({ table, isDataLoading }: PaginationProps<TData>) => {
     const [_, setOffset] = useQueryParam('offset', NumberParam)
     const [limit, setLimit] = useQueryParam('limit', NumberParam)
+    const initialRender = useRef(true)
 
     useEffect(() => {
-        const { pageIndex, pageSize } = table.getState().pagination
+        const { pageIndex, pageSize } = table.getState()?.pagination
         setOffset(pageIndex * pageSize)
-    }, [table.getState().pagination.pageIndex, table.getState().pagination.pageSize])
+    }, [table.getState().pagination?.pageIndex, table.getState().pagination?.pageSize])
 
     useEffect(() => {
         setLimit(table.getState().pagination.pageSize)
     }, [table.getState().pagination.pageSize])
 
-    useResetQueryParams({ table })
+    useResetQueryParams({ table, initialRender })
 
     const isPageCount = table.getPageCount()
     const currentPage = table.getState().pagination.pageIndex + 1
@@ -115,9 +116,13 @@ export const Pagination = <TData,>({ table, isDataLoading }: PaginationProps<TDa
 
 interface ResetQueryParamsProps<TData> {
     table: Table<TData>
+    initialRender: React.MutableRefObject<boolean>
 }
 
-const useResetQueryParams = <TData,>({ table }: ResetQueryParamsProps<TData>) => {
+const useResetQueryParams = <TData,>({
+    table,
+    initialRender
+}: ResetQueryParamsProps<TData>) => {
     const [_, setOffset] = useQueryParam('offset', NumberParam)
     const [view] = useQueryParam('view', StringParam)
     const [category] = useQueryParam('category', StringParam)
@@ -131,7 +136,12 @@ const useResetQueryParams = <TData,>({ table }: ResetQueryParamsProps<TData>) =>
     const [color] = useQueryParam('color', StringParam)
 
     useEffect(() => {
+        if (initialRender.current) {
+            initialRender.current = false
+            return
+        }
+
         setOffset(0)
         table.setPageIndex(0)
-    }, [view, category, scheduled, completed, overdue, search, flow, stage, date, color])
+    }, [category, scheduled, completed, overdue, search, flow, stage, date, color, view])
 }

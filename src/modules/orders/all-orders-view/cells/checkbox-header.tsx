@@ -11,7 +11,7 @@ interface CheckboxHeaderProps<TData> {
 
 export const CheckboxHeader: React.FC<CheckboxHeaderProps<OrdersData>> = ({ table }) => {
     return (
-        <div className='!w-10'>
+        <div className='!w-10 pt-1'>
             <Checkbox
                 className='!ml-2'
                 checked={

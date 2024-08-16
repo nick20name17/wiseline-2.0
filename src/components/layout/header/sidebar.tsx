@@ -39,7 +39,7 @@ const navigationItems = [
     {
         icon: MenuSquare,
         label: 'Orders',
-        link: routes.orders,
+        link: routes.main,
         soon: false
     },
     {
@@ -108,7 +108,7 @@ export const SideBar = () => {
                 <SheetHeader>
                     <NavLink
                         to={{
-                            pathname: routes.orders,
+                            pathname: routes.main,
                             search: locaiton.search
                         }}>
                         <SheetTitle asChild>

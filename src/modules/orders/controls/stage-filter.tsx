@@ -8,6 +8,7 @@ import {
     SelectTrigger,
     SelectValue
 } from '@/components/ui/select'
+import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
 import { useGetStagesQuery } from '@/store/api/stages/stages'
 
@@ -15,14 +16,6 @@ export const StageFilter = () => {
     const [stage, setStage] = useQueryParam('stage', StringParam)
     const [flow] = useQueryParam('flow', StringParam)
     const [category] = useQueryParam('category', StringParam)
-
-    const onValueChange = (value: string) => {
-        if (value === 'all') {
-            setStage(null)
-        } else {
-            setStage(value)
-        }
-    }
 
     const {
         data: stages,
@@ -33,20 +26,30 @@ export const StageFilter = () => {
     })
 
     useEffect(() => {
-        if (flow) {
+        if (category && category !== 'All' && flow) {
             setStage(stage)
         } else {
             setStage(null)
         }
-    }, [stage])
 
-    useEffect(() => {
-        if (category === 'All' || !flow) {
+        return () => {
             setStage(null)
         }
-    }, [category, flow])
+    }, [category])
 
-    return category && flow ? (
+    const onValueChange = (value: string) => {
+        if (value === 'all') {
+            setStage(null)
+        } else {
+            setStage(value)
+        }
+    }
+
+    if (category !== 'All' && flow && isLoading) {
+        return <Skeleton className='h-10 w-40' />
+    }
+
+    return category !== 'All' && flow ? (
         <Select
             defaultValue={stage! || 'all'}
             disabled={isLoading || isFetching || !stages?.results?.length}

@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { StringParam, useQueryParam } from 'use-query-params'
 
 import {
@@ -7,17 +8,26 @@ import {
     SelectTrigger,
     SelectValue
 } from '@/components/ui/select'
+import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
 import { useGetAllCategoriesQuery } from '@/store/api/ebms/ebms'
 
 export const CategoryFilter = () => {
-    const [category = 'All', setCategory] = useQueryParam('category', StringParam)
+    const [category, setCategory] = useQueryParam('category', StringParam)
 
     const { data: categoriesData, isLoading } = useGetAllCategoriesQuery()
 
     const tabs = categoriesData?.map((category) => category.name)
 
     const onValueChange = (value: string) => setCategory(value)
+
+    useEffect(() => {
+        setCategory(category || 'All')
+    }, [])
+
+    if (isLoading) {
+        return <Skeleton className='h-10 w-40' />
+    }
 
     return (
         <Select

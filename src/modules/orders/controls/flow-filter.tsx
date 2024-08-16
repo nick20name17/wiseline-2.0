@@ -8,6 +8,7 @@ import {
     SelectTrigger,
     SelectValue
 } from '@/components/ui/select'
+import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
 import { useGetFlowsQuery } from '@/store/api/flows/flows'
 
@@ -31,15 +32,21 @@ export const FlowFilter = () => {
         category__prod_type: category === 'All' ? '' : category!
     })
 
-    // useEffect(() => {
-    //     setFlow(flow)
-    // }, [flow])
-
     useEffect(() => {
-        if (category === 'All') {
+        if (category && category !== 'All') {
+            setFlow(flow)
+        } else {
+            setFlow(null)
+        }
+
+        return () => {
             setFlow(null)
         }
     }, [category])
+
+    if (category !== 'All' && isLoading) {
+        return <Skeleton className='h-10 w-40' />
+    }
 
     return category === 'All' ? null : (
         <Select
