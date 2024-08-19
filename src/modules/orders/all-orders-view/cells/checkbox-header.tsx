@@ -5,11 +5,11 @@ import { MultipatchPopover } from '../../controls/multipatch-popover'
 import { Checkbox } from '@/components/ui/checkbox'
 import type { OrdersData } from '@/store/api/ebms/ebms.types'
 
-interface CheckboxHeaderProps<TData> {
-    table: Table<TData>
+interface CheckboxHeaderProps {
+    table: Table<OrdersData>
 }
 
-export const CheckboxHeader: React.FC<CheckboxHeaderProps<OrdersData>> = ({ table }) => {
+export const CheckboxHeader: React.FC<CheckboxHeaderProps> = ({ table }) => {
     return (
         <div className='!w-10 pt-1'>
             <Checkbox

@@ -1,4 +1,5 @@
 import {
+    type Row,
     flexRender,
     getCoreRowModel,
     getPaginationRowModel,
@@ -114,7 +115,7 @@ export const AllDetailsViewTable: React.FC<
 
     const groupByOrder = groupBy(table?.getRowModel()?.rows || [], 'original.order')
 
-    const onCheckedChange = (value: boolean, group: any[]) => {
+    const onCheckedChange = (value: boolean, group: [string, Row<EBMSItemsData>[]]) => {
         const currentGroup = groupByOrder.filter((gr) => gr[0] === group[0])
         const currentGroupIds = currentGroup[0][1].map((obj) => obj.id)
 

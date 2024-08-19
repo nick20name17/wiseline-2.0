@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import { useDebouncedCallback } from 'use-debounce'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useCurrentUserRole } from '@/hooks'
-import { useCallbackDebounce } from '@/hooks/use-callback-debounce'
 import {
     useAddSalesOrderMutation,
     usePatchSalesOrderMutation
@@ -89,7 +89,7 @@ export const SalesOrderCell: React.FC<Props> = ({
 
     const [currentValue, setCurrentValue] = useState(value)
 
-    const handleItemMutation = useCallbackDebounce((value: number) => {
+    const handleItemMutation = useDebouncedCallback((value: number) => {
         if (itemId) {
             handlePatchSalesOrder(value, itemId)
         } else {

@@ -30,7 +30,7 @@ import {
     SheetTitle,
     SheetTrigger
 } from '@/components/ui/sheet'
-import { adminOnlyRoutes, routes } from '@/config/routes'
+import { isAdminRoute, routes } from '@/config/routes'
 // import { useCurrentUserRole } from '@/hooks'
 import { useCurrentUserRole } from '@/hooks'
 import { cn } from '@/lib/utils'
@@ -129,8 +129,7 @@ export const SideBar = () => {
                     <CommandList className='max-h-fit'>
                         <CommandGroup>
                             {navigationItems.map((item) =>
-                                isClientOrWorker &&
-                                adminOnlyRoutes.includes(item.link as any) ? null : (
+                                isClientOrWorker && isAdminRoute(item.link) ? null : (
                                     <CommandItem
                                         asChild
                                         key={item.label}

@@ -21,6 +21,7 @@ interface PaginationProps<TData> {
 export const Pagination = <TData,>({ table, isDataLoading }: PaginationProps<TData>) => {
     const [_, setOffset] = useQueryParam('offset', NumberParam)
     const [limit, setLimit] = useQueryParam('limit', NumberParam)
+
     const initialRender = useRef(true)
 
     useEffect(() => {
@@ -124,7 +125,6 @@ const useResetQueryParams = <TData,>({
     initialRender
 }: ResetQueryParamsProps<TData>) => {
     const [_, setOffset] = useQueryParam('offset', NumberParam)
-    const [view] = useQueryParam('view', StringParam)
     const [category] = useQueryParam('category', StringParam)
     const [scheduled] = useQueryParam('scheduled', BooleanParam)
     const [completed] = useQueryParam('completed', BooleanParam)
@@ -134,6 +134,7 @@ const useResetQueryParams = <TData,>({
     const [stage] = useQueryParam('stage', StringParam)
     const [date] = useQueryParam('date', StringParam)
     const [color] = useQueryParam('color', StringParam)
+    const [view] = useQueryParam('view', StringParam)
 
     useEffect(() => {
         if (initialRender.current) {

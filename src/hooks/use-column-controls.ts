@@ -69,7 +69,11 @@ export const useColumnVisibility = <TData, TValue>(
     }
 }
 
-export function useColumnDragDrop<T>(table: Table<T>, page: string, handleFunction: any) {
+export function useColumnDragDrop<T>(
+    table: Table<T>,
+    page: string,
+    handleFunction: Function
+) {
     let columnBeingDragged: number
 
     const onDragStart = (e: DragEvent<HTMLElement>) =>

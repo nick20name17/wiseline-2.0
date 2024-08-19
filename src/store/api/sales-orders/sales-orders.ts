@@ -35,7 +35,7 @@ export const salesOrders = api.injectEndpoints({
                 method: 'PATCH',
                 body: data
             }),
-            async onQueryStarted({ data: { ...data } }, { dispatch, queryFulfilled }) {
+            async onQueryStarted({ data }, { dispatch, queryFulfilled }) {
                 const queryParams = store.getState().orders.currentQueryParams
 
                 const patchResult = dispatch(
@@ -43,9 +43,11 @@ export const salesOrders = api.injectEndpoints({
                         'getOrders',
                         queryParams as OrdersQueryParams,
                         (draft) => {
-                            const order = draft.results.find(
-                                (order) => order.id === data.order
+                            const order = draft?.results?.find(
+                                (order) => order?.id === data?.order
                             )
+
+                            console.log(data)
 
                             const salesOrder = order?.sales_order
 

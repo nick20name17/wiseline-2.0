@@ -10,16 +10,26 @@ import {
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { alwaysVisibleColumns, trimOnlyColumns } from '@/config/table'
+import type { EBMSItemsData, OrdersData } from '@/store/api/ebms/ebms.types'
 import {
     useAddUsersProfilesMutation,
     useGetUsersProfilesQuery
 } from '@/store/api/profiles/profiles'
 
-interface ColumnVisibilityProps {
-    table: Table<any>
-    page: 'orders' | 'items'
+type OrdersColumnVisibilityProps = {
+    page: 'orders'
+    table: Table<OrdersData>
     isDataLoading: boolean
 }
+
+type ItemsColumnVisibilityProps = {
+    page: 'items'
+
+    table: Table<EBMSItemsData>
+    isDataLoading: boolean
+}
+
+type ColumnVisibilityProps = OrdersColumnVisibilityProps | ItemsColumnVisibilityProps
 
 export const ColumnVisibility: React.FC<ColumnVisibilityProps> = ({
     page,

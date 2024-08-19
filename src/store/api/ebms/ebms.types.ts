@@ -38,8 +38,8 @@ interface CapacityData {
     Trim: number
 }
 
-export interface CalendarResponse extends DailyData {
-    capacity_data: CapacityData | any
+export type CalendarResponse = DailyData & {
+    capacity_data: CapacityData
 }
 
 export interface Capacity {

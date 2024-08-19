@@ -1,5 +1,4 @@
 import { useBodyScrollLock } from './use-body-scroll-lock'
-import { useCallbackDebounce } from './use-callback-debounce'
 import {
     useColumnDragDrop,
     useColumnOrder,
@@ -18,7 +17,6 @@ import { useWebSocket } from './use-web-socket'
 
 export {
     useBodyScrollLock,
-    useCallbackDebounce,
     useColumnDragDrop,
     useColumnOrder,
     useColumnVisibility,

@@ -14,15 +14,18 @@ import { cn } from '@/lib/utils'
 
 export const TableControls = () => {
     const ref = useRef<HTMLDivElement>(null)
+
     const { isTablet } = useMatchMedia()
-    const isSticky = useIsSticky(ref)
+
     const [grouped, setGrouped] = useQueryParam('grouped', BooleanParam)
 
     const handleSetGrouped = (value: boolean) => setGrouped(value ? true : null)
 
+    const isSticky = useIsSticky(ref)
+
     return isTablet ? (
         <>
-            <div className='flex flex-wrap items-center justify-between gap-x-4 max-sm:w-full'>
+            <div className='flex flex-wrap items-center justify-between gap-4 max-sm:w-full'>
                 <Statuses />
                 <SearchBar />
             </div>
@@ -30,7 +33,7 @@ export const TableControls = () => {
             <div
                 ref={ref}
                 className={cn(
-                    'sticky left-0 top-0 z-[1000] mb-1 mt-4 flex w-full items-center gap-x-2 px-1 transition-all max-sm:w-full',
+                    'sticky left-0 top-0 z-[1000] mb-1 mt-4 flex w-full items-center gap-4 transition-all max-sm:w-full',
                     isSticky ? 'border-b bg-background py-2 shadow-sm' : ''
                 )}>
                 <CategoryFilter />
@@ -50,9 +53,9 @@ export const TableControls = () => {
         </>
     ) : (
         <div
-            className='flex w-full flex-wrap items-start justify-between gap-x-4 py-2'
+            className='flex w-full flex-wrap items-start justify-between gap-4'
             id='order-statuses'>
-            <div className='flex flex-wrap items-center justify-between gap-x-4 max-sm:w-full'>
+            <div className='flex flex-wrap items-center justify-between gap-4 max-sm:w-full'>
                 <Statuses />
                 <SearchBar />
             </div>

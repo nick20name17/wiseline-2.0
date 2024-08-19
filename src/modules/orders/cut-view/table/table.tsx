@@ -1,14 +1,14 @@
 import {
+    type Column,
     flexRender,
     getCoreRowModel,
     getPaginationRowModel,
     getSortedRowModel,
     useReactTable
 } from '@tanstack/react-table'
-import { groupBy } from 'lodash'
 import { Fragment, useRef } from 'react'
 
-import { getCommonPinningStyles, groupByGauge, mergeItems } from '../utils'
+import { getCommonPinningStyles, groupBy, groupByGauge, mergeItems } from '../utils'
 
 import { TableFooter } from './table-footer'
 import { DataTableColumnHeader, TableSkeleton } from '@/components/shared'
@@ -59,7 +59,7 @@ export const CutViewTable: React.FC<DataTableProps<CuttingItem, MergedCuttingIte
     const trimColumns =
         trimFlows?.map((flow) => ({
             accessorKey: flow.name,
-            header: ({ column }: any) => (
+            header: ({ column }: { column: Column<MergedCuttingItem> }) => (
                 <DataTableColumnHeader
                     column={column}
                     title={flow.name}

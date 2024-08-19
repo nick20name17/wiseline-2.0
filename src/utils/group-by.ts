@@ -2,8 +2,8 @@ type KeyFinder<T> = ((item: T) => string) | keyof T | string
 
 type Grouped<T> = Array<[string, T[]]>
 
-const getNestedValue = (obj: any, path: string): any => {
-    return path.split('.').reduce((acc, key) => acc && acc[key], obj)
+const getNestedValue = <T>(obj: T, path: string) => {
+    return path.split('.').reduce((acc: any, key: string) => acc && acc[key], obj)
 }
 
 export const groupBy = <T>(values: T[], keyFinder: KeyFinder<T>): Grouped<T> => {
@@ -14,7 +14,7 @@ export const groupBy = <T>(values: T[], keyFinder: KeyFinder<T>): Grouped<T> => 
                     ? keyFinder(item)
                     : typeof keyFinder === 'string'
                       ? getNestedValue(item, keyFinder)
-                      : (item as any)[keyFinder]
+                      : item[keyFinder as keyof T]
 
             if (!map.has(key)) {
                 map.set(key, [item])

@@ -16,3 +16,7 @@ export const adminOnlyRoutes = [
     routes.priorities,
     routes.companySettings
 ]
+
+export const isAdminRoute = (path: string): path is (typeof adminOnlyRoutes)[number] => {
+    return adminOnlyRoutes.includes(path as (typeof adminOnlyRoutes)[number])
+}

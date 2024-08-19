@@ -27,7 +27,7 @@ export const groupByGauge = (
 }
 
 export const groupBy = <T>(array: T[], keyPath: string): { [key: string]: T[] } => {
-    function getNestedValue(obj: any, keyPath: string): any {
+    function getNestedValue(obj: any, keyPath: string) {
         return keyPath.split('.').reduce((value, key) => value?.[key], obj)
     }
 
@@ -78,7 +78,7 @@ export const mergeItems = (data: CuttingItem[]) => {
     return result
 }
 
-export const getCommonPinningStyles = (column: Column<any>) => {
+export const getCommonPinningStyles = <T>(column: Column<T>) => {
     const isPinned = column.getIsPinned()
 
     return cn({

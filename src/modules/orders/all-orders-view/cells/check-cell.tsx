@@ -1,9 +1,9 @@
 import { CheckCircle2, Circle } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import { useDebouncedCallback } from 'use-debounce'
 
 import { Toggle } from '@/components/ui/toggle'
-import { useCallbackDebounce } from '@/hooks'
 import { cn } from '@/lib/utils'
 import {
     useAddSalesOrderMutation,
@@ -107,7 +107,7 @@ export const CheckCell: React.FC<CheckCellProps> = ({
 
     const [isChecked, setIsChecked] = useState(checked)
 
-    const handleItemMutation = useCallbackDebounce((checked: boolean) => {
+    const handleItemMutation = useDebouncedCallback((checked: boolean) => {
         if (itemId) {
             handlePatchSalesOrder(checked, itemId)
         } else {
