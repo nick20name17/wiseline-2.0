@@ -14,11 +14,13 @@ import { useGetFlowsQuery } from '@/store/api/flows/flows'
 
 export const FlowFilter = () => {
     const [category] = useQueryParam('category', StringParam)
+    const [_, setStage] = useQueryParam('stage', StringParam)
     const [flow, setFlow] = useQueryParam('flow', StringParam)
 
     const onValueChange = (value: string) => {
         if (value === 'all') {
             setFlow(null)
+            setStage(null)
         } else {
             setFlow(value)
         }

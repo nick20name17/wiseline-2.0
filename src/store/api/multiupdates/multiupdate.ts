@@ -2,7 +2,7 @@ import { api } from '..'
 
 import { embs } from '../ebms/ebms'
 import type { EBMSItemsQueryParams, OrdersQueryParams } from '../ebms/ebms.types'
-import type { Flow } from '../items/items.types'
+import type { FlowData } from '../flows/flows.types'
 
 import type { MultiPatchItemsData, MultiPatchOrdersData } from './multiupdate.types'
 import { store } from '@/store'
@@ -15,7 +15,7 @@ export const multiupdate = api.injectEndpoints({
                 method: 'POST',
                 body: data
             }),
-            async onQueryStarted({ ...data }, { dispatch, queryFulfilled }) {
+            async onQueryStarted(data, { dispatch, queryFulfilled }) {
                 const queryParams = store.getState().orders.currentQueryParams
 
                 const patchResult = dispatch(
@@ -29,9 +29,10 @@ export const multiupdate = api.injectEndpoints({
                                 return originItemsIds.includes(item.id)
                             })
 
-                            const flowToPatch: Flow = {
+                            const flowToPatch: FlowData = {
                                 id: data.flow!,
                                 name: data.flowName!,
+                                category: '',
                                 stages: []
                             }
 
@@ -71,7 +72,7 @@ export const multiupdate = api.injectEndpoints({
                 method: 'POST',
                 body: data
             }),
-            async onQueryStarted({ ...data }, { dispatch, queryFulfilled }) {
+            async onQueryStarted(data, { dispatch, queryFulfilled }) {
                 const queryParams = store.getState().orders.currentQueryParams
 
                 const patchResult = dispatch(

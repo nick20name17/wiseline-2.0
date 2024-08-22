@@ -1,8 +1,8 @@
 import { api } from '..'
 
 import type {
+    FlowData,
     FlowsAddData,
-    FlowsData,
     FlowsPatchData,
     FlowsQueryParams,
     FlowsResponse
@@ -19,7 +19,7 @@ export const flows = api.injectEndpoints({
 
             providesTags: ['Flows']
         }),
-        getAllFlows: build.query<FlowsData[], Partial<FlowsQueryParams>>({
+        getAllFlows: build.query<FlowData[], Partial<FlowsQueryParams>>({
             query: (params) => {
                 const queryString = getQueryParamString(params)
                 return `flows/all/?${queryString}`

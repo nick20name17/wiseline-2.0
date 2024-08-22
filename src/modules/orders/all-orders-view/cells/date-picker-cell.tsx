@@ -93,7 +93,7 @@ export const DatePickerCell: React.FC<DatePickerCellProps> = ({ order }) => {
         }
     }
 
-    const handleAddSalesOrder = async (data: SalesOrdersAddData) => {
+    const handleAddSalesOrder = async (data: Partial<SalesOrdersAddData>) => {
         try {
             await addSalesOrder(data)
                 .unwrap()

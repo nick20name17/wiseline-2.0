@@ -32,17 +32,17 @@ import {
     CardHeader,
     CardTitle
 } from '@/components/ui/card'
-import type { FlowsData } from '@/store/api/flows/flows.types'
+import type { FlowData } from '@/store/api/flows/flows.types'
 import { useGetStagesQuery, usePatchStageMutation } from '@/store/api/stages/stages'
-import type { StagesData, StagesPatchData } from '@/store/api/stages/stages.types'
+import type { StageData, StagePatchData } from '@/store/api/stages/stages.types'
 import { isErrorWithMessage } from '@/utils'
 
 interface FlowAccordionItemProps {
-    flow: FlowsData
+    flow: FlowData
 }
 
 interface SortableCardProps {
-    stage: StagesData
+    stage: StageData
 }
 
 export const FlowAccordionItem: React.FC<FlowAccordionItemProps> = ({ flow }) => {
@@ -68,7 +68,7 @@ export const FlowAccordionItem: React.FC<FlowAccordionItemProps> = ({ flow }) =>
         })
     )
 
-    const handlePatchStage = async (data: StagesPatchData) => {
+    const handlePatchStage = async (data: StagePatchData) => {
         try {
             await patchStage(data).unwrap()
         } catch (error) {

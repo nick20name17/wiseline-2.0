@@ -60,7 +60,7 @@ export const AllOrdersView = () => {
             <TableControls />
             <AllOrdersViewTable
                 columns={columns}
-                data={dataToRender || []}
+                data={dataToRender}
                 isDataLoading={isLoading}
                 isDataFetching={isFetching}
                 pageCount={pageCount}

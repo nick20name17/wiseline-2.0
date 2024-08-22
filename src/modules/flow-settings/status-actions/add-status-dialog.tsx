@@ -27,12 +27,12 @@ import { stagesColorPresets } from '@/config/stages'
 import { stageSchema } from '@/config/validation-schemas'
 import { useCustomForm } from '@/hooks'
 import { useAddStageMutation } from '@/store/api/stages/stages'
-import type { StagesAddData, StagesData } from '@/store/api/stages/stages.types'
+import type { StageAddData, StageData } from '@/store/api/stages/stages.types'
 import { isErrorWithMessage } from '@/utils'
 
 interface AddStatusDialogProps {
     flowId: number
-    statuses: StagesData[]
+    statuses: StageData[]
 }
 
 type FormData = zodInfer<typeof stageSchema>
@@ -52,7 +52,7 @@ export const AddStatusDialog: React.FC<AddStatusDialogProps> = ({ flowId }) => {
         setOpen(false)
     }
 
-    const handleAddStage = async (data: StagesAddData) => {
+    const handleAddStage = async (data: StageAddData) => {
         try {
             await addStage(data).unwrap()
             reset()

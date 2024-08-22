@@ -1,8 +1,8 @@
 import { api } from '..'
 
 import type {
-    StagesAddData,
-    StagesPatchData,
+    StageAddData,
+    StagePatchData,
     StagesQueryParams,
     StagesResponse
 } from './stages.types'
@@ -17,7 +17,7 @@ export const stage = api.injectEndpoints({
             },
             providesTags: ['Stage']
         }),
-        addStage: build.mutation<void, StagesAddData>({
+        addStage: build.mutation<void, StageAddData>({
             query: (data) => ({
                 url: `stages/`,
                 method: 'POST',
@@ -25,7 +25,7 @@ export const stage = api.injectEndpoints({
             }),
             invalidatesTags: ['Stage']
         }),
-        patchStage: build.mutation<void, StagesPatchData>({
+        patchStage: build.mutation<void, StagePatchData>({
             query: ({ data, id }) => ({
                 url: `stages/${id}/`,
                 method: 'PATCH',

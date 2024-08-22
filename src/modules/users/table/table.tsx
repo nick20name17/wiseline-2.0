@@ -16,7 +16,7 @@ import {
     TableHeader,
     TableRow
 } from '@/components/ui/table'
-import type { UserData } from '@/store/api/users/users.types'
+import type { User } from '@/store/api/users/users.types'
 
 interface UsersTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -28,7 +28,7 @@ export function UsersTable<_, TValue>({
     columns,
     data,
     isLoading
-}: UsersTableProps<UserData, TValue>) {
+}: UsersTableProps<User, TValue>) {
     const table = useReactTable({
         data,
         columns,

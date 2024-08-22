@@ -1,8 +1,8 @@
 import { api } from '..'
 
 import type {
+    User,
     UserAllQueryParams,
-    UserData,
     UsersAddData,
     UsersPatchData,
     UsersResponse
@@ -19,14 +19,14 @@ export const users = api.injectEndpoints({
             },
             providesTags: ['Users']
         }),
-        getAllUsers: build.query<UserData[], Partial<UserAllQueryParams>>({
+        getAllUsers: build.query<User[], Partial<UserAllQueryParams>>({
             query: (params) => {
                 const queryString = getQueryParamString(params)
                 return `users/all/?${queryString}`
             },
             providesTags: ['Users']
         }),
-        getUser: build.query<UserData, number>({
+        getUser: build.query<User, number>({
             query: (id) => `users/${id}/`,
             providesTags: ['Users']
         }),
@@ -40,7 +40,7 @@ export const users = api.injectEndpoints({
             async onQueryStarted(data, { dispatch, queryFulfilled }) {
                 const patchResult = dispatch(
                     users.util.updateQueryData('getAllUsers', {}, (draft) => {
-                        const newUser: UserData = {
+                        const newUser: User = {
                             ...data,
                             id: Math.random() * 10,
                             category: [],

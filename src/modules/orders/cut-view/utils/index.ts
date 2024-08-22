@@ -3,7 +3,7 @@ import type { Column, Row } from '@tanstack/react-table'
 import type { MergedCuttingItem } from '../table/table'
 
 import { cn } from '@/lib/utils'
-import type { CuttingItem } from '@/store/api/ebms/ebms.types'
+import type { CuttingItem } from '@/store/api/ebms/cutting/cutting.types'
 
 export const groupByGauge = (
     data: Row<MergedCuttingItem>[]

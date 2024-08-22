@@ -2,7 +2,7 @@ import type { PatchData, Response } from '@/types/api'
 
 export interface CapacitiesData {
     id: number
-    category: number
+    category: string
     per_day: number
 }
 

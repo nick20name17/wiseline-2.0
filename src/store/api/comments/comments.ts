@@ -1,13 +1,9 @@
 import { api } from '..'
 
 import { embs } from '../ebms/ebms'
-import type {
-    EBMSItemsQueryParams,
-    Item,
-    ItemComment,
-    OrdersQueryParams
-} from '../ebms/ebms.types'
-import type { UserData } from '../users/users.types'
+import type { EBMSItemsQueryParams, OrdersQueryParams } from '../ebms/ebms.types'
+import type { ItemData } from '../items/items.types'
+import type { User } from '../users/users.types'
 
 import type {
     CommentsAddData,
@@ -37,9 +33,9 @@ export const comments = api.injectEndpoints({
                 method: 'POST',
                 body: data
             }),
-            async onQueryStarted({ ...data }, { dispatch, queryFulfilled, getState }) {
+            async onQueryStarted(data, { dispatch, queryFulfilled, getState }) {
                 const { role, category, ...userDataToPatch } = (getState() as RootState)
-                    ?.auth?.user as UserData
+                    ?.auth?.user as User
 
                 const queryParams = store.getState().orders.currentQueryParams
 
@@ -56,7 +52,7 @@ export const comments = api.injectEndpoints({
                                 (item) => item.id === data.item
                             )
 
-                            const dataToPatch: ItemComment = {
+                            const dataToPatch: CommentsData = {
                                 item: data.item,
                                 text: data.text,
                                 user: userDataToPatch,
@@ -67,7 +63,7 @@ export const comments = api.injectEndpoints({
                             if (item?.item) {
                                 item?.item?.comments.push(dataToPatch)
                             } else {
-                                const itemToPatch: Item = {
+                                const itemToPatch: ItemData = {
                                     id: Math.floor(Math.random() * 1000),
                                     origin_item: Math.floor(
                                         Math.random() * 1000
@@ -75,6 +71,7 @@ export const comments = api.injectEndpoints({
                                     flow: {
                                         id: Math.floor(Math.random() * 1000),
                                         name: '',
+                                        category: '',
                                         stages: []
                                     },
                                     time: '',
@@ -115,13 +112,13 @@ export const comments = api.injectEndpoints({
                 method: 'POST',
                 body: data
             }),
-            async onQueryStarted({ ...data }, { dispatch, queryFulfilled, getState }) {
+            async onQueryStarted(data, { dispatch, queryFulfilled, getState }) {
                 const { role, category, ...userDataToPatch } = (getState() as RootState)
-                    ?.auth?.user as UserData
+                    ?.auth?.user as User
 
                 const queryParams = store.getState().orders.currentQueryParams
 
-                const dataToPatch: ItemComment = {
+                const dataToPatch: CommentsData = {
                     item: data.item,
                     text: data.text,
                     user: userDataToPatch,
@@ -141,7 +138,7 @@ export const comments = api.injectEndpoints({
                             if (item?.item) {
                                 item?.item?.comments.push(dataToPatch)
                             } else {
-                                const itemToPatch: Item = {
+                                const itemToPatch: ItemData = {
                                     id: Math.floor(Math.random() * 1000),
                                     origin_item: Math.floor(
                                         Math.random() * 1000
@@ -149,7 +146,8 @@ export const comments = api.injectEndpoints({
                                     flow: {
                                         id: Math.floor(Math.random() * 1000),
                                         name: '',
-                                        stages: []
+                                        stages: [],
+                                        category: ''
                                     },
                                     time: '',
                                     comments: [dataToPatch],

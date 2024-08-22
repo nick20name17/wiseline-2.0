@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import type { CuttingItem } from '@/store/api/ebms/ebms.types'
+import type { CuttingItem } from '@/store/api/ebms/cutting/cutting.types'
 import type { AccessToken } from '@/types/auth'
 
 interface CuttingItemsWebSocket {

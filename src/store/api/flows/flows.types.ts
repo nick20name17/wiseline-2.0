@@ -1,26 +1,22 @@
-import type { Stage } from '../items/items.types'
+import type { StageWithItemIds } from '../stages/stages.types'
 
 import type { BaseQueryParams, PatchData, Response } from '@/types/api'
 
-export interface FlowsData {
+export interface FlowData {
     id: number
     name: string
-    description: string
-    position: number
-    category: number
-    created_at: string
-    stages: Stage[]
+    description?: string
+    position?: number
+    category: string
+    created_at?: string
+    stages: StageWithItemIds[]
 }
 
-export interface FlowsAddData {
-    name: string
-    description?: string
-    category: number
-}
+export type FlowsAddData = Partial<Omit<FlowData, 'id' | 'stages'>>
 
 export type FlowsPatchData = PatchData<FlowsAddData>
 
-export type FlowsResponse = Response<FlowsData>
+export type FlowsResponse = Response<FlowData>
 
 export interface FlowsQueryParams extends BaseQueryParams {
     category__prod_type: string

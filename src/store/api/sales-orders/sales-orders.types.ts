@@ -14,25 +14,10 @@ export interface SalesOrdersData {
     cutting_complete: boolean
 }
 
-export type SalesOrdersAddData = Partial<
-    Omit<
-        {
-            order: string
-            priority: number
-            packages: number
-            location: number
-            production_date: string | null
-        },
-        'id'
-    >
->
-
-export type SalesOrdersPatchData = PatchData<{
-    order: string
+export type SalesOrdersAddData = Omit<SalesOrdersData, 'id' | 'priority'> & {
     priority: number | null
-    packages: number | null
-    location: number | null
-    production_date: string | null
-}>
+}
+
+export type SalesOrdersPatchData = PatchData<SalesOrdersAddData>
 
 export type SalesOrdersResponse = Response<SalesOrdersData>

@@ -1,44 +1,20 @@
 import { api } from '..'
 
 import type {
-    AllCategoriesData,
-    CalendarQueryParams,
-    CalendarResponse,
-    CategoriesQueryParams,
-    CategoriesResponse,
-    ColorsData,
-    CuttingItem,
-    CuttingItemQueryParams,
-    CuttingItemResponse,
-    EBMSItemPatchData,
     EBMSItemsQueryParams,
     EBMSItemsResponse,
-    OrderItemsQueryParams,
+    EBMSOrdersPatchData,
+    MFGPatchData,
     OrderQueryParams,
     OrdersData,
-    OrdersItemsResponse,
     OrdersQueryParams,
     OrdersResponse
 } from './ebms.types'
+import { store } from '@/store'
 import { getQueryParamString } from '@/utils/get-query-param-string'
 
 export const embs = api.injectEndpoints({
     endpoints: (build) => ({
-        getCalendar: build.query<CalendarResponse, CalendarQueryParams>({
-            query: ({ year, month }) => `ebms/calendar/${year}/${month}/`,
-            providesTags: ['Calendar']
-        }),
-        getCategories: build.query<CategoriesResponse, Partial<CategoriesQueryParams>>({
-            query: (params) => {
-                const queryString = getQueryParamString(params)
-                return `ebms/categories/?${queryString}`
-            },
-            providesTags: ['Categories']
-        }),
-        getAllCategories: build.query<AllCategoriesData[], void>({
-            query: () => 'ebms/categories/all/',
-            providesTags: ['Categories']
-        }),
         getOrders: build.query<OrdersResponse, Partial<OrdersQueryParams>>({
             query: (params) => {
                 const queryString = getQueryParamString(params)
@@ -57,56 +33,100 @@ export const embs = api.injectEndpoints({
             },
             providesTags: ['EBMSItems']
         }),
-        getOrdersItems: build.query<OrdersItemsResponse, Partial<OrderItemsQueryParams>>({
-            query: (params) => {
-                const queryString = getQueryParamString(params)
-                return `ebms/orders-items?${queryString}`
-            }
-        }),
-        getCuttingItems: build.query<CuttingItem[], Partial<CuttingItemQueryParams>>({
-            query: (params) => {
-                const queryString = getQueryParamString(params)
-                return `ebms/items/cutting?${queryString}`
-            },
-            providesTags: ['CuttingItems']
-        }),
-        getCuttingViewItems: build.query<
-            CuttingItemResponse,
-            Partial<CuttingItemQueryParams>
-        >({
-            query: (params) => {
-                const queryString = getQueryParamString(params)
-                return `ebms/items/cutting-view/?${queryString}`
-            },
-            providesTags: ['CuttingItems']
-        }),
-        getColors: build.query<ColorsData, void>({
-            query: () => {
-                return `ebms/items/values/?get_values=colors`
-            }
-        }),
-        patchEBMSItem: build.mutation<void, EBMSItemPatchData>({
+        patchEBMSOrders: build.mutation<void, EBMSOrdersPatchData>({
             query: ({ data, id }) => ({
                 url: `ebms/orders/${id}/`,
                 method: 'PATCH',
                 body: data
             }),
             invalidatesTags: ['Comments']
+        }),
+        patchItemMFG: build.mutation<void, MFGPatchData>({
+            query: ({ id, data }) => ({
+                url: `ebms/items/${id}/`,
+                method: 'PATCH',
+                body: data
+            }),
+            async onQueryStarted({ data, id }, { dispatch, queryFulfilled }) {
+                const queryKeyParams = store.getState().orders.currentQueryParams
+
+                const patchResult = dispatch(
+                    embs.util.updateQueryData(
+                        'getItems',
+                        queryKeyParams as EBMSItemsQueryParams,
+                        (draft) => {
+                            const item = draft.results.find((item) => item.id === id)
+
+                            if (item) {
+                                Object.assign(item, {
+                                    ...item,
+                                    c_mfg: data.c_mfg
+                                })
+                            }
+                        }
+                    )
+                )
+
+                try {
+                    await queryFulfilled
+                } catch {
+                    patchResult.undo()
+                }
+            },
+            invalidatesTags: ['EBMSItems']
+        }),
+        patchMFG: build.mutation<void, MFGPatchData>({
+            query: ({ id, data }) => ({
+                url: `ebms/items/${id}/`,
+                method: 'PATCH',
+                body: data
+            }),
+            async onQueryStarted(
+                { data, origin_order, id },
+                { dispatch, queryFulfilled }
+            ) {
+                const queryKeyParams = store.getState().orders.currentQueryParams
+
+                const patchResult = dispatch(
+                    embs.util.updateQueryData(
+                        'getOrders',
+                        queryKeyParams as OrdersQueryParams,
+                        (draft) => {
+                            const order = draft.results?.find(
+                                (order) => order?.id === origin_order
+                            )
+
+                            const item = order?.origin_items.find(
+                                (item) => item.id === id
+                            )
+
+                            if (item) {
+                                Object.assign(item, {
+                                    ...item,
+                                    c_mfg: data.c_mfg
+                                })
+                            }
+                        }
+                    )
+                )
+
+                try {
+                    await queryFulfilled
+                } catch {
+                    patchResult.undo()
+                }
+            },
+            invalidatesTags: ['Orders']
         })
     })
 })
 
 export const {
-    useGetCalendarQuery,
     useGetOrderQuery,
     useLazyGetOrderQuery,
-    useGetCategoriesQuery,
-    useGetAllCategoriesQuery,
     useGetOrdersQuery,
-    useGetColorsQuery,
     useGetItemsQuery,
-    useGetOrdersItemsQuery,
-    useGetCuttingItemsQuery,
-    usePatchEBMSItemMutation,
-    useGetCuttingViewItemsQuery
+    usePatchEBMSOrdersMutation,
+    usePatchItemMFGMutation,
+    usePatchMFGMutation
 } = embs

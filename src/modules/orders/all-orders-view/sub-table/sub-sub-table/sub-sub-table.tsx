@@ -15,10 +15,10 @@ import {
     TableHeader,
     TableRow
 } from '@/components/ui/table'
-import type { OriginItem } from '@/store/api/ebms/ebms.types'
+import type { EBMSItemData } from '@/store/api/ebms/ebms.types'
 
 interface SubSubTableProps {
-    data: OriginItem[]
+    data: EBMSItemData[]
 }
 
 export const SubSubTable: React.FC<SubSubTableProps> = ({ data }) => {

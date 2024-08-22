@@ -11,11 +11,11 @@ import {
     DialogTrigger
 } from '@/components/ui/dialog'
 import { useRemoveUserMutation } from '@/store/api/users/users'
-import type { UserData } from '@/store/api/users/users.types'
+import type { User } from '@/store/api/users/users.types'
 import { isErrorWithMessage } from '@/utils'
 
 interface RemoveUserDialogProps {
-    user: UserData
+    user: User
 }
 
 export const RemoveUserDialog: React.FC<RemoveUserDialogProps> = ({ user }) => {

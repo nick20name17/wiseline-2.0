@@ -9,7 +9,7 @@ import {
     AccordionTrigger
 } from '@/components/ui/accordion'
 import { Badge } from '@/components/ui/badge'
-import { useGetCategoriesQuery } from '@/store/api/ebms/ebms'
+import { useGetCategoriesQuery } from '@/store/api/ebms/categories/categories'
 import { useGetAllFlowsQuery } from '@/store/api/flows/flows'
 
 export const FlowSettings = () => {

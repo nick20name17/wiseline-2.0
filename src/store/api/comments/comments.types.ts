@@ -1,11 +1,12 @@
-import type { UserComment } from '../users/users.types'
+import type { User } from '../users/users.types'
 
 import type { PatchData, Response } from '@/types/api'
 
+interface CommentUser extends Omit<User, 'role' | 'category'> {}
 export interface CommentsData {
     id: number
-    user: UserComment
-    item: number
+    user: CommentUser
+    item: string
     text: string
     created_at: string
 }

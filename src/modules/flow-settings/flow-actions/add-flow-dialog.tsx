@@ -28,7 +28,7 @@ import type { FlowsAddData } from '@/store/api/flows/flows.types'
 import { isErrorWithMessage } from '@/utils'
 
 interface AddFlowDialogProps {
-    categoryId: number
+    categoryId: string
 }
 
 type FormData = zodInfer<typeof flowSchema>

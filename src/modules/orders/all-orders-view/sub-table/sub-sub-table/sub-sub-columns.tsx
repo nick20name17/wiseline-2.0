@@ -2,9 +2,9 @@ import type { ColumnDef } from '@tanstack/react-table'
 
 import { DataTableColumnHeader } from '@/components/shared'
 import { Button } from '@/components/ui/button'
-import type { OriginItem } from '@/store/api/ebms/ebms.types'
+import type { EBMSItemData } from '@/store/api/ebms/ebms.types'
 
-export const subSubColumns: ColumnDef<OriginItem>[] = [
+export const subSubColumns: ColumnDef<EBMSItemData>[] = [
     {
         accessorKey: 'category',
         header: ({ column }) => (

@@ -14,17 +14,16 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { useCurrentUserRole } from '@/hooks'
 import { useLazyGetOrderQuery } from '@/store/api/ebms/ebms'
-import type { Item } from '@/store/api/ebms/ebms.types'
 import {
     usePatchItemMutation,
     usePatchOrderItemMutation,
     useResetItemStagesMutation
 } from '@/store/api/items/items'
-import type { ItemsPatchData } from '@/store/api/items/items.types'
+import type { ItemData, ItemPatchData } from '@/store/api/items/items.types'
 import { hexToRGBA, isErrorWithMessage } from '@/utils'
 
 interface StatusCellProps {
-    item: Item | null
+    item: ItemData | null
     invoice?: string
     originOrderId: string
 }
@@ -128,7 +127,7 @@ export const StatusCell: React.FC<StatusCellProps> = ({
 
     const patchFunction = category ? patchItem : patchOrderItem
 
-    const handlePatchItem = async (data: ItemsPatchData) => {
+    const handlePatchItem = async (data: ItemPatchData) => {
         try {
             await patchFunction(data)
                 .unwrap()

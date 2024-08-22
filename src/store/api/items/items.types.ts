@@ -1,17 +1,22 @@
 import type { CommentsData } from '../comments/comments.types'
+import type { FlowData } from '../flows/flows.types'
+import type { PrioritiesData } from '../priorities/priorities.types'
+import type { StageWithItemIds } from '../stages/stages.types'
 
 import type { PatchData, Response } from '@/types/api'
 
-export interface ItemsData {
+export interface ItemData {
     id: number
-    order?: number
-    origin_item: number
-    flow?: Flow
+    order: number
+    origin_item: string
+    flow: FlowData
     production_date: string
     time: string
-    priority: number
+    packages: number
+    location: number
+    priority: PrioritiesData
     comments: CommentsData[]
-    stage: Stage[]
+    stage: StageWithItemIds | null
 }
 
 export interface ItemsPatchCuttingCompleteData {
@@ -21,24 +26,7 @@ export interface ItemsPatchCuttingCompleteData {
     }
 }
 
-export interface Flow {
-    id: number
-    name: string
-    stages: Stage[]
-}
-
-export interface Stage {
-    id: number
-    name: string
-    position: number
-    description?: string
-    color: string
-    flow: number
-    default?: boolean
-    item_ids: number[]
-}
-
-export interface ItemsAddData {
+export interface ItemAddData {
     order: string
     origin_item: string
     flow?: number
@@ -51,8 +39,8 @@ export interface ItemsAddData {
     flowName?: string
 }
 
-export type ItemsPatchData = PatchData<ItemsAddData> & {
+export type ItemPatchData = PatchData<ItemAddData> & {
     stageName?: string
     stageColor?: string
 }
-export type ItemsResponse = Response<ItemsData>
+export type ItemsResponse = Response<ItemData>

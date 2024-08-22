@@ -8,10 +8,10 @@ import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { trimOnlyColumns } from '@/config/table'
 import { cn } from '@/lib/utils'
-import type { OriginItems } from '@/store/api/ebms/ebms.types'
+import type { EBMSItemsData } from '@/store/api/ebms/ebms.types'
 
 interface CollapsibleRowProps {
-    row: Row<OriginItems>
+    row: Row<EBMSItemsData>
 }
 
 export const CollapsibleRow: React.FC<CollapsibleRowProps> = ({ row }) => {

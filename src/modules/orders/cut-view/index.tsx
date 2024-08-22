@@ -8,7 +8,7 @@ import { columns } from './table/columns'
 import { CutViewTable } from './table/table'
 import { useCurrentValue } from '@/hooks/use-current-value'
 import { usePagination } from '@/hooks/use-pagination'
-import { useGetCuttingViewItemsQuery } from '@/store/api/ebms/ebms'
+import { useGetCuttingViewItemsQuery } from '@/store/api/ebms/cutting/cutting'
 
 export interface CuttingItemsToDisplay {
     total: number

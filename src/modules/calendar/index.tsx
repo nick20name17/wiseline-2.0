@@ -15,8 +15,8 @@ import { StringParam, useQueryParam } from 'use-query-params'
 import { CalendarBody } from './calendar-body'
 import { Categories } from './categories'
 import { Button } from '@/components/ui/button'
-import { useGetCalendarQuery } from '@/store/api/ebms/ebms'
-import type { CapacityKey } from '@/store/api/ebms/ebms.types'
+import { useGetCalendarQuery } from '@/store/api/ebms/calendar/calendar'
+import type { CapacityCategory } from '@/store/api/ebms/ebms.types'
 
 export const Calendar = () => {
     const today = startOfToday()
@@ -107,7 +107,7 @@ export const Calendar = () => {
             <div className='!w-full overflow-x-auto'>
                 <Weeks />
                 <CalendarBody
-                    category={category as CapacityKey}
+                    category={category as CapacityCategory}
                     calendarData={calendarData!}
                     isFetching={isFetching}
                     currentDays={getCurrentMonthDays()}

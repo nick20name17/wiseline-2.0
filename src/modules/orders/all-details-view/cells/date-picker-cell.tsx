@@ -19,7 +19,7 @@ import { useCurrentUserRole } from '@/hooks'
 import { cn } from '@/lib/utils'
 import type { EBMSItemsData } from '@/store/api/ebms/ebms.types'
 import { useAddItemMutation, usePatchItemMutation } from '@/store/api/items/items'
-import type { ItemsAddData, ItemsPatchData } from '@/store/api/items/items.types'
+import type { ItemAddData, ItemPatchData } from '@/store/api/items/items.types'
 import { useGetCompanyProfilesQuery } from '@/store/api/profiles/profiles'
 import { isErrorWithMessage } from '@/utils'
 
@@ -78,7 +78,7 @@ export const DatePickerCell: React.FC<DatePickerCellProps> = ({ originItem }) =>
             description: message
         })
 
-    const handleAddItem = async (data: ItemsAddData) => {
+    const handleAddItem = async (data: ItemAddData) => {
         try {
             await addItem(data)
                 .unwrap()
@@ -94,7 +94,7 @@ export const DatePickerCell: React.FC<DatePickerCellProps> = ({ originItem }) =>
         }
     }
 
-    const handlePatchItem = async (data: ItemsPatchData) => {
+    const handlePatchItem = async (data: ItemPatchData) => {
         try {
             await patchItem(data)
                 .unwrap()

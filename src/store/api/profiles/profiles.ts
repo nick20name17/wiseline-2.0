@@ -27,7 +27,7 @@ export const users = api.injectEndpoints({
                 method: 'POST',
                 body: data
             }),
-            async onQueryStarted({ ...data }, { dispatch, queryFulfilled }) {
+            async onQueryStarted(data, { dispatch, queryFulfilled }) {
                 const patchResult = dispatch(
                     users.util.updateQueryData('getUsersProfiles', undefined, (draft) => {
                         const currentPage = draft?.find(

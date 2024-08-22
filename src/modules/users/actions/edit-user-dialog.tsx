@@ -31,7 +31,7 @@ import {
 import { editUserSchema } from '@/config/validation-schemas'
 import { useCustomForm } from '@/hooks'
 import { usePatchUserMutation } from '@/store/api/users/users'
-import type { UserData, UserRoles } from '@/store/api/users/users.types'
+import type { Roles, User } from '@/store/api/users/users.types'
 import { useAppSelector } from '@/store/hooks/hooks'
 import { selectUser } from '@/store/slices/auth'
 import { isErrorWithMessage } from '@/utils'
@@ -39,7 +39,7 @@ import { isErrorWithMessage } from '@/utils'
 type FormData = zodInfer<typeof editUserSchema>
 
 interface EditUserDialogProps {
-    user: UserData
+    user: User
 }
 
 export const EditUserDialog: React.FC<EditUserDialogProps> = ({ user }) => {
@@ -73,7 +73,7 @@ export const EditUserDialog: React.FC<EditUserDialogProps> = ({ user }) => {
                 id: user.id,
                 data: {
                     ...data,
-                    role: data.role as UserRoles
+                    role: data.role as Roles
                 }
             })
                 .unwrap()

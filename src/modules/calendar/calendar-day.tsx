@@ -3,7 +3,8 @@ import { format, isSameMonth, isToday, isWeekend } from 'date-fns'
 import { Capacity } from './calendar-capacity'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
-import type { CalendarResponse, CapacityKey } from '@/store/api/ebms/ebms.types'
+import type { CalendarResponse } from '@/store/api/ebms/calendar/calendar.types'
+import type { CapacityCategory } from '@/store/api/ebms/ebms.types'
 import { useGetCompanyProfilesQuery } from '@/store/api/profiles/profiles'
 
 export const CalendarDay = ({
@@ -17,7 +18,7 @@ export const CalendarDay = ({
     firstDayCurrentMonth: Date
     calendarData: CalendarResponse
     isFetching: boolean
-    category: CapacityKey
+    category: CapacityCategory
 }) => {
     const isDisabled = isWeekend(date)
 

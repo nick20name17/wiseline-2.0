@@ -1,13 +1,17 @@
 import type { BaseQueryParams, PatchData, Response } from '@/types/api'
 
-export interface StagesData {
+export interface StageData {
     id: number
     name: string
     description?: string
-    position?: number
+    position: number
     default?: boolean
     color: string
     flow?: number
+}
+
+export interface StageWithItemIds extends StageData {
+    item_ids: number[]
 }
 
 export interface StagesQueryParams extends BaseQueryParams {
@@ -17,8 +21,10 @@ export interface StagesQueryParams extends BaseQueryParams {
     ordering: string
 }
 
-export type StagesAddData = Omit<StagesData, 'id'>
+export type StageAddData = Omit<StageData, 'id' | 'position'> & {
+    position?: number
+}
 
-export type StagesPatchData = PatchData<StagesAddData>
+export type StagePatchData = PatchData<StageAddData>
 
-export type StagesResponse = Response<StagesData>
+export type StagesResponse = Response<StageData>

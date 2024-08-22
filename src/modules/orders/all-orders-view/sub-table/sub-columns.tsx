@@ -4,15 +4,16 @@ import { StringParam, useQueryParam } from 'use-query-params'
 import { DatePickerCell } from '../../all-details-view/cells/date-picker-cell'
 import { CommentsCell } from '../../cells/comments-cell'
 import { FlowCell } from '../../cells/flow-cell'
+import { OnHandCell } from '../../cells/on-hand-cell'
 import { StatusCell } from '../../cells/status-cell'
 import { CollapsibleCell } from '../cells/collapsible-cell'
 
 import { dateFn, flowFn, notesFn, statusFn } from './sorting'
 import { DataTableColumnHeader } from '@/components/shared'
 import { Button } from '@/components/ui/button'
-import type { OriginItems } from '@/store/api/ebms/ebms.types'
+import type { EBMSItemsData } from '@/store/api/ebms/ebms.types'
 
-export const subColumns: ColumnDef<OriginItems>[] = [
+export const subColumns: ColumnDef<EBMSItemsData>[] = [
     {
         id: 'arrow',
         header: () => {
@@ -183,10 +184,40 @@ export const subColumns: ColumnDef<OriginItems>[] = [
             <DataTableColumnHeader
                 column={column}
                 title='ID'
-                className='!w-28 justify-start text-left'
+                className='!w-32 justify-start text-left'
             />
         ),
         cell: ({ row }) => <div className='w-28 pl-4'>{row.original?.id_inven}</div>
+    },
+    {
+        accessorKey: 'c_mfg',
+        header: ({ column }) => (
+            <DataTableColumnHeader
+                column={column}
+                title='MFG'
+                className='!w-24'
+            />
+        ),
+        cell: ({ row }) => (
+            <OnHandCell
+                key='orders'
+                disabled={row.original?.c_type !== 2}
+                originItem={row?.original}
+            />
+        )
+    },
+    {
+        accessorKey: 'on_hand',
+        header: ({ column }) => (
+            <DataTableColumnHeader
+                column={column}
+                title='On hand'
+                className='!w-24'
+            />
+        ),
+        cell: ({ row }) => (
+            <div className='w-24 text-center'>{row.original?.on_hand ?? '-'}</div>
+        )
     },
     {
         accessorKey: 'bends',

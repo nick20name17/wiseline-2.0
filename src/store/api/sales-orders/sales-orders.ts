@@ -21,7 +21,7 @@ export const salesOrders = api.injectEndpoints({
             providesTags: ['SalesOrders']
         }),
 
-        addSalesOrder: build.mutation<void, SalesOrdersAddData>({
+        addSalesOrder: build.mutation<void, Partial<SalesOrdersAddData>>({
             query: (data) => ({
                 url: `sales-orders/`,
                 method: 'POST',

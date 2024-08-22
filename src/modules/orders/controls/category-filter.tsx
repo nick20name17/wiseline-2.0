@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
-import { useGetAllCategoriesQuery } from '@/store/api/ebms/ebms'
+import { useGetAllCategoriesQuery } from '@/store/api/ebms/categories/categories'
 
 export const CategoryFilter = () => {
     const [category, setCategory] = useQueryParam('category', StringParam)

@@ -27,7 +27,7 @@ import { stagesColorPresets } from '@/config/stages'
 import { stageSchema } from '@/config/validation-schemas'
 import { useCustomForm } from '@/hooks'
 import { usePatchStageMutation } from '@/store/api/stages/stages'
-import type { StagesPatchData } from '@/store/api/stages/stages.types'
+import type { StagePatchData } from '@/store/api/stages/stages.types'
 import { isErrorWithMessage } from '@/utils'
 
 interface EditStatusDialogProps {
@@ -58,7 +58,7 @@ export const EditStatusDialog: React.FC<EditStatusDialogProps> = ({
         setOpen(false)
     }
 
-    const handleEditStage = async (data: StagesPatchData) => {
+    const handleEditStage = async (data: StagePatchData) => {
         try {
             await editStage(data).unwrap()
             reset()

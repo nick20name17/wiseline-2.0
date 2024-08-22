@@ -1,6 +1,6 @@
 import type { FetchBaseQueryMeta } from '@reduxjs/toolkit/query'
 
-import type { UserData } from '@/store/api/users/users.types'
+import type { User } from '@/store/api/users/users.types'
 
 export interface AccessToken {
     access: string
@@ -18,7 +18,7 @@ export interface LoginData {
 export interface LoginResponse {
     access: string | null
     refresh: string | null
-    user: UserData | null
+    user: User | null
 }
 
 export interface RefreshResponse {

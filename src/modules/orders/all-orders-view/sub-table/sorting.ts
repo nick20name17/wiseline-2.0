@@ -1,10 +1,10 @@
 import type { Row } from '@tanstack/react-table'
 
-import type { OriginItem, OriginItems } from '@/store/api/ebms/ebms.types'
+import type { EBMSItemData, EBMSItemsData } from '@/store/api/ebms/ebms.types'
 
 export const statusFn = (
-    rowA: Row<OriginItem | OriginItems>,
-    rowB: Row<OriginItem | OriginItems>
+    rowA: Row<EBMSItemData | EBMSItemsData>,
+    rowB: Row<EBMSItemData | EBMSItemsData>
 ) => {
     const statusA = rowA.original.item?.stage?.name?.toLowerCase() ?? ''
     const statusB = rowB.original.item?.stage?.name?.toLowerCase() ?? ''
@@ -24,8 +24,8 @@ export const statusFn = (
 }
 
 export const dateFn = (
-    rowA: Row<OriginItem | OriginItems>,
-    rowB: Row<OriginItem | OriginItems>
+    rowA: Row<EBMSItemData | EBMSItemsData>,
+    rowB: Row<EBMSItemData | EBMSItemsData>
 ) => {
     const dateA = rowA.original?.item?.production_date || '0'
     const dateB = rowB.original?.item?.production_date || '0'
@@ -34,8 +34,8 @@ export const dateFn = (
 }
 
 export const widthLengthFn = (
-    rowA: Row<OriginItem | OriginItems>,
-    rowB: Row<OriginItem | OriginItems>
+    rowA: Row<EBMSItemData | EBMSItemsData>,
+    rowB: Row<EBMSItemData | EBMSItemsData>
 ) => {
     const widthA = +rowA.original?.width || 0
     const widthB = +rowB.original?.width || 0
@@ -46,8 +46,8 @@ export const widthLengthFn = (
 }
 
 export const notesFn = (
-    rowA: Row<OriginItem | OriginItems>,
-    rowB: Row<OriginItem | OriginItems>
+    rowA: Row<EBMSItemData | EBMSItemsData>,
+    rowB: Row<EBMSItemData | EBMSItemsData>
 ) => {
     const notesA = rowA.original?.item?.comments
     const notesB = rowB.original?.item?.comments
@@ -56,8 +56,8 @@ export const notesFn = (
 }
 
 export const flowFn = (
-    rowA: Row<OriginItem | OriginItems>,
-    rowB: Row<OriginItem | OriginItems>
+    rowA: Row<EBMSItemData | EBMSItemsData>,
+    rowB: Row<EBMSItemData | EBMSItemsData>
 ) => {
     const flowA = rowA.original?.item?.flow?.name
     const flowB = rowB.original?.item?.flow?.name
@@ -74,8 +74,8 @@ export const flowFn = (
 }
 
 export const locationFn = (
-    rowA: Row<OriginItem | OriginItems>,
-    rowB: Row<OriginItem | OriginItems>
+    rowA: Row<EBMSItemData | EBMSItemsData>,
+    rowB: Row<EBMSItemData | EBMSItemsData>
 ) => {
     const locationA = rowA.original?.item?.location || 0
     const locationB = rowB.original?.item?.location || 0
@@ -84,8 +84,8 @@ export const locationFn = (
 }
 
 export const packagesFn = (
-    rowA: Row<OriginItem | OriginItems>,
-    rowB: Row<OriginItem | OriginItems>
+    rowA: Row<EBMSItemData | EBMSItemsData>,
+    rowB: Row<EBMSItemData | EBMSItemsData>
 ) => {
     const packagesA = rowA.original?.item?.packages || 0
     const packagesB = rowB.original?.item?.packages || 0

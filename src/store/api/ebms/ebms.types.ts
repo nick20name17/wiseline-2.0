@@ -1,83 +1,27 @@
 import type { CommentsData } from '../comments/comments.types'
-import type { Flow, Stage } from '../items/items.types'
-import type { PrioritiesData } from '../priorities/priorities.types'
+import type { ItemData } from '../items/items.types'
 import type { SalesOrdersData } from '../sales-orders/sales-orders.types'
-import type { UserComment } from '../users/users.types'
 
 import type { BaseQueryParams, PatchData, Response } from '@/types/api'
 
-export interface CalendarQueryParams {
-    year: number
-    month: number
-}
+export type CapacityCategory = 'Rollforming' | 'Trim'
 
-export type CapacityKey = 'Rollforming' | 'Trim'
-export interface DailyDataCategory {
-    capacity: number
-    count_orders: number
-}
-
-interface DailyDataEntry {
-    'Standing seam': DailyDataCategory | null
-    Rollforming: DailyDataCategory | null
-    Trim: DailyDataCategory | null
-    Accessories: DailyDataCategory | null
-}
-
-export interface EBMSItemData {
+export interface ShipDate {
     ship_date: string
 }
-export type EBMSItemPatchData = PatchData<EBMSItemData>
-
-interface DailyData {
-    [date: string]: DailyDataEntry
-}
-
-interface CapacityData {
-    Rollforming: number
-    Trim: number
-}
-
-export type CalendarResponse = DailyData & {
-    capacity_data: CapacityData
-}
+export type EBMSOrdersPatchData = PatchData<ShipDate>
 
 export interface Capacity {
     capacity: number | null
     total_capacity: number | null
 }
-export interface CategoriesData extends Capacity {
-    id: number
-    guid: string
-    name: string
-    ar_aid: string
-    autoid: string
-    flow_count: number
-    capacity_id: null | number
+
+export interface MFGData {
+    c_mfg: number
 }
 
-export interface CategoriesResponse extends Response<CategoriesData> {}
-
-export interface CategoriesQueryParams extends BaseQueryParams {
-    production_date: string
-}
-
-export interface AllCategoriesData extends Capacity {
-    id: number
-    name: string
-}
-
-export interface ColorsData {
-    values: string[]
-}
-
-export interface CuttingItem {
-    color: string
-    size: number
-    flow_name: string
-    autoid: string
-    gauge: string
-    quantity: number
+export type MFGPatchData = PatchData<MFGData> & {
+    origin_order: string
 }
 
 export interface OrdersData {
@@ -85,7 +29,7 @@ export interface OrdersData {
     invoice: string
     customer: string
     sales_order: SalesOrdersData
-    origin_items: OriginItems[]
+    origin_items: EBMSItemsData[]
     start_date: string
     end_date: string
     ship_date: string
@@ -96,35 +40,9 @@ export interface OrdersData {
     completed: boolean
 }
 
-export interface OrdersResponse extends Response<OrdersData> {}
+export type OrdersResponse = Response<OrdersData>
 
-export interface OrdersItemsData {
-    id: number
-    invoice: string
-    origin_items: OriginItems[]
-}
-
-export interface ItemComment {
-    id: number
-    user: UserComment
-    item: string
-    text: string
-    created_at: string
-}
-export interface Item {
-    id: number
-    order: number
-    origin_item: string
-    flow: Flow
-    production_date: string
-    time: string
-    packages: number
-    location: number
-    priority: PrioritiesData
-    comments: ItemComment[]
-    stage: Stage | null
-}
-export interface OriginItem {
+export interface EBMSItemData {
     id: string
     category: string
     description: string
@@ -143,62 +61,19 @@ export interface OriginItem {
     profile: string
     color: string
     gauge: string
-    item: Item
+    item: ItemData
     production_date: string
     priority: number
+    c_type: number
+    c_mfg: number
+    on_hand: number
     comments: CommentsData[]
 }
-export interface OriginItems {
-    id: string
-    category: string
-    description: string
-    quantity: string
-    shipped: string
-    ship_date: string
-    width: string
-    weight: string
-    length: string
-    bends: string
-    customer: string
-    order: string
-    id_inven: string
-    origin_order: string
-    completed: boolean
-    profile: string
-    color: string
-    gauge: string
-    item: Item
-    production_date: string
-    priority: number
-    comments: CommentsData[]
-    cutting_items: OriginItem[]
+export interface EBMSItemsData extends EBMSItemData {
+    cutting_items: EBMSItemData[]
 }
 
-export interface OrdersItemsResponse extends Response<OrdersItemsData> {}
-
-export interface EBMSItemsData {
-    id: string
-    category: string
-    description: string
-    quantity: string
-    ship_date?: string
-    width: string
-    completed: boolean
-    profile: string
-    weight: string
-    length: string
-    color: string
-    gauge: string
-    item: Item | null
-    origin_order: string
-    bends: string
-    customer: string
-    order: string
-    id_inven: string
-    shipped: string
-}
-
-export interface EBMSItemsResponse extends Response<EBMSItemsData> {}
+export type EBMSItemsResponse = Response<EBMSItemsData>
 
 export interface OrdersQueryParams extends BaseQueryParams {
     invoice: number
@@ -240,9 +115,6 @@ export interface OrdersQueryParams extends BaseQueryParams {
     order_by: string
 }
 
-export interface CuttingItemQueryParams extends BaseQueryParams {
-    color: string | null
-}
 export interface OrderQueryParams extends BaseQueryParams {
     id: number
     category: string
@@ -275,16 +147,3 @@ export interface EBMSItemsQueryParams extends BaseQueryParams {
     flow_ids: string
     stage_id: string | null
 }
-
-export interface CuttingItem {
-    color: string
-    size: number
-    length: number
-    flow_name: string
-    cutting_complete: boolean
-    autoid: string
-    gauge: string
-    quantity: number
-}
-
-export type CuttingItemResponse = Response<CuttingItem>

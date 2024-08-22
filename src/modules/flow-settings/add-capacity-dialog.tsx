@@ -34,7 +34,7 @@ import type {
 import { isErrorWithMessage } from '@/utils'
 
 interface AddCapacityDialogProps {
-    categoryId: number
+    categoryId: string
     capacityId: number | null
     capacity: number
 }

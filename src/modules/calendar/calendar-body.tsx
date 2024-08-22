@@ -1,5 +1,6 @@
 import { CalendarDay } from './calendar-day'
-import type { CalendarResponse, CapacityKey } from '@/store/api/ebms/ebms.types'
+import type { CalendarResponse } from '@/store/api/ebms/calendar/calendar.types'
+import type { CapacityCategory } from '@/store/api/ebms/ebms.types'
 
 export const CalendarBody = ({
     currentDays,
@@ -12,7 +13,7 @@ export const CalendarBody = ({
     calendarData: CalendarResponse
     isFetching: boolean
     firstDayCurrentMonth: Date
-    category: CapacityKey
+    category: CapacityCategory
 }) => {
     return (
         <div className='grid grid-cols-[repeat(7,1fr)] gap-2 px-3'>

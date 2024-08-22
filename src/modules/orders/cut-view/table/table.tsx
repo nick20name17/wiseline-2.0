@@ -26,7 +26,7 @@ import { usePagination } from '@/hooks'
 import { useMatchMedia } from '@/hooks/use-match-media'
 import { useTableScroll } from '@/hooks/use-table-scroll'
 import { cn } from '@/lib/utils'
-import type { CuttingItem } from '@/store/api/ebms/ebms.types'
+import type { CuttingItem } from '@/store/api/ebms/cutting/cutting.types'
 import { useGetAllFlowsQuery } from '@/store/api/flows/flows'
 import type { DataTableProps } from '@/types/table'
 

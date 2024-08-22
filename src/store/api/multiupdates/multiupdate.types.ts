@@ -1,7 +1,7 @@
-import type { ItemsAddData } from '../items/items.types'
+import type { ItemAddData } from '../items/items.types'
 
 export interface MultiPatchItemsData
-    extends Partial<Omit<ItemsAddData, 'origin_item' | 'order'>> {
+    extends Partial<Omit<ItemAddData, 'origin_item' | 'order'>> {
     origin_items: string[]
 }
 

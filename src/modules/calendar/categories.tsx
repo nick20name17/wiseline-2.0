@@ -3,7 +3,7 @@ import { StringParam, useQueryParam } from 'use-query-params'
 
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { useGetCategoriesQuery } from '@/store/api/ebms/ebms'
+import { useGetCategoriesQuery } from '@/store/api/ebms/categories/categories'
 
 export const Categories = () => {
     const { data: categoriesData, isLoading } = useGetCategoriesQuery({})

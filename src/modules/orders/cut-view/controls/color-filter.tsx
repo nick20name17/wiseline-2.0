@@ -15,7 +15,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
-import { useGetColorsQuery } from '@/store/api/ebms/ebms'
+import { useGetColorsQuery } from '@/store/api/ebms/cutting/cutting'
 
 export const Colorfilter = () => {
     const [colorParam, setColorParam] = useQueryParam('color', StringParam)

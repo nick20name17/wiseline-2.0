@@ -13,9 +13,9 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import type { UserData } from '@/store/api/users/users.types'
+import type { User } from '@/store/api/users/users.types'
 
-export const columns: ColumnDef<UserData>[] = [
+export const columns: ColumnDef<User>[] = [
     {
         accessorKey: 'email',
         header: ({ column }) => (

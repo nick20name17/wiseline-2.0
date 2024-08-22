@@ -31,7 +31,7 @@ import {
 import { addUserSchema } from '@/config/validation-schemas'
 import { useCustomForm } from '@/hooks'
 import { useAddUserMutation } from '@/store/api/users/users'
-import type { UserRoles } from '@/store/api/users/users.types'
+import type { Roles } from '@/store/api/users/users.types'
 import { isErrorWithMessage } from '@/utils'
 
 type FormData = zodInfer<typeof addUserSchema>
@@ -71,7 +71,7 @@ export const AddUserDialog = () => {
         try {
             await addUser({
                 ...data,
-                role: data.role as UserRoles
+                role: data.role as Roles
             })
                 .unwrap()
                 .then(successToast)

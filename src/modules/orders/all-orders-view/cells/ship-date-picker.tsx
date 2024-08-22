@@ -11,8 +11,8 @@ import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useCurrentUserRole } from '@/hooks'
 import { cn } from '@/lib/utils'
-import { usePatchEBMSItemMutation } from '@/store/api/ebms/ebms'
-import type { EBMSItemPatchData, OrdersData } from '@/store/api/ebms/ebms.types'
+import { usePatchEBMSOrdersMutation } from '@/store/api/ebms/ebms'
+import type { EBMSOrdersPatchData, OrdersData } from '@/store/api/ebms/ebms.types'
 import { useGetCompanyProfilesQuery } from '@/store/api/profiles/profiles'
 import { isErrorWithMessage } from '@/utils'
 
@@ -34,7 +34,7 @@ export const ShipDatePickerCell: React.FC<ShipDatePickerCellProps> = ({ order })
 
     const close = () => setOpen(false)
 
-    const [patchSalesOrder] = usePatchEBMSItemMutation()
+    const [patchEBMSOrders] = usePatchEBMSOrdersMutation()
 
     const { data: companyProfiles } = useGetCompanyProfilesQuery()
 
@@ -63,9 +63,9 @@ export const ShipDatePickerCell: React.FC<ShipDatePickerCellProps> = ({ order })
             description
         })
 
-    const handlePatchSalesOrder = async (data: EBMSItemPatchData) => {
+    const handlePatchSalesOrder = async (data: EBMSOrdersPatchData) => {
         try {
-            await patchSalesOrder(data)
+            await patchEBMSOrders(data)
                 .unwrap()
                 .then(() => successToast(data.data.ship_date!, orderId))
         } catch (error) {

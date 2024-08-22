@@ -3,27 +3,22 @@ import { api } from '..'
 import { embs } from '../ebms/ebms'
 import type {
     EBMSItemsQueryParams,
-    Item,
     OrderItemsQueryParams,
     OrdersQueryParams
 } from '../ebms/ebms.types'
+import type { FlowData } from '../flows/flows.types'
 
 import type {
-    Flow,
-    ItemsAddData,
-    ItemsData,
-    ItemsPatchCuttingCompleteData,
-    ItemsPatchData
+    ItemAddData,
+    ItemData,
+    ItemPatchData,
+    ItemsPatchCuttingCompleteData
 } from './items.types'
 import { store } from '@/store'
 
 export const items = api.injectEndpoints({
     endpoints: (build) => ({
-        getItem: build.query<ItemsData, number>({
-            query: (id) => `items/${id}`,
-            providesTags: ['Items']
-        }),
-        addOrderItem: build.mutation<void, Partial<ItemsAddData>>({
+        addOrderItem: build.mutation<void, Partial<ItemAddData>>({
             query: (data) => ({
                 url: `items/`,
                 method: 'POST',
@@ -37,14 +32,15 @@ export const items = api.injectEndpoints({
                         'getOrders',
                         queryParams as OrderItemsQueryParams,
                         (draft) => {
-                            const itemToAdd: Item = {
+                            const itemToAdd: ItemData = {
                                 id: Math.random() * 1000,
                                 order: Math.random() * 1000,
                                 origin_item: (Math.random() * 1000).toString(),
                                 flow: {
                                     id: data.flow!,
                                     name: data?.flowName!,
-                                    stages: []
+                                    stages: [],
+                                    category: ''
                                 },
                                 production_date: '',
                                 priority: {
@@ -92,7 +88,7 @@ export const items = api.injectEndpoints({
             },
             invalidatesTags: ['Items', 'Orders', 'EBMSItems']
         }),
-        addItem: build.mutation<ItemsData, Partial<ItemsAddData>>({
+        addItem: build.mutation<ItemData, Partial<ItemAddData>>({
             query: (data) => ({
                 url: `items/`,
                 method: 'POST',
@@ -106,14 +102,15 @@ export const items = api.injectEndpoints({
                         'getItems',
                         queryParams as OrderItemsQueryParams,
                         (draft) => {
-                            const itemToAdd: Item = {
+                            const itemToAdd: ItemData = {
                                 id: Math.random() * 1000,
                                 order: Math.random() * 1000,
                                 origin_item: (Math.random() * 1000).toString(),
                                 flow: {
                                     id: data?.flow!,
                                     name: data?.flowName!,
-                                    stages: []
+                                    stages: [],
+                                    category: ''
                                 },
                                 time: data.time!,
                                 production_date: data?.production_date!,
@@ -150,14 +147,14 @@ export const items = api.injectEndpoints({
             },
             invalidatesTags: ['Items', 'Orders', 'EBMSItems']
         }),
-        patchOrderItem: build.mutation<void, ItemsPatchData>({
+        patchOrderItem: build.mutation<void, ItemPatchData>({
             query: ({ data, id }) => ({
                 url: `items/${id}/`,
                 method: 'PATCH',
                 body: data
             }),
             async onQueryStarted(
-                { data: { ...data }, stageColor, stageName, id },
+                { data, stageColor, stageName, id },
                 { dispatch, queryFulfilled }
             ) {
                 const queryParams = store.getState().orders.currentQueryParams
@@ -175,9 +172,10 @@ export const items = api.injectEndpoints({
                                 (item) => item.item.id === id
                             )
 
-                            const flowToPatch: Flow = {
+                            const flowToPatch: FlowData = {
                                 id: data.flow!,
                                 name: data.flowName!,
+                                category: '',
                                 stages: []
                             }
 
@@ -216,7 +214,7 @@ export const items = api.injectEndpoints({
             },
             invalidatesTags: ['Items', 'Orders', 'EBMSItems', 'Categories', 'Capacities']
         }),
-        patchItem: build.mutation<ItemsData, ItemsPatchData>({
+        patchItem: build.mutation<ItemData, ItemPatchData>({
             query: ({ data, id }) => ({
                 url: `items/${id}/`,
                 method: 'PATCH',
@@ -237,9 +235,10 @@ export const items = api.injectEndpoints({
                                 (item) => item.item?.id === id
                             )
 
-                            const flowToPatch: Flow = {
+                            const flowToPatch: FlowData = {
                                 id: data.flow!,
                                 name: data.flowName!,
+                                category: '',
                                 stages: []
                             }
 
@@ -264,11 +263,6 @@ export const items = api.injectEndpoints({
                                     stage: null
                                 })
                             }
-                            // else if (item?.item) {
-                            //     Object.assign(item?.item, {
-                            //         ...dataToPatch
-                            //     })
-                            // }
                         }
                     )
                 )
@@ -280,13 +274,6 @@ export const items = api.injectEndpoints({
                 }
             },
             invalidatesTags: ['Items', 'Orders', 'EBMSItems', 'Categories', 'Capacities']
-        }),
-        removeItem: build.mutation<void, number>({
-            query: (id) => ({
-                url: `items/${id}/`,
-                method: 'DELETE'
-            }),
-            invalidatesTags: ['Items']
         }),
         resetItemStages: build.mutation<void, number>({
             query: (id) => ({
@@ -309,12 +296,10 @@ export const items = api.injectEndpoints({
 })
 
 export const {
-    useGetItemQuery,
     useAddItemMutation,
     usePatchOrderItemMutation,
     usePatchItemCuttingCompleteMutation,
     useAddOrderItemMutation,
     usePatchItemMutation,
-    useResetItemStagesMutation,
-    useRemoveItemMutation
+    useResetItemStagesMutation
 } = items

@@ -7,7 +7,7 @@ import {
     fetchBaseQuery
 } from '@reduxjs/toolkit/query/react'
 
-import type { UserData } from './users/users.types'
+import type { User } from './users/users.types'
 import { apiBaseUrl } from '@/config/app'
 import { logout, tokenUpdated } from '@/store/slices/auth'
 import type {
@@ -96,7 +96,7 @@ export const api = createApi({
                 body
             })
         }),
-        getUser: build.query<UserData, number>({
+        getUser: build.query<User, number>({
             query: (id) => `users/${id}/`,
             providesTags: ['Users']
         })

@@ -10,9 +10,10 @@ export const trimOnlyColumns = [
     'gauge',
     'assigned',
     'release_to_production',
-    'cutting_complete'
+    'cutting_complete',
+    'c_mfg',
+    'on_hand'
 ]
-
 export const alwaysVisibleColumns = [
     'flow',
     'status',

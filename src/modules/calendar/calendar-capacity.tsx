@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge'
-import type { DailyDataCategory } from '@/store/api/ebms/ebms.types'
+import type { DailyDataCategory } from '@/store/api/ebms/calendar/calendar.types'
 
 export const Capacity = ({
     dailyData,

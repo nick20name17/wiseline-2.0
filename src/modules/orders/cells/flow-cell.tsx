@@ -17,7 +17,6 @@ import {
     TooltipTrigger
 } from '@/components/ui/tooltip'
 import { useCurrentUserRole } from '@/hooks'
-import type { Item } from '@/store/api/ebms/ebms.types'
 import { useGetFlowsQuery } from '@/store/api/flows/flows'
 import {
     useAddItemMutation,
@@ -25,10 +24,10 @@ import {
     usePatchItemMutation,
     usePatchOrderItemMutation
 } from '@/store/api/items/items'
-import type { ItemsAddData, ItemsPatchData } from '@/store/api/items/items.types'
+import type { ItemAddData, ItemData, ItemPatchData } from '@/store/api/items/items.types'
 
 interface FlowCellProps {
-    item: Item | undefined
+    item: ItemData | undefined
     orderId: string
     id: string
 }
@@ -52,7 +51,7 @@ export const FlowCell: React.FC<FlowCellProps> = ({ item, orderId, id }) => {
     const [addItem] = useAddItemMutation()
     const [addOrderItem] = useAddOrderItemMutation()
 
-    const handlePatchItem = async (data: ItemsPatchData) => {
+    const handlePatchItem = async (data: ItemPatchData) => {
         try {
             if (category === 'All') {
                 await patchOrderStatus(data).unwrap()
@@ -64,7 +63,7 @@ export const FlowCell: React.FC<FlowCellProps> = ({ item, orderId, id }) => {
         }
     }
 
-    const handleAddItem = async (data: Partial<ItemsAddData>) => {
+    const handleAddItem = async (data: Partial<ItemAddData>) => {
         try {
             if (category === 'All') {
                 await addOrderItem(data).unwrap()
