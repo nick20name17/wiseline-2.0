@@ -1,5 +1,5 @@
 import { useDebouncedCallback } from 'use-debounce'
-import { StringParam, useQueryParam } from 'use-query-params'
+import { NumberParam, StringParam, useQueryParam } from 'use-query-params'
 
 import { Input } from '@/components/ui/input'
 
@@ -9,8 +9,12 @@ interface SearchBarProps {
 
 export const SearchBar: React.FC<SearchBarProps> = ({ placeholder = 'Search...' }) => {
     const [search, setSearch] = useQueryParam('search', StringParam)
+    const [, setOffset] = useQueryParam('offset', NumberParam)
 
-    const debouncedSetSearch = useDebouncedCallback(setSearch, 300)
+    const debouncedSetSearch = useDebouncedCallback((searchTerm: string | undefined) => {
+        setSearch(searchTerm)
+        setOffset(0)
+    }, 300)
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchTerm = e.target.value

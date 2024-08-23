@@ -1,6 +1,6 @@
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { StringParam, useQueryParam } from 'use-query-params'
+import { NumberParam, StringParam, useQueryParam } from 'use-query-params'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -21,6 +21,7 @@ export const Colorfilter = () => {
     const [colorParam, setColorParam] = useQueryParam('color', StringParam)
     const [open, setOpen] = useState(false)
     const [view] = useQueryParam('view', StringParam)
+    const [, setOffset] = useQueryParam('offset', NumberParam)
 
     const { data: colorsData, isLoading } = useGetColorsQuery()
 
@@ -51,6 +52,7 @@ export const Colorfilter = () => {
     const handleSelect = (currentValue: string) => {
         setColorParam(currentValue)
         setOpen(false)
+        setOffset(0)
     }
 
     if (isLoading) return <Skeleton className='h-10 w-[200px]' />

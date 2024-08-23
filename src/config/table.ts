@@ -22,3 +22,14 @@ export const alwaysVisibleColumns = [
     'select',
     'arrow'
 ]
+
+export const shouldRenderCell = (
+    columnId: string,
+    category: string,
+    isClientOrWorker: boolean,
+    cellIndex: number
+) => {
+    return !isClientOrWorker || cellIndex !== 0
+        ? !trimOnlyColumns.includes(columnId) || category === 'Trim'
+        : false
+}

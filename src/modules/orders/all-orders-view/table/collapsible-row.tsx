@@ -2,12 +2,12 @@ import { type Row, flexRender } from '@tanstack/react-table'
 import { useState } from 'react'
 import { StringParam, useQueryParam } from 'use-query-params'
 
-import { shouldRenderCell } from '../..'
 import { SubTable } from '../sub-table/sub-table'
 
 import { columns } from './columns'
 import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible'
 import { TableCell, TableRow } from '@/components/ui/table'
+import { shouldRenderCell } from '@/config/table'
 import { useCurrentUserRole } from '@/hooks'
 import { cn } from '@/lib/utils'
 import type { OrdersData } from '@/store/api/ebms/ebms.types'
@@ -34,7 +34,7 @@ export const CollapsibleRow: React.FC<CollapsibleRowProps> = ({ row }) => {
                 <TableRow
                     className={cn(
                         'relative odd:bg-secondary/60',
-                        open ? 'shadow-top-side-only rounded-t-sm !bg-foreground/5' : ''
+                        open ? 'rounded-t-sm !bg-foreground/5 shadow-top-side-only' : ''
                     )}
                     data-state={row.getIsSelected() ? 'selected' : undefined}>
                     {row.getVisibleCells().map((cell, i) =>
@@ -59,7 +59,7 @@ export const CollapsibleRow: React.FC<CollapsibleRowProps> = ({ row }) => {
                 <CollapsibleContent asChild>
                     <tr>
                         <td
-                            className='shadow-bottom-side-only max-w-[100vw] rounded-b-sm'
+                            className='max-w-[100vw] rounded-b-sm shadow-bottom-side-only'
                             colSpan={columnsCount + 1}>
                             <SubTable data={originItems} />
                         </td>

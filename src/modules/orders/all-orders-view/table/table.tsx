@@ -1,15 +1,11 @@
 import {
     flexRender,
     getCoreRowModel,
-    getExpandedRowModel,
-    getPaginationRowModel,
     getSortedRowModel,
     useReactTable
 } from '@tanstack/react-table'
 import { useRef } from 'react'
 import { StringParam, useQueryParam } from 'use-query-params'
-
-import { shouldRenderCell } from '../..'
 
 import { CollapsibleRow } from './collapsible-row'
 import { TableFooter } from './table-footer'
@@ -23,13 +19,13 @@ import {
     TableHeader,
     TableRow
 } from '@/components/ui/table'
+import { shouldRenderCell } from '@/config/table'
 import {
     useColumnDragDrop,
     useColumnOrder,
     useColumnVisibility,
     useCurrentUserRole,
     useMatchMedia,
-    usePagination,
     useSorting,
     useTableScroll
 } from '@/hooks'
@@ -47,8 +43,6 @@ export const AllOrdersViewTable: React.FC<DataTableProps<OrdersData, OrdersData>
     isDataFetching,
     pageCount
 }) => {
-    const { limit, offset, setPagination } = usePagination()
-
     const [category] = useQueryParam('category', StringParam)
     const [view] = useQueryParam('view', StringParam)
 
@@ -72,26 +66,17 @@ export const AllOrdersViewTable: React.FC<DataTableProps<OrdersData, OrdersData>
 
     const table = useReactTable({
         getCoreRowModel: getCoreRowModel(),
-        onPaginationChange: setPagination,
-        getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
-        getExpandedRowModel: getExpandedRowModel(),
         onSortingChange: setSorting,
         data,
         columns,
         manualPagination: true,
         manualSorting: true,
-        manualExpanding: true,
         pageCount,
-        autoResetPageIndex: false,
         state: {
             columnVisibility,
             sorting,
-            columnOrder,
-            pagination: {
-                pageIndex: offset / limit,
-                pageSize: limit
-            }
+            columnOrder
         }
     })
 
@@ -189,6 +174,7 @@ export const AllOrdersViewTable: React.FC<DataTableProps<OrdersData, OrdersData>
                 isDataFetching={isDataFetching}
                 isDataLoading={isDataLoading}
                 table={table}
+                pageCount={pageCount}
             />
         </div>
     )

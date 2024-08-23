@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { StringParam, useQueryParam } from 'use-query-params'
+import { NumberParam, StringParam, useQueryParam } from 'use-query-params'
 
 import {
     Select,
@@ -14,12 +14,17 @@ import { useGetAllCategoriesQuery } from '@/store/api/ebms/categories/categories
 
 export const CategoryFilter = () => {
     const [category, setCategory] = useQueryParam('category', StringParam)
+    const [_, setOffset] = useQueryParam('offset', NumberParam)
 
     const { data: categoriesData, isLoading } = useGetAllCategoriesQuery()
 
     const tabs = categoriesData?.map((category) => category.name)
 
-    const onValueChange = (value: string) => setCategory(value)
+    const onValueChange = (value: string) => {
+        console.log('33')
+        setOffset(0)
+        setCategory(value)
+    }
 
     useEffect(() => {
         setCategory(category || 'All')

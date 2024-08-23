@@ -2,14 +2,11 @@ import {
     type Row,
     flexRender,
     getCoreRowModel,
-    getPaginationRowModel,
     getSortedRowModel,
     useReactTable
 } from '@tanstack/react-table'
 import React, { Fragment, useEffect, useLayoutEffect, useRef } from 'react'
 import { BooleanParam, StringParam, useQueryParam } from 'use-query-params'
-
-import { shouldRenderCell } from '../..'
 
 import { TableFooter } from './table-footer'
 import { TableSkeleton } from '@/components/shared'
@@ -24,13 +21,8 @@ import {
     TableHeader,
     TableRow
 } from '@/components/ui/table'
-import {
-    useCurrentUserRole,
-    useMatchMedia,
-    usePagination,
-    useSorting,
-    useTableScroll
-} from '@/hooks'
+import { shouldRenderCell } from '@/config/table'
+import { useCurrentUserRole, useMatchMedia, useSorting, useTableScroll } from '@/hooks'
 import {
     useColumnDragDrop,
     useColumnOrder,
@@ -51,8 +43,6 @@ export const AllDetailsViewTable: React.FC<
     const [category] = useQueryParam('category', StringParam)
     const [scheduled] = useQueryParam('scheduled', BooleanParam)
 
-    const { limit, offset, setPagination } = usePagination()
-
     const { data: usersProfilesData } = useGetUsersProfilesQuery()
 
     const { columnOrder } = useColumnOrder(usersProfilesData!, 'items')
@@ -62,15 +52,13 @@ export const AllDetailsViewTable: React.FC<
 
     const { sorting, setSorting } = useSorting([
         {
-            id: 'quantity',
+            id: 'order',
             desc: false
         }
     ])
 
     const table = useReactTable({
         getCoreRowModel: getCoreRowModel(),
-        onPaginationChange: setPagination,
-        getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
         onSortingChange: setSorting,
         data,
@@ -83,11 +71,7 @@ export const AllDetailsViewTable: React.FC<
         state: {
             sorting,
             columnVisibility,
-            columnOrder,
-            pagination: {
-                pageIndex: offset / limit,
-                pageSize: limit
-            }
+            columnOrder
         }
     })
 
@@ -159,12 +143,22 @@ export const AllDetailsViewTable: React.FC<
                         table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header, i) => {
-                                    return shouldRenderCell(
+                                    const shouldRender = shouldRenderCell(
                                         header.column.id,
                                         category!,
                                         isClientOrWorker,
                                         i
-                                    ) ? (
+                                    )
+
+                                    if (!shouldRender) {
+                                        return null
+                                    }
+
+                                    if (header.column.id === 'order' && grouped) {
+                                        return null
+                                    }
+
+                                    return (
                                         <TableHead
                                             draggable={
                                                 !table.getState().columnSizingInfo
@@ -190,7 +184,7 @@ export const AllDetailsViewTable: React.FC<
                                                       header.getContext()
                                                   )}
                                         </TableHead>
-                                    ) : null
+                                    )
                                 })}
                             </TableRow>
                         ))
@@ -282,13 +276,21 @@ export const AllDetailsViewTable: React.FC<
                                         key={row.original?.id}
                                         className='odd:bg-secondary/60'
                                         data-state={row.getIsSelected() && 'selected'}>
-                                        {row.getVisibleCells().map((cell, i) =>
-                                            shouldRenderCell(
+                                        {row.getVisibleCells().map((cell, i) => {
+                                            const shouldRender = shouldRenderCell(
                                                 cell.column.id,
                                                 category!,
                                                 isClientOrWorker,
                                                 i
-                                            ) ? (
+                                            )
+
+                                            if (!shouldRender) {
+                                                return null
+                                            }
+                                            if (cell.column.id === 'order' && grouped) {
+                                                return null
+                                            }
+                                            return (
                                                 <TableCell
                                                     className='h-[53px] !px-0.5 py-1.5'
                                                     key={cell.id}>
@@ -297,8 +299,8 @@ export const AllDetailsViewTable: React.FC<
                                                         cell.getContext()
                                                     )}
                                                 </TableCell>
-                                            ) : null
-                                        )}
+                                            )
+                                        })}
                                     </TableRow>
                                 )
                             })
@@ -320,6 +322,7 @@ export const AllDetailsViewTable: React.FC<
             <TableFooter
                 isDataFetching={isDataFetching}
                 isDataLoading={isDataLoading}
+                pageCount={pageCount}
                 table={table}
             />
         </div>

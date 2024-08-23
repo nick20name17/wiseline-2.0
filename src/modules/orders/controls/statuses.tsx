@@ -1,4 +1,4 @@
-import { BooleanParam, StringParam, useQueryParam } from 'use-query-params'
+import { BooleanParam, NumberParam, StringParam, useQueryParam } from 'use-query-params'
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
@@ -6,9 +6,12 @@ export const Statuses = () => {
     const [category] = useQueryParam('category', StringParam)
     const [scheduled, setScheduled] = useQueryParam('scheduled', BooleanParam)
     const [_, setOverdue] = useQueryParam('overdue', BooleanParam)
+    const [, setOffset] = useQueryParam('offset', NumberParam)
 
-    const onValueChange = (tab: string) =>
+    const onValueChange = (tab: string) => {
         setScheduled(tab === 'all' ? undefined : tab === 'scheduled')
+        setOffset(0)
+    }
 
     const getDefaultValue = () => {
         switch (scheduled) {

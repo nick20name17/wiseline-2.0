@@ -2,7 +2,6 @@ import {
     type Column,
     flexRender,
     getCoreRowModel,
-    getPaginationRowModel,
     getSortedRowModel,
     useReactTable
 } from '@tanstack/react-table'
@@ -22,7 +21,6 @@ import {
     TableHeader,
     TableRow
 } from '@/components/ui/table'
-import { usePagination } from '@/hooks'
 import { useMatchMedia } from '@/hooks/use-match-media'
 import { useTableScroll } from '@/hooks/use-table-scroll'
 import { cn } from '@/lib/utils'
@@ -48,8 +46,6 @@ export const CutViewTable: React.FC<DataTableProps<CuttingItem, MergedCuttingIte
     columns,
     pageCount
 }) => {
-    const { limit, offset, setPagination } = usePagination()
-
     const { data: trimFlows, isLoading: isLoadingTrimFlows } = useGetAllFlowsQuery({
         category__prod_type: 'Trim'
     })
@@ -77,8 +73,7 @@ export const CutViewTable: React.FC<DataTableProps<CuttingItem, MergedCuttingIte
     const table = useReactTable({
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
-        onPaginationChange: setPagination,
-        getPaginationRowModel: getPaginationRowModel(),
+
         manualPagination: true,
         data: mergedItems,
         columns: allColumns,
@@ -88,10 +83,6 @@ export const CutViewTable: React.FC<DataTableProps<CuttingItem, MergedCuttingIte
         state: {
             columnPinning: {
                 right: ['cutting_complete']
-            },
-            pagination: {
-                pageIndex: offset / limit,
-                pageSize: limit
             }
         }
     })
@@ -302,7 +293,7 @@ export const CutViewTable: React.FC<DataTableProps<CuttingItem, MergedCuttingIte
                 </TableBody>
             </Table>
             <TableFooter
-                table={table}
+                pageCount={pageCount}
                 isDataLoading={isDataLoading}
                 isDataFetching={isDataFetching}
             />

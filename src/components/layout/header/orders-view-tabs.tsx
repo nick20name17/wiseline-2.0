@@ -1,15 +1,29 @@
 import { useEffect } from 'react'
-import { StringParam, useQueryParam } from 'use-query-params'
+import { NumberParam, StringParam, useQueryParam } from 'use-query-params'
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export const OrdersViewTabs = () => {
-    const [view = 'orders', setView] = useQueryParam('view', StringParam)
-    const onValueChange = (value: string) => setView(value)
+    const [view, setView] = useQueryParam('view', StringParam)
+    const [_, setOffset] = useQueryParam('offset', NumberParam)
+    const [, setOrdering] = useQueryParam('ordering', StringParam)
 
     useEffect(() => {
-        setView(view)
+        setView(view || 'orders')
     }, [])
+
+    const onValueChange = (value: string) => {
+        setOffset(0)
+        setView(value)
+
+        if (value === 'lines') {
+            setOrdering('order')
+        } else if (value === 'orders') {
+            setOrdering('-priority')
+        } else {
+            setOrdering(null)
+        }
+    }
 
     return (
         <Tabs

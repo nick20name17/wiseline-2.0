@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react'
-import { BooleanParam, StringParam, useQueryParam } from 'use-query-params'
+import { BooleanParam, NumberParam, StringParam, useQueryParam } from 'use-query-params'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -12,10 +12,11 @@ import {
 import { Separator } from '@/components/ui/separator'
 
 export const Filters = () => {
-    const [_, setDate] = useQueryParam('date', StringParam)
+    const [, setDate] = useQueryParam('date', StringParam)
     const [overdue, setOverdue] = useQueryParam('overdue', BooleanParam)
     const [completed, setCompleted] = useQueryParam('completed', BooleanParam)
     const [scheduled] = useQueryParam('scheduled', BooleanParam)
+    const [, setOffset] = useQueryParam('offset', NumberParam)
 
     const filters = useMemo(() => {
         const newFilters: string[] = []
@@ -59,13 +60,19 @@ export const Filters = () => {
                 {scheduled === false ? null : (
                     <DropdownMenuCheckboxItem
                         checked={overdue!}
-                        onCheckedChange={setOverdue}>
+                        onCheckedChange={(value) => {
+                            setOverdue(value)
+                            setOffset(0)
+                        }}>
                         Overdue
                     </DropdownMenuCheckboxItem>
                 )}
                 <DropdownMenuCheckboxItem
                     checked={completed!}
-                    onCheckedChange={setCompleted}>
+                    onCheckedChange={(value) => {
+                        setCompleted(value)
+                        setOffset(0)
+                    }}>
                     Completed
                 </DropdownMenuCheckboxItem>
             </DropdownMenuContent>

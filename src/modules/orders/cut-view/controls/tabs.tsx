@@ -1,11 +1,16 @@
 import { useEffect } from 'react'
-import { StringParam, useQueryParam } from 'use-query-params'
+import { NumberParam, StringParam, useQueryParam } from 'use-query-params'
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export const CutViewTabs = () => {
     const [cutView = 'pipeline', setCutView] = useQueryParam('cut-view', StringParam)
-    const onValueChange = (tab: string) => setCutView(tab)
+    const [, setOffset] = useQueryParam('offset', NumberParam)
+
+    const onValueChange = (tab: string) => {
+        setCutView(tab)
+        setOffset(0)
+    }
 
     useEffect(() => {
         setCutView(cutView)

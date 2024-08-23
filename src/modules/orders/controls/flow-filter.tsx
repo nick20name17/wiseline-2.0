@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { StringParam, useQueryParam } from 'use-query-params'
+import { NumberParam, StringParam, useQueryParam } from 'use-query-params'
 
 import {
     Select,
@@ -16,6 +16,7 @@ export const FlowFilter = () => {
     const [category] = useQueryParam('category', StringParam)
     const [_, setStage] = useQueryParam('stage', StringParam)
     const [flow, setFlow] = useQueryParam('flow', StringParam)
+    const [, setOffset] = useQueryParam('offset', NumberParam)
 
     const onValueChange = (value: string) => {
         if (value === 'all') {
@@ -24,6 +25,7 @@ export const FlowFilter = () => {
         } else {
             setFlow(value)
         }
+        setOffset(0)
     }
 
     const {

@@ -27,7 +27,7 @@ export const AllDetailsView = () => {
     const queryParams: Partial<EBMSItemsQueryParams> = {
         offset: offset!,
         limit: limit!,
-        // ordering: ordering!,
+        ordering: ordering!,
         search: search!,
         flow_id: flow!,
         is_scheduled: scheduled!,

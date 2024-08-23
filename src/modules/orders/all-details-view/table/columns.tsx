@@ -79,6 +79,19 @@ export const columns: ColumnDef<EBMSItemsData>[] = [
         enableHiding: false
     },
     {
+        accessorKey: 'order',
+        header: ({ column }) => (
+            <DataTableColumnHeader
+                column={column}
+                title='Order'
+                className='w-20'
+            />
+        ),
+        cell: ({ row }) => (
+            <div className='w-20 text-center'>{row.original.order || '-'}</div>
+        )
+    },
+    {
         accessorKey: 'quantity',
         header: ({ column }) => (
             <DataTableColumnHeader

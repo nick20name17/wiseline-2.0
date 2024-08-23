@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { StringParam, useQueryParam } from 'use-query-params'
+import { NumberParam, StringParam, useQueryParam } from 'use-query-params'
 
 import {
     Select,
@@ -16,6 +16,7 @@ export const StageFilter = () => {
     const [stage, setStage] = useQueryParam('stage', StringParam)
     const [flow] = useQueryParam('flow', StringParam)
     const [category] = useQueryParam('category', StringParam)
+    const [, setOffset] = useQueryParam('offset', NumberParam)
 
     const {
         data: stages,
@@ -43,6 +44,7 @@ export const StageFilter = () => {
         } else {
             setStage(value)
         }
+        setOffset(0)
     }
 
     if (category !== 'All' && flow && isLoading) {

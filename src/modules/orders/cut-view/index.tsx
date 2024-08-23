@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react'
-import { StringParam, useQueryParam } from 'use-query-params'
+import { NumberParam, StringParam, useQueryParam } from 'use-query-params'
 
 import { Controls } from './controls'
 import { useCuttingItemsWebSocket } from './hooks/use-cutting-view-websocket'
@@ -7,7 +7,6 @@ import { AllOrdersTable } from './table/all-orders-table'
 import { columns } from './table/columns'
 import { CutViewTable } from './table/table'
 import { useCurrentValue } from '@/hooks/use-current-value'
-import { usePagination } from '@/hooks/use-pagination'
 import { useGetCuttingViewItemsQuery } from '@/store/api/ebms/cutting/cutting'
 
 export interface CuttingItemsToDisplay {
@@ -23,12 +22,11 @@ export interface CuttingItemsToDisplay {
 }
 
 export const CutView = () => {
-    const { limit, offset } = usePagination()
-
     const [_, setCategory] = useQueryParam('category', StringParam)
     const [cutView] = useQueryParam('cut-view', StringParam)
     const [color] = useQueryParam('color', StringParam)
-    const [view] = useQueryParam('view', StringParam)
+    const [offset] = useQueryParam('offset', NumberParam)
+    const [limit] = useQueryParam('limit', NumberParam)
 
     const {
         currentData: cuttingItems,
@@ -37,8 +35,8 @@ export const CutView = () => {
         refetch
     } = useGetCuttingViewItemsQuery({
         color: color === 'all' ? '' : color,
-        limit,
-        offset
+        limit: limit!,
+        offset: offset!
     })
 
     const { dataToRender } = useCuttingItemsWebSocket({
@@ -49,7 +47,7 @@ export const CutView = () => {
     const currentCount = useCurrentValue(cuttingItems?.count)
 
     const pageCount = useMemo(
-        () => (currentCount ? Math.ceil(currentCount! / limit) : 1),
+        () => (currentCount ? Math.ceil(currentCount! / limit!) : 1),
         [isLoading, limit, currentCount]
     )
 
@@ -59,7 +57,7 @@ export const CutView = () => {
         return () => {
             setCategory('All')
         }
-    }, [view])
+    }, [])
 
     return (
         <>
