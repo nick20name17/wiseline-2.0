@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { BooleanParam, useQueryParam } from 'use-query-params'
 
 import { CategoryFilter } from '../../controls/category-filter'
@@ -22,6 +22,12 @@ export const TableControls = () => {
     const handleSetGrouped = (value: boolean) => setGrouped(value ? true : null)
 
     const isSticky = useIsSticky(ref)
+
+    useEffect(() => {
+        return () => {
+            setGrouped(null)
+        }
+    }, [])
 
     return isTablet ? (
         <>

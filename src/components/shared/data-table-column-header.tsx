@@ -1,6 +1,6 @@
 import type { Column } from '@tanstack/react-table'
 import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react'
-import { BooleanParam, StringParam, useQueryParam } from 'use-query-params'
+import { BooleanParam, useQueryParam } from 'use-query-params'
 
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -19,14 +19,13 @@ export function DataTableColumnHeader<TData, TValue>({
     sortable = true
 }: DataTableColumnHeaderProps<TData, TValue>) {
     const [grouped] = useQueryParam('grouped', BooleanParam)
-    const [view] = useQueryParam('view', StringParam)
 
     return (
         <Button
             disabled={grouped! || !sortable}
             variant='ghost'
             className={cn(
-                '!flex w-full items-center !justify-between gap-x-2 px-2',
+                'flex w-full items-center justify-between gap-x-2 px-2',
                 className
             )}
             onClick={sortable ? column.getToggleSortingHandler() : undefined}>
@@ -34,27 +33,12 @@ export function DataTableColumnHeader<TData, TValue>({
 
             {column.getIsSorted() ? (
                 column.getIsSorted() === 'asc' ? (
-                    <ArrowUp
-                        className={cn(
-                            'ml-2 h-4 w-4 flex-shrink-0 text-foreground',
-                            grouped && view === 'lines' ? 'hidden' : ''
-                        )}
-                    />
+                    <ArrowUp className='ml-2 h-4 w-4 flex-shrink-0 text-foreground' />
                 ) : (
-                    <ArrowDown
-                        className={cn(
-                            'ml-2 h-4 w-4 flex-shrink-0 text-foreground',
-                            grouped && view === 'lines' ? 'hidden' : ''
-                        )}
-                    />
+                    <ArrowDown className='ml-2 h-4 w-4 flex-shrink-0 text-foreground' />
                 )
             ) : (
-                <ArrowUpDown
-                    className={cn(
-                        'ml-2 h-4 w-4 flex-shrink-0',
-                        grouped && view === 'lines' ? 'hidden' : ''
-                    )}
-                />
+                <ArrowUpDown className='ml-2 h-4 w-4 flex-shrink-0' />
             )}
         </Button>
     )

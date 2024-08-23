@@ -246,13 +246,26 @@ export const AllDetailsViewTable: React.FC<
                                                 data-state={
                                                     row.getIsSelected() && 'selected'
                                                 }>
-                                                {row.getVisibleCells().map((cell, i) =>
-                                                    shouldRenderCell(
+                                                {row.getVisibleCells().map((cell, i) => {
+                                                    const shouldRender = shouldRenderCell(
                                                         cell.column.id,
                                                         category!,
                                                         isClientOrWorker,
                                                         i
-                                                    ) ? (
+                                                    )
+
+                                                    if (!shouldRender) {
+                                                        return null
+                                                    }
+
+                                                    if (
+                                                        cell.column.id === 'order' &&
+                                                        grouped
+                                                    ) {
+                                                        return null
+                                                    }
+
+                                                    return (
                                                         <TableCell
                                                             className='h-[53px] !px-0.5 py-1.5'
                                                             key={cell.id}>
@@ -262,8 +275,8 @@ export const AllDetailsViewTable: React.FC<
                                                                 cell.getContext()
                                                             )}
                                                         </TableCell>
-                                                    ) : null
-                                                )}
+                                                    )
+                                                })}
                                             </TableRow>
                                         </Fragment>
                                     )
@@ -287,9 +300,7 @@ export const AllDetailsViewTable: React.FC<
                                             if (!shouldRender) {
                                                 return null
                                             }
-                                            if (cell.column.id === 'order' && grouped) {
-                                                return null
-                                            }
+
                                             return (
                                                 <TableCell
                                                     className='h-[53px] !px-0.5 py-1.5'
