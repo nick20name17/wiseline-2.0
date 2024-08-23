@@ -21,7 +21,6 @@ export const CategoryFilter = () => {
     const tabs = categoriesData?.map((category) => category.name)
 
     const onValueChange = (value: string) => {
-        console.log('33')
         setOffset(0)
         setCategory(value)
     }

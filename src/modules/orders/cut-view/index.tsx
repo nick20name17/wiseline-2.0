@@ -52,11 +52,7 @@ export const CutView = () => {
     )
 
     useEffect(() => {
-        setCategory('Trim')
-
-        return () => {
-            setCategory('All')
-        }
+        setCategory(null)
     }, [])
 
     return (
