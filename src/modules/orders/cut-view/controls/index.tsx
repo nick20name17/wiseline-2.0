@@ -18,7 +18,7 @@ export const Controls = () => {
             ref={ref}
             id='cutting-view-controls'
             className={cn(
-                'flex items-center justify-between gap-x-4 py-2 transition-all max-md:sticky max-md:left-0 max-md:top-0 max-md:z-[1000] max-md:mb-1 max-md:bg-background max-sm:w-full',
+                'flex items-center justify-between gap-x-4 transition-all max-md:sticky max-md:left-0 max-md:top-0 max-md:z-[1000] max-md:mb-1 max-md:bg-background max-sm:w-full',
                 isSticky ? 'border-b bg-background py-2 shadow-sm' : ''
             )}>
             <CutViewTabs />

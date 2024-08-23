@@ -155,7 +155,7 @@ export const CutViewTable: React.FC<DataTableProps<CuttingItem, MergedCuttingIte
                                         <TableCell
                                             className='py-2 pl-7 font-bold'
                                             colSpan={colSpan}>
-                                            Gauge: {gauge || '-'}
+                                            Gauge: {gauge ?? '-'}
                                         </TableCell>
                                     </TableRow>
                                     {Object.entries(groupedByColor)?.map(
@@ -234,7 +234,7 @@ export const CutViewTable: React.FC<DataTableProps<CuttingItem, MergedCuttingIte
                                                                                     cell
                                                                                         .column
                                                                                         .id
-                                                                                ] || '-'}
+                                                                                ] ?? '-'}
                                                                             </TableCell>
                                                                         ) : cell.column
                                                                               .id ===
