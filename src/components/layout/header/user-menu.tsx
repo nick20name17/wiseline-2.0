@@ -2,7 +2,7 @@ import { LogOut, Settings } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 // import { useCurrentUserRole } from '@/hooks'
-import { ModeToggle } from '@/components/mode-toggle'
+import { ModeToggle } from '@/components/shared'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
     DropdownMenu,

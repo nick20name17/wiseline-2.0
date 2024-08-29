@@ -5,15 +5,21 @@ import { Input } from '@/components/ui/input'
 
 interface SearchBarProps {
     placeholder?: string
+    resetOffset?: boolean
 }
 
-export const SearchBar: React.FC<SearchBarProps> = ({ placeholder = 'Search...' }) => {
+export const SearchBar: React.FC<SearchBarProps> = ({
+    placeholder = 'Search...',
+    resetOffset = true
+}) => {
     const [search, setSearch] = useQueryParam('search', StringParam)
     const [, setOffset] = useQueryParam('offset', NumberParam)
 
     const debouncedSetSearch = useDebouncedCallback((searchTerm: string | undefined) => {
         setSearch(searchTerm)
-        setOffset(0)
+        if (resetOffset) {
+            setOffset(0)
+        }
     }, 300)
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {

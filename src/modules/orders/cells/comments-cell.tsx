@@ -27,7 +27,7 @@ import {
     SheetTrigger
 } from '@/components/ui/sheet'
 import { commentSchema } from '@/config/validation-schemas'
-import { useCustomForm } from '@/hooks'
+import { useCurrentUserRole, useCustomForm } from '@/hooks'
 import {
     useAddItemCommentMutation,
     useAddOrderCommentMutation
@@ -79,7 +79,18 @@ export const CommentsCell: React.FC<CommentsCellProps> = ({ originItem }) => {
     const onSubmit: SubmitHandler<FormData> = (formData) =>
         handleAddComments(formData.text.trim())
 
-    return (
+    const isWorker = useCurrentUserRole(['worker'])
+    const isUser = useCurrentUserRole(['client'])
+
+    return isUser || (isWorker && !originItem?.item?.flow?.id) ? (
+        <Button
+            className='pointer-events-none !w-32'
+            variant='ghost'>
+            <div className='flex w-full items-center justify-center gap-x-10'>
+                Notes <Badge variant='outline'>{comments?.length || 0}</Badge>
+            </div>
+        </Button>
+    ) : (
         <Sheet>
             <SheetTrigger asChild>
                 <Button

@@ -31,7 +31,6 @@ import {
     SheetTrigger
 } from '@/components/ui/sheet'
 import { isAdminRoute, routes } from '@/config/routes'
-// import { useCurrentUserRole } from '@/hooks'
 import { useCurrentUserRole } from '@/hooks'
 import { cn } from '@/lib/utils'
 

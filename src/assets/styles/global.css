@@ -93,7 +93,6 @@
         background: #f1f1f1;
     }
 
-    /* Handle */
     *::-webkit-scrollbar-thumb {
         background: #afafaf;
         border-radius: 5px;
