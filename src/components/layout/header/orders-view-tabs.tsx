@@ -2,10 +2,12 @@ import { useEffect } from 'react'
 import { NumberParam, StringParam, useQueryParam } from 'use-query-params'
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { tableConfig } from '@/config/table'
 
 export const OrdersViewTabs = () => {
-    const [view, setView] = useQueryParam('view', StringParam)
-    const [_, setOffset] = useQueryParam('offset', NumberParam)
+    const [view = 'orders', setView] = useQueryParam('view', StringParam)
+    const [, setOffset] = useQueryParam('offset', NumberParam)
+    const [, setLimit] = useQueryParam('limit', NumberParam)
     const [, setOrdering] = useQueryParam('ordering', StringParam)
 
     useEffect(() => {
@@ -14,6 +16,7 @@ export const OrdersViewTabs = () => {
 
     const onValueChange = (value: string) => {
         setOffset(0)
+        setLimit(tableConfig.pagination.pageSize)
         setView(value)
 
         if (value === 'lines') {

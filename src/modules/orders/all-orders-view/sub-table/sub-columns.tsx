@@ -32,7 +32,7 @@ export const subColumns: ColumnDef<EBMSItemsData>[] = [
             const [category] = useQueryParam('category', StringParam)
 
             return category === 'Trim' ? (
-                <CollapsibleCell disabled={!row.original?.cutting_items.length} />
+                <CollapsibleCell disabled={!row.original?.cutting_items?.length} />
             ) : null
         },
         enableHiding: false,

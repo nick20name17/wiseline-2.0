@@ -3,10 +3,9 @@ import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
 import { Toggle } from '@/components/ui/toggle'
+import { useCurrentUserRole } from '@/hooks'
 import { cn } from '@/lib/utils'
 import { usePatchItemCuttingCompleteMutation } from '@/store/api/items/items'
-import { useAppSelector } from '@/store/hooks/hooks'
-import { selectUser } from '@/store/slices/auth'
 import { isErrorWithMessage } from '@/utils/is-error-with-message'
 
 interface CheckCellProps {
@@ -15,8 +14,16 @@ interface CheckCellProps {
 }
 
 export const CheckCell: React.FC<CheckCellProps> = ({ autoids, complete }) => {
+    const [isChecked, setIsChecked] = useState(complete)
+
     const [patchItemCuttingComplete, { isLoading }] =
         usePatchItemCuttingCompleteMutation()
+
+    useEffect(() => {
+        setIsChecked(complete)
+    }, [complete])
+
+    const isWorkerOrUser = useCurrentUserRole(['worker', 'client'])
 
     const successToast = (autoid: string) => {
         toast.success(`Cutting complete of ${autoid}`, {
@@ -51,20 +58,10 @@ export const CheckCell: React.FC<CheckCellProps> = ({ autoids, complete }) => {
         }
     }
 
-    const [isChecked, setIsChecked] = useState(complete)
-
-    useEffect(() => {
-        setIsChecked(complete)
-    }, [complete])
-
     const onPressChanage = (checked: boolean) => {
         setIsChecked(checked)
-
         autoids.forEach((autoid) => handlePatchSalesOrder(checked, autoid))
     }
-
-    const userRole = useAppSelector(selectUser)?.role
-    const isWorkerOrUser = userRole === 'worker' || userRole === 'client'
 
     return (
         <div className='mx-auto flex w-40 justify-center'>

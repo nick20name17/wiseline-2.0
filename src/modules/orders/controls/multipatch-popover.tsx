@@ -143,7 +143,10 @@ export const MultipatchPopover: React.FC<MultipatchPopoverProps> = ({ table }) =
         handleRowReset()
     }
 
-    useEffect(() => setOpen(originOrdersIds.length > 0), [originOrdersIds.length])
+    useEffect(() => {
+        setOpen(originOrdersIds.length > 0)
+    }, [originOrdersIds.length])
+
     useEffect(() => {
         if (JSON.stringify(selectedRows) !== JSON.stringify(currentRows)) {
             setCurrentRows(selectedRows)

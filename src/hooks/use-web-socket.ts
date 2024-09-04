@@ -51,11 +51,14 @@ export const useWebSocket = <T extends UseWebsocketProps>({
                         if (endpoint === 'orders') {
                             return {
                                 ...dataToPatch,
-                                origin_items: category
-                                    ? (dataToPatch as OrdersData).origin_items?.filter(
-                                          (item) => item?.category === category
-                                      )
-                                    : (dataToPatch as OrdersData).origin_items
+                                origin_items:
+                                    category && category !== 'All'
+                                        ? (
+                                              dataToPatch as OrdersData
+                                          ).origin_items?.filter(
+                                              (item) => item?.category === category
+                                          )
+                                        : (dataToPatch as OrdersData).origin_items
                             }
                         }
                         return dataToPatch

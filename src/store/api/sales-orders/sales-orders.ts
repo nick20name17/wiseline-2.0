@@ -47,12 +47,17 @@ export const salesOrders = api.injectEndpoints({
                                 (order) => order?.id === data?.order
                             )
 
-                            console.log(data)
-
                             const salesOrder = order?.sales_order
 
-                            if (salesOrder) {
-                                Object.assign(salesOrder, data)
+                            const newSalesOrder = {
+                                name: '',
+                                color: '',
+                                position: 0,
+                                id: data?.priority
+                            }
+
+                            if (salesOrder && data.priority) {
+                                Object.assign(salesOrder.priority, newSalesOrder)
                             }
                         }
                     )

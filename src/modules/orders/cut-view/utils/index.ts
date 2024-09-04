@@ -27,7 +27,7 @@ export const groupByGauge = (
 }
 
 export const groupBy = <T>(array: T[], keyPath: string): { [key: string]: T[] } => {
-    function getNestedValue(obj: any, keyPath: string) {
+    const getNestedValue = (obj: any, keyPath: string) => {
         return keyPath.split('.').reduce((value, key) => value?.[key], obj)
     }
 

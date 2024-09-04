@@ -12,12 +12,12 @@ interface DataTableColumnHeaderProps<TData, TValue>
     sortable?: boolean
 }
 
-export function DataTableColumnHeader<TData, TValue>({
+export const DataTableColumnHeader = <TData, TValue>({
     column,
     title,
     className,
     sortable = true
-}: DataTableColumnHeaderProps<TData, TValue>) {
+}: DataTableColumnHeaderProps<TData, TValue>) => {
     const [grouped] = useQueryParam('grouped', BooleanParam)
 
     return (

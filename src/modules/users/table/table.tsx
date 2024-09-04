@@ -24,11 +24,11 @@ interface UsersTableProps<TData, TValue> {
     isLoading: boolean
 }
 
-export function UsersTable<_, TValue>({
+export const UsersTable = <_, TValue>({
     columns,
     data,
     isLoading
-}: UsersTableProps<User, TValue>) {
+}: UsersTableProps<User, TValue>) => {
     const table = useReactTable({
         data,
         columns,
