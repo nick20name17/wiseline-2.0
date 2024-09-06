@@ -17,6 +17,8 @@ export interface CuttingItem {
 
 export interface CuttingItemQueryParams extends BaseQueryParams {
     color: string | null
+    cutting_complete: boolean
+    gauge: string | null
 }
 
 export type CuttingItemResponse = Response<CuttingItem>

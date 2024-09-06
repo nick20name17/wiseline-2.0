@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react'
-import { NumberParam, StringParam, useQueryParam } from 'use-query-params'
+import { BooleanParam, NumberParam, StringParam, useQueryParam } from 'use-query-params'
 
 import { Controls } from './controls'
 import { useCuttingItemsWebSocket } from './hooks/use-cutting-view-websocket'
@@ -27,6 +27,7 @@ export const CutView = () => {
     const [color] = useQueryParam('color', StringParam)
     const [offset] = useQueryParam('offset', NumberParam)
     const [limit] = useQueryParam('limit', NumberParam)
+    const [cuttingComplete] = useQueryParam('cutting_complete', BooleanParam)
 
     const {
         currentData: cuttingItems,
@@ -36,7 +37,8 @@ export const CutView = () => {
     } = useGetCuttingViewItemsQuery({
         color: color === 'all' ? '' : color,
         limit: limit!,
-        offset: offset!
+        offset: offset!,
+        cutting_complete: cuttingComplete!
     })
 
     const { dataToRender } = useCuttingItemsWebSocket({

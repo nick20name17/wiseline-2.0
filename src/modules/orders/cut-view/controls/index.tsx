@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { StringParam, useQueryParam } from 'use-query-params'
 
 import { Colorfilter } from './color-filter'
+import { StatusesFilter } from './statuses-filter'
 import { CutViewTabs } from './tabs'
 import { useIsSticky } from '@/hooks/use-is-sticky'
 import { cn } from '@/lib/utils'
@@ -22,7 +23,12 @@ export const Controls = () => {
                 isSticky ? 'border-b bg-background py-2 shadow-sm' : ''
             )}>
             <CutViewTabs />
-            {cutView === 'orders' ? null : <Colorfilter />}
+            {cutView === 'orders' ? null : (
+                <div className='flex items-center gap-x-4'>
+                    <StatusesFilter />
+                    <Colorfilter />
+                </div>
+            )}
         </div>
     )
 }
