@@ -1,30 +1,55 @@
-import { useEffect } from 'react'
 import { BooleanParam, useQueryParam } from 'use-query-params'
 
-import { Toggle } from '@/components/ui/toggle'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from '@/components/ui/select'
+import { cn } from '@/lib/utils'
 
 export const StatusesFilter = () => {
-    const [cuttingComplete = true, setCuttingComplete] = useQueryParam(
+    const [cuttingComplete, setCuttingComplete] = useQueryParam(
         'cutting_complete',
         BooleanParam
     )
 
-    const onCuttingComplete = (pressed: boolean) => {
-        setCuttingComplete(pressed)
+    const onCuttingComplete = (value: string | null) => {
+        if (value === 'all') {
+            setCuttingComplete(null)
+        } else {
+            setCuttingComplete(value === 'active')
+        }
     }
 
-    useEffect(() => {
-        setCuttingComplete(cuttingComplete)
-    }, [])
+    const getDefaultValue = () => {
+        switch (cuttingComplete) {
+            case true:
+                return 'active'
+            case false:
+                return 'archived'
+            default:
+                return 'all'
+        }
+    }
 
     return (
-        <Toggle
-            pressed={cuttingComplete!}
-            onPressedChange={onCuttingComplete}
-            className='data=[state=on]:border data-[state=on]:border-primary data-[state=on]:bg-background data-[state=on]:text-primary'
-            variant='outline'
-            aria-label='Toggle grouped'>
-            {cuttingComplete ? ' Active' : 'Archived'}
-        </Toggle>
+        <Select
+            defaultValue={getDefaultValue()}
+            onValueChange={onCuttingComplete}>
+            <SelectTrigger
+                className={cn(
+                    '!w-40 text-left font-medium',
+                    cuttingComplete !== undefined ? 'border-primary text-primary' : ''
+                )}>
+                <SelectValue placeholder='Select flow' />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectItem value='all'>All</SelectItem>
+                <SelectItem value='active'>Active</SelectItem>
+                <SelectItem value='archived'>Archived</SelectItem>
+            </SelectContent>
+        </Select>
     )
 }

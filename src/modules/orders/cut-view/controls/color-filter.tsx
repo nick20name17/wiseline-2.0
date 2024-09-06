@@ -67,7 +67,12 @@ export const Colorfilter = () => {
                     variant='outline'
                     role='combobox'
                     aria-expanded={open}
-                    className='w-[200px] justify-between'>
+                    className={cn(
+                        'w-[200px] justify-between',
+                        colorParam !== 'all' && colorParam !== ''
+                            ? 'border-primary text-primary hover:bg-transparent hover:text-primary'
+                            : ''
+                    )}>
                     {colorParam
                         ? colors?.find((color) => color?.value === colorParam)?.label
                         : 'Select color...'}
